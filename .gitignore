@@ -1,0 +1,91 @@
+# Images (except *.svg and *.pdf; they are included)
+*.jpg
+*.png
+*.eps
+*.bmp
+*.wmf
+*.mpg
+*.gif
+/*.pdf
+
+# Links
+Link *
+
+# MATLAB files
+*.fig
+*.mdl
+*.mat
+
+# Mathematica notebook (binary)
+*.nb
+
+# Diction check files
+*.dic
+
+# Links
+#style-check.rb
+
+# Microsoft Office documents
+*.xls
+*.doc
+*.docx
+
+# Other PhDs
+"Guides & examples"
+
+# Executables/compiled files
+*.exe
+*.pyc
+*.xpi
+dymosim
+Results/Cell/Model/model*
+
+# Compressed files
+*.tar.gz
+
+# Auto-generated source documentation
+Appendices/Source/*.tex
+
+# Intermediate tex files
+Figures/Extractions
+*.abo
+*.aux
+*.bbl
+*.blg
+*.glo
+*.glg
+*.ist
+*.log
+*.mao
+*.out
+*.backup
+*.abi
+*.cb
+*.cb2
+*.gli
+*.gls
+*.lof
+*.lot
+*.mw
+*.noi
+*.noo
+*.toc
+*.xtr
+*.mtc*
+*.maf
+*.xdy
+
+# These are auto-generated from the other tex files:
+equations.tex
+tables.tex
+
+# Temporary, backup, old, and conflicted files
+*~
+Thumbs.db*
+.fuse_hidden*
+.tmp.*
+*.kate-swp
+*.old
+*-bak
+* (Case Conflict *)
+*old/
