@@ -1,0 +1,20 @@
+\begin{table}[ht!]
+  \caption{Modeling and simulation statistics for the segmented fuel cell model}
+  \label{tab:SegmentedStatistics}
+  \begin{singlespaced}%
+    \begin{tabular}{llll}%
+      \toprule 
+      & \multicolumn{2}{c}{Stoichiometric flow} & \multicolumn{1}{c}{Fixed flow} \\
+      \cmidrule{2-3}
+      & w/ analysis & w/o analysis &  (w/ analysis) \\
+      \midrule
+      Number of variables & \num{31980} & \num{24835} & \num{31990} \\
+      Number of time-varying variables & \num{12711} & \num{6547} & \num{12711} \\
+      Number of states & 266 & 266 & 266 \\
+      Sizes of the nonlinear systems of equations & None & None & None \\
+      Translation time & \SI{67}{s} & \SI{48}{s} & \SI{69}{s} \\
+      Simulation time & \SI{18.8}{s} & \SI{18.1}{s} & \SI{11.3}{s} \\
+      \bottomrule
+    \end{tabular}
+  \end{singlespaced}
+\end{table}

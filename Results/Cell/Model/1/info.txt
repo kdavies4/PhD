@@ -1,0 +1,2 @@
+Capillary pressure is 3.1743 kPa in the anGDL.
+Capillary pressure is 20.3155 kPa in the anCL.

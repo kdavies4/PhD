@@ -1,0 +1,233 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Setup
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Set up commands to conditionally print all tables in landscape mode (\wideTablestrue and \wideTablesfalse).
+\newif\ifwideTables
+\wideTablesfalse
+
+% Set up commands to conditionally print tables with >=4 columns in landscape mode (\wideTabletrue and \wideTablefalse).
+% This applies to tables of parameters and tables of inputs since they have 4 columns.
+\newif\ifwideTable
+\wideTablefalse
+
+% Set up commands to show or hide the diagram (\inclDiagramtrue and \inclDiagramfalse).
+\newif\ifinclDiagram
+\inclDiagramtrue
+
+% Set up commands to show or hide the Modelica definition section (\inclModelicatrue and \inclModelicafalse).
+\newif\ifinclModelica
+\inclModelicatrue
+
+% Set up commands to show or hide the table of parameters (\inclParamstrue and \inclParamsfalse).
+\newif\ifinclParams
+\inclParamstrue
+
+% Set up commands to show or hide the table of connectors (\inclConnectorstrue and \inclConnectorsfalse).
+\newif\ifinclConnectors
+\inclConnectorstrue
+
+% Set up commands to show or hide the types and constants section (\inclTypestrue and \inclTypesfalse).
+\newif\ifinclTypes
+\inclTypestrue
+
+% Set up commands to call out the first table or figure (only to be used internally).
+\newif\iffirstCallout
+\firstCallouttrue
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Intro
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The following documentation has been generated from \modelica{FCSys}, the Modelica package discussed throughout the dissertation.  It only covers selected classes; the entire library contains 244~packages, 196~models, 428~functions, and over \num{26000} lines of code.  An unabridged and up-to-date version of the documentation is available at \url{http://kdavies4.github.com/FCSys/} with a link to download the latest release version.\footnote{The results in Chapters~\ref{chap:Basic} and~\ref{chap:Cell} are from \href{https://github.com/kdavies4/FCSys/archive/v0.2.0.zip}{version 0.2.0}.}  Here, the Modelica classes are flattened so that each appears as a section.  The classes are listed in alphabetic order by their absolute paths.  The subsections give general information, icons, diagrams, lists of parameters and connectors, package contents, types, constants, and source code.  Where applicable, the icon (outside graphical view) of a class is shown to the right of the section heading (which is the full name of the class).
+
+This documentation was produced by a series of programs and scripts.  First, Dymola~\cite{Dymola7.4} was used to parse the Modelica source and produce images and HTML files.  Then, \texttt{html2latex} by Thatcher and Seibert~\cite{Thatcher2000} and custom Python and Bash scripts were used to convert the HTML to LaTeX.  The LaTeX \texttt{listings} package, maintained by Heinz and Moses~\cite{Moses2007}, was used with the \texttt{dtsyntax} style file by T\"opel~\cite{Topel2009} to highlight the syntax of the source code.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Source
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{Appendices/Source/FCSys_Assemblies_Cells_Examples_TestConditions}
+
+\inclModelicafalse
+\inclParamsfalse
+\input{Appendices/Source/FCSys_Assemblies_Cells_Examples_TestStand}
+\inclParamstrue
+\inclModelicatrue
+
+\wideTablestrue
+\inclTypesfalse
+\input{Appendices/Source/FCSys_Characteristics_BaseClasses_Characteristic}
+\inclTypestrue
+\wideTablesfalse
+
+\input{Appendices/Source/FCSys_Characteristics_BaseClasses_Characteristic_c_p}
+   \nocite{Dymond2002}
+\input{Appendices/Source/FCSys_Characteristics_BaseClasses_Characteristic_c_v}
+   \nocite{Dymond2002, Moran2004}
+\input{Appendices/Source/FCSys_Characteristics_BaseClasses_Characteristic_eta}
+\input{Appendices/Source/FCSys_Characteristics_BaseClasses_Characteristic_h}
+   \nocite{McBride2002, Rao1997}
+\input{Appendices/Source/FCSys_Characteristics_BaseClasses_Characteristic_mu}
+\input{Appendices/Source/FCSys_Characteristics_BaseClasses_Characteristic_nu}
+\input{Appendices/Source/FCSys_Characteristics_BaseClasses_Characteristic_s}
+   \nocite{Dymond2002, McBride2002, Rao1997}
+\input{Appendices/Source/FCSys_Characteristics_BaseClasses_Characteristic_tauprime}
+\input{Appendices/Source/FCSys_Characteristics_BaseClasses_Characteristic_theta}
+\input{Appendices/Source/FCSys_Characteristics_BaseClasses_Characteristic_zeta}
+
+\inclTypesfalse
+\input{Appendices/Source/FCSys_Characteristics_BaseClasses_CharacteristicEOS}
+\inclTypestrue
+
+\input{Appendices/Source/FCSys_Characteristics_BaseClasses_CharacteristicEOS_p_Tv}
+\input{Appendices/Source/FCSys_Characteristics_BaseClasses_CharacteristicEOS_v_Tp}
+
+\wideTablestrue
+\inclTypesfalse
+\input{Appendices/Source/FCSys_Characteristics_BaseClasses_CharacteristicNASA}
+\inclTypestrue
+\wideTablesfalse
+
+\input{Appendices/Source/FCSys_Characteristics_BaseClasses_CharacteristicNASA_eta}
+\input{Appendices/Source/FCSys_Characteristics_BaseClasses_CharacteristicNASA_theta}
+\input{Appendices/Source/FCSys_Characteristics_'C+'_Graphite}
+\input{Appendices/Source/FCSys_Characteristics_'e-'_Graphite}
+\input{Appendices/Source/FCSys_Characteristics_'H+'_Ionomer}
+\input{Appendices/Source/FCSys_Characteristics_'SO3-'_Ionomer}
+\input{Appendices/Source/FCSys_Characteristics_H2_Gas}
+\input{Appendices/Source/FCSys_Characteristics_H2O_Gas}
+\input{Appendices/Source/FCSys_Characteristics_H2O_Ionomer}
+\input{Appendices/Source/FCSys_Characteristics_H2O_Liquid}
+
+\wideTabletrue
+\input{Appendices/Source/FCSys_Characteristics_MobilityFactors_BaseClasses_k}
+\wideTablefalse
+
+\input{Appendices/Source/FCSys_Characteristics_N2_Gas}
+\input{Appendices/Source/FCSys_Characteristics_O2_Gas}
+
+\inclDiagramfalse
+\input{Appendices/Source/FCSys_Chemistry_Capillary}
+\inclDiagramtrue
+
+\input{Appendices/Source/FCSys_Chemistry_CapillaryVolume}
+
+\inclDiagramfalse
+\wideTabletrue
+\input{Appendices/Source/FCSys_Chemistry_Electrochemistry_DoubleLayer}
+\wideTablefalse
+\input{Appendices/Source/FCSys_Chemistry_Electrochemistry_ElectronTransfer}
+\inclDiagramtrue
+
+\inclDiagramfalse
+\inclParamsfalse
+\inclConnectorsfalse
+\input{Appendices/Source/FCSys_Conditions_Adapters_ChemicalReaction}
+\inclConnectorstrue
+\inclParamstrue
+\inclDiagramtrue
+
+\wideTabletrue
+\inclDiagramfalse
+\input{Appendices/Source/FCSys_Conditions_Environment}
+\inclDiagramtrue
+\wideTablefalse
+
+\wideTabletrue
+\input{Appendices/Source/FCSys_Connectors}
+\wideTablefalse
+
+\inclModelicafalse
+\inclDiagramfalse
+\input{Appendices/Source/FCSys_Connectors_Amagat}
+\input{Appendices/Source/FCSys_Connectors_Boundary}
+\input{Appendices/Source/FCSys_Connectors_Chemical}
+\input{Appendices/Source/FCSys_Connectors_Dalton}
+\input{Appendices/Source/FCSys_Connectors_Inert}
+\input{Appendices/Source/FCSys_Connectors_Reaction}
+\input{Appendices/Source/FCSys_Connectors_ThermalDiffusive}
+\input{Appendices/Source/FCSys_Connectors_Translational}
+\inclDiagramtrue
+\inclModelicatrue
+
+\wideTabletrue
+\inclModelicafalse
+\input{Appendices/Source/FCSys_Phases_PartialPhase}
+\inclModelicatrue
+\wideTablefalse
+
+\input{Appendices/Source/FCSys_Quantities}
+
+\inclConnectorsfalse
+\inclParamsfalse
+\inclDiagramfalse
+\input{Appendices/Source/FCSys_Regions_AnCLs_AnCL}
+  \nocite{Bernardi1992, Gurau1998, Incropera2002, SGL2004, SGL2004, Spry2009, Toray2010, Weber2004}
+\input{Appendices/Source/FCSys_Regions_AnFPs_AnFP}
+  \nocite{Entegris2012, Incropera2002}
+\input{Appendices/Source/FCSys_Regions_AnGDLs_AnGDL}
+  \nocite{Incropera2002, Nitta2008, SGL2004, Weber2004}
+\input{Appendices/Source/FCSys_Regions_CaCLs_CaCL}
+\input{Appendices/Source/FCSys_Regions_CaFPs_CaFP}
+\input{Appendices/Source/FCSys_Regions_CaGDLs_CaGDL}
+  \nocite{SGL2004}
+\input{Appendices/Source/FCSys_Regions_PEMs_PEM}
+  \nocite{Springer1991, Spry2009}
+\inclDiagramtrue
+\inclParamstrue
+\inclConnectorstrue
+
+\wideTabletrue
+\inclConnectorsfalse
+\inclModelicafalse
+\inclDiagramfalse
+\input{Appendices/Source/FCSys_Regions_Region}
+\inclDiagramtrue
+\inclModelicatrue
+\inclConnectorstrue
+\wideTablefalse
+
+\wideTabletrue
+\inclDiagramfalse
+\inclConnectorsfalse
+\inclParamsfalse
+\input{Appendices/Source/FCSys_Species_'C+'_Graphite_Fixed}
+\input{Appendices/Source/FCSys_Species_'e-'_Graphite_Fixed}
+\input{Appendices/Source/FCSys_Species_'H+'_Ionomer_Fixed}
+\input{Appendices/Source/FCSys_Species_'SO3-'_Ionomer_Fixed}
+\input{Appendices/Source/FCSys_Species_Enumerations}
+\inclParamstrue
+\input{Appendices/Source/FCSys_Species_Fluid}
+\inclParamsfalse
+\input{Appendices/Source/FCSys_Species_H2_Gas_Fixed}
+\input{Appendices/Source/FCSys_Species_H2O_Gas_Fixed}
+\input{Appendices/Source/FCSys_Species_H2O_Ionomer_Fixed}
+\input{Appendices/Source/FCSys_Species_H2O_Liquid_Fixed}
+\input{Appendices/Source/FCSys_Species_Ion}
+\input{Appendices/Source/FCSys_Species_N2_Gas_Fixed}
+\input{Appendices/Source/FCSys_Species_O2_Gas_Fixed}
+\inclParamstrue
+\inclConnectorstrue
+\input{Appendices/Source/FCSys_Species_Solid}
+\inclParamsfalse
+\input{Appendices/Source/FCSys_Species_Species}
+\inclParamstrue
+\inclDiagramtrue
+\wideTablefalse
+
+\inclModelicafalse
+\input{Appendices/Source/FCSys_Subregions_Subregion}
+\inclModelicatrue
+
+\inclTypesfalse
+\input{Appendices/Source/FCSys_Units}
+\inclTypestrue
+
+\input{Appendices/Source/FCSys_Units_Bases}
+\input{Appendices/Source/FCSys_Units_Bases_Base}
+  \nocite{BIPM2006, NIST2010}
+
+\input{Appendices/Source/FCSys_Utilities}
+\input{Appendices/Source/FCSys_Utilities_Coordinates}
+\input{Appendices/Source/FCSys_Utilities_Polynomial}

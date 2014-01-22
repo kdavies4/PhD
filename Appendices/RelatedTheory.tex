@@ -1,0 +1,281 @@
+This appendix contains derivations of various physical laws that draw on equations and concepts from multiple sections of \autoref{chap:Fundamentals}.  For a complete list of the traditional physical laws and concepts discussed in this dissertation, please see \autoref{tab:Derivations}.
+
+
+\section{Darcy's Law}
+\label{sec:Darcy}
+
+The model is consistent with Darcy's law, which describes the flow of fluid through a porous medium.  To relate the model to Darcy's law, we begin with the translational diffusive exchange of a fluid species (\autoref{eq:TranslationalDiffusiveExchange}, written here with velocity on the left):
+\begin{equation}
+  \label{eq:Darcy1}
+  \s{phi}[_E] - \s{phi}[_j] = \frac{\s{mu}[_j]}{\s{k}\sub{_E}[_j]\s{N}[_j]}\dot{mPhi}\sub{_D}[_E][_j]
+\end{equation}
+The subscript~E refers to the exchange interface (let there be only one) and the subscript~\s{j} refers to the species. If the species is in contact with a stationary solid that has zero mobility, then the mediation velocity (\s{phi}[_E]) is zero.
+\begin{equation}
+  \label{eq:Darcy2}
+  \s{phi}[_j] = -\frac{\s{mu}[_j]}{\s{k}\sub{_E}[_j]\s{N}[_j]}\dot{mPhi}\sub{_D}[_E][_j]
+\end{equation}
+The fluid may contain multiple species, but we will assume that their velocities are equal ($\s{phi}[_j] = \s{phi}$).  After summing the equation over the fluid species~\s{j},
+\begin{equation}
+  \label{eq:Darcy3}
+  \s{phi}\sum_{\s{j}}\frac{\s{k}\sub{_E}[_j]\s{N}[_j]}{\s{mu}[_j]} = -\dot{mPhi}\sub{_D}[_E]
+\end{equation}
+where $\dot{mPhi}\sub{_D}[_E]$ is the total diffusive exchange force on the fluid species.
+
+We will assume that the discretization is coarse enough that the solid appears uniformly distributed within the region.  Then, we may neglect the shear force.  If we also assume isochoric \n{SSSF} without body forces or chemical reactions, the conservation of translational momentum (\autoref{eq:TranslationalBalance}) reduces to
+\begin{equation}
+  \s{A}\Delta\s{p}[_j] = \dot{mPhi}\sub{_D}[_E][_j] + \sum\dot{mPhi}\sub{_D}[_perp][_j]
+\end{equation}
+where $\Delta\s{p}[_j]$ is the difference in the partial pressures and $\sum\dot{mPhi}\sub{_D}[_perp][_j]$ is the sum of the normal forces---both of species~\s{j} along the transport axis (different subscript notation than \autoref{eq:TranslationalBalance}).  We will let \s{p}[^prime] denote the sum of the thermodynamic pressure (\s{p}) and the nonequilibrium pressure ($\pm\dot{mPhi}\sub{_D}[_perp][_j]/\s{A}$) over all of the fluid species.\footnote{As discussed in \autoref{sec:TranslationalBalance}, the pressure that is commonly used in the literature is generally the sum of the thermodynamic and nonequilibrium pressures in the model.}  Therefore,
+\begin{equation}
+  \label{}
+  \s{A}\Delta\s{p}[^prime] = \dot{mPhi}\sub{_D}[_E]
+\end{equation}
+
+The previous equation can be used to replace the diffusive exchange force in \autoref{eq:Darcy3} with a pressure difference.
+\begin{equation}
+  \label{eq:Darcy4}
+  \s{phi}\sum_{\s{j}}\frac{\s{k}\sub{_E}[_j]\s{N}[_j]}{\s{mu}[_j]} = -\s{A}\Delta\s{p}[^prime]
+\end{equation}
+The volumetric flux is the product of the porosity and the velocity:  $\s{J} = \s{epsilon}\s{phi}$.\footnote{This is the reason for volumetric factor in \autoref{eq:NormalDiffusion}.  There, the normal boundary velocity, $\s{phi}\sub{_perp}[_i]$, is the volumetric flux.}  Therefore,
+\begin{equation}
+  \s{J}\sum_{\s{j}}\frac{\s{k}\sub{_E}[_j]\s{N}[_j]}{\s{mu}[_j]} = -\s{epsilon}\s{A}\Delta\s{p}[^prime]
+\end{equation}
+As a differential equation in three dimensions (assuming the same generalized resistance in each direction),
+\begin{equation}
+  \boldsymbol{\s{J}}\sum_{\s{j}}\frac{\s{k}\sub{_E}[_j]\s{N}[_j]}{\s{mu}[_j]} = -\s{epsilon}\s{V}\boldsymbol{\nabla}\s{p}
+\end{equation}
+For now, we will establish the Darcy permeability as
+\begin{equation}
+  \label{eq:Permeability1}
+  \s{kappa} = \frac{\s{epsilon}\s{V}}{\s{zeta}\sum_{\s{j}}\frac{\s{k}\sub{_E}[_j]\s{N}[_j]}{\s{mu}[_j]}}
+\end{equation}
+and return to this later.  Therefore,
+\begin{equation}
+  \boldsymbol{\s{J}} = -\s{kappa}\s{zeta}\boldsymbol{\nabla}\s{p}
+\end{equation}
+which is Darcy's law~\cite{Bird2002, Weber2004ChemRev}, %\cite[p. 148--149]{Bird2002}
+where the fluidity, \s{zeta}, is the reciprocal of dynamic viscosity.
+
+We will now consider the relation between the permeability and the parameters of the model for a basic case: a fluid that contains a single species.  \autoref{eq:Permeability1} reduces to
+\begin{equation}
+  \label{eq:Permeability2}
+  \s{kappa} = \frac{\s{mu}\s{v}}{\s{zeta}\s{k}\sub{_E}}
+\end{equation}
+where the specific volume (\s{v}, the reciprocal of concentration) is related to the amount of the fluid species, volume of the region, and the porosity by $\s{v} = \s{epsilon}\s{V}/\s{N}$.  In the model, the mobility (\s{mu}) and the fluidity (\s{zeta}) are different properties, but can be related under the assumptions of kinetic theory (see Sections \ref{sec:Exchange}--\ref{sec:Transport}).  Due to Equations \ref{eq:Mobility} and \ref{eq:Fluidity}, their ratio is
+\begin{equation}
+  \frac{\s{mu}}{\s{zeta}} = \frac{8\pi}{9}\frac{\s{lambda}^2}{\s{v}}
+\end{equation}
+The mean free path (\s{lambda}) is defined by \autoref{eq:MeanFreePath}, and it follows that
+\begin{equation}
+  \frac{\s{mu}}{\s{zeta}} = \frac{2\s{v}}{9\pi\s{d}^4\s{q}^2}
+\end{equation}
+where \s{d} is the radius specific diameter of particles and \s{q} is the amount of material that represents one particle.  Therefore, \autoref{eq:Permeability2} can be written as
+\begin{equation}
+  \label{eq:Permeability3}
+  \s{kappa} = \frac{2\pi}{9\s{k}[_E]}\group{\frac{\s{v}}{\pi\s{d}^2\s{q}}}^2
+\end{equation}
+The base of the square is the ratio of the specific volume of the fluid species to the specific intercept area of the fluid particles.
+
+As an example, we will consider nitrogen as an ideal gas at \SI{25}{\celsius} and \SI{1}{atm}.  We will assume that the diameter of a \s{N2} molecule is \SI{420}{pm}---the sum of the bond length between nitrogen atoms (\SI{110}{pm}) and the van der Waals diameter of a nitrogen atom (\SI{310}{pm}).\footnote{The lengths are from \url{http://cccbdb.nist.gov/exp2.asp?casno=7727379} and \url{http://en.wikipedia.org/wiki/Nitrogen}, both accessed Sep.~26, 2013.}  We will also assume that the adjustment factor, \s{k}[_E], is one.  Given these assumptions, the permeability (\s{kappa}) is \SI{3.75E-15}{m^2}.  In reality, the permeability will also depend on the solid material (porous media) and its structure; that dependence would appear in the adjustment factor.  However, it is noteworthy that this rough calculation is within the expected range of \num{1.7E-17} to \SI{2.6E-12}{m^2}~\cite{Bloomfield1995}.
+
+
+\section{Maxwell-Stefan Equations}
+\label{sec:MS}
+
+The model encompasses Maxwell-Stefan multi-component diffusion but is more general with respect to transient behavior and the organization of the interactions.  Regarding transients, the Maxwell-Stefan equations place algebraic constraints on the relationship of configuration velocities.  The model does too if transient momentum storage is disabled (an option of the implementation in \autoref{chap:Implementation}).  Otherwise, the model establishes a system of differential equations that lead to these interrelationships over time.  The transient option has the advantage that it avoids the nonlinear nature of the Maxwell-Stefan equations~\cite{Cussler1997, Boudin2008}.  Regarding the organization of the interactions, the model generalizes the Maxwell-Stefan equations so that interactions can be added among any group of species---not only pairs.  In fact, the model allows connections among any group of configurations, regardless of their phase.  This is useful in order to add drag between fluid species and solid species, as will be discussed at the end of this section.  The Maxwell-Stefan equations are typically applied within a single phase, although there are various methods to fluid-solid interactions (e.g. the dusty gas model).
+
+\autoref{tab:Exchange} shows the organization of the Maxwell-Stefan equations and two possible organizations of the model for multi-component systems.  Each filled circle represents the velocity of a configuration and each outlined circle represents a mediation velocity.  The resistors represent friction.  By default, the model considers one interaction among all species in all phases.  These are the ``hub'' arrangements shown in the first graphic column.  The model can be modified to produce the binary arrangements shown in the second graphic column by adding and removing connections in the diagram layer of the implementation in \autoref{chap:Implementation}.  At steady state, these binary arrangements are equivalent to those of Maxwell-Stefan equations shown in the last column.  Strictly, the number of configurations involved in each resistive subnetwork indicates the number of particles (one from each configuration) involved in the interaction.  For example, the binary and Maxwell-Stefan arrangements represent two-particle collisions~\cite{Taylor1993}.
+
+If momentum storage is enabled, the configuration velocities or filled circles of the model columns (second and third graphic columns) of \autoref{tab:Exchange} are associated with states.  The filled circles of the Maxwell-Stefan column (last column) are not.  States are never associated with the mediation velocities or outlined circles, since no material or mass exists at those nodes.
+
+\begin{table}[hbtp]
+  \newcommand\C[1]{\multirow{2}*{#1}} % Hack to vertically align entries in a table
+  \newcommand\G[1]{\C{\includegraphics{#1}}} % Insert a graphic across two rows.
+  \WithSuffix\newcommand\C*[1]{\multirow{6}*{#1}}
+  \WithSuffix\newcommand\G*[1]{\C*{\includegraphics{#1}}}
+  \caption{Structure of the model vs.\ the Maxwell-Stefan equations}%
+  \label{tab:Exchange}%
+  \begin{singlespaced}
+  \begin{tabular}{cccc}
+    \toprule
+    \textbf{\# of Configurations} & \multicolumn{2}{c}{\textbf{Model}}  \\
+    \cmidrule(lr){2-3}
+    (\s{n}[_conf]) & \textbf{Hub} & \textbf{Binary} & \textbf{Maxwell-Stefan} \\
+    \midrule \addlinespace \addlinespace
+    \C{2} & \G{3-Exchange2Hub} & \G{3-Exchange2Binary} & \G{3-Exchange2MS} \\
+    \\ \addlinespace
+    \C*{3} & \G*{3-Exchange3Hub} & \G*{3-Exchange3Binary} & \G*{3-Exchange3MS} \\
+    \\ \\ \\ \\ \\
+    \C*{4} & \G*{3-Exchange4Hub} & \G*{3-Exchange4Binary} & \G*{3-Exchange4MS} \\
+    \\ \\ \\ \\ \\ \addlinespace
+    \bottomrule
+  \end{tabular}%
+  \end{singlespaced}
+\end{table}
+
+In a system with \s{n}[_conf] configurations, the hub arrangement has \s{n}[_conf] generalized resistors, whereas the model's binary arrangement has $\s{n}[_conf](\s{n}[_conf] - 1)$ and the Maxwell-Stefan equations have $\s{n}[_conf](\s{n}[_conf] - 1)/2$.  The hub arrangement has fewer resistors than the Maxwell-Stefan equations when there are four or more configurations.  This is an advantage because the model has fewer parameters to specify but also a disadvantage because there are fewer degrees of freedom available to match experimental data.  It reduces the complexity of the model, but the effect on computational performance is likely to be small or even negligible.  The model's binary arrangement has twice as many resistors as the Maxwell-Stefan equations.  The extra degrees of freedom determine how the generated heat is split between the configurations.  In the diagrams of the first and second graphic columns of \autoref{tab:Exchange}, each resistor and the heat it generates is directly associated with a configuration.
+
+In order to see how the model relates analytically to the Maxwell-Stefan equations, we will sum the equation for translational diffusive exchange (\ref{eq:TranslationalDiffusiveExchange}) over all diffusive exchange interfaces for a configuration.  We will represent that sum, the total diffusive exchange force on configuration \s{i}, by $\dot{mPhi}\sub{_D}[_E][_i]$.  We can use \autoref{eq:MediationVelocity} to express the mediation velocity of each node in terms of the velocities of other configurations.  With some algebraic manipulation and re-indexing,
+\begin{equation}
+  \dot{mPhi}\sub{_D}[_E][_i] = \sum_{\s{xi} \in~\s{Xi}}\frac{\sum_{\s{j} \in \s{xi}}\frac{\s{k}\sub{_xi}[_i]\s{k}\sub{_xi}[_j]}{\s{mu}[_i]\s{mu}[_j]}\s{N}[_i]\s{N}[_j]\group{\s{phi}[_j] - \s{phi}[_i]}}{\sum_{\s{j} \in \s{xi}}\frac{\s{k}\sub{_xi}[_j]}{\s{mu}[_j]}\s{N}[_j]}
+\end{equation}
+where \s{xi}~is a set of the configurations connected to a mediation node (through resistors) and \s{Xi}~is the set of all of those sets~\s{xi} that include configuration~\s{i}.  The variables $\s{k}\sub{_xi}[_i]$ and $\s{k}\sub{_xi}[_j]$ are the adjustment factors for configurations \s{i} and~\s{j} with respect to the note associated with set~\s{xi}.  The $\s{j} = \s{i}$ term is zero in the numerator but is generally nonzero in the denominator.  The momentum balance (\autoref{eq:TranslationalBalanceIntensive}) reduces to $\dot{mPhi}\sub{_D}[_E][_i] = \s{A}\Delta\s{p}[_i]$ under the following assumptions: \begin{inparaenum}[(1)]\item the configuration has uniform, steady-state velocity, \item there are no reactions or phase change, and \item there are no body forces\end{inparaenum}.  Therefore,
+\begin{equation}
+  \s{A}\Delta\s{p}[_i] = \sum_{\s{xi} \in~\s{Xi}}\frac{\sum_{\s{j} \in \s{xi}}\frac{\s{k}\sub{_xi}[_i]\s{k}\sub{_xi}[_j]}{\s{mu}[_i]\s{mu}[_j]}\s{N}[_i]\s{N}[_j]\group{\s{phi}[_j] - \s{phi}[_i]}}{\sum_{\s{j} \in \s{xi}}\frac{\s{k}\sub{_xi}[_j]}{\s{mu}[_j]}\s{N}[_j]}
+\end{equation}
+That is, the difference in partial pressure balances the total drag force due to other configurations.  From here on, we will use a differential volume and write the equation in three dimensions:
+\begin{equation}
+  \label{eq:MSDerivationStep3}
+  \s{V}\boldsymbol{\nabla}\s{p}[_i] = \sum_{\xi ~\in~\Xi}\frac{\sum_{\s{j} \in \s{xi}}\frac{\s{k}\sub{_xi}[_i]\s{k}\sub{_xi}[_j]}{\s{mu}[_i]\s{mu}[_j]}\s{N}[_i]\s{N}[_j]\group{\boldsymbol{\phi}_j - \boldsymbol{\phi}_i}}{\sum_{\s{j} \in \s{xi}}\frac{\s{k}\sub{_xi}[_j]}{\s{mu}[_j]}\s{N}[_j]}
+\end{equation}
+
+If we use the binary form of the model, we can expand and simplify the summations.
+\begin{equation}
+  \s{V}\boldsymbol{\nabla}\s{p}[_i] = \sum_{\s{j} \in \s{xi}}\frac{\boldsymbol{\phi}_j - \boldsymbol{\phi}_i}{\frac{\s{mu}[_i]}{\s{k}\sub{_xi}[_i]\s{N}[_i]} + \frac{\s{mu}[_j]}{\s{k}\sub{_xi}[_j]\s{N}[_j]}}
+\end{equation}
+where \s{xi}~is the set of all configurations with which configuration~\s{i} interacts.  This shows that the extent of the interaction between each pair of configurations depends on the amount of material present.  As stated by Taylor and Krishna, ``the more molecules of both types that are present in the unit volume, the higher the [rate] of collisions will be''~\cite{Taylor1993}. %[p.~15]
+If either configuration is removed ($\s{N}[_i] \to 0$ or $\s{N}[_j] \to 0$), there is no force.  The extent of the interaction also depends on the mobilities (\s{mu}[_i] and \s{mu}[_j]).  According to kinetic theory, mobility is inversely proportional to specific mass (\autoref{eq:Mobility}).  If either particle is (hypothetically) massless,  it is infinitely mobile and there can be no collision force.  The previous equation can be written as the Maxwell-Stefan equation~\cite{Taylor1993}.
+\begin{equation}
+  \label{eq:MS}
+  \frac{\boldsymbol{\nabla}\s{p}[_i]}{\s{p}} = \sum_{\s{j} \in \s{xi}}\frac{\s{chi}[_i]\s{chi}[_j]\group{\boldsymbol{\phi}_j - \boldsymbol{\phi}_i}}{\s{D}\sub{_i}{_j}}
+\end{equation}
+where the binary diffusion coefficient is
+\begin{equation}
+  \newcommand{\vgap}{\vphantom{\s{mu}[_j]}}
+  \s{D}\sub{_i}{_j} = \s{p}\s{V}\s{chi}[_i]\s{chi}[_j]\group{\frac{\vgap\s{mu}[_i]}{\s{k}\sub{_xi}[_i]\s{N}[_i]} + \frac{\s{mu}[_j]}{\s{k}\sub{_xi}[_j]\s{N}[_j]}}
+\end{equation}
+The subscript~\s{xi} now represents the node associated with configurations \s{i} and~\s{j}.  The coefficient can also be written as
+\begin{equation}
+  \newcommand{\vgap}{\vphantom{\s{mu}[_j]}}
+  \s{D}\sub{_i}{_j} = \s{p}\s{V}\frac{\vgap\frac{\s{mu}[_i]}{\s{k}\sub{_xi}[_i]}\s{N}[_j] + \frac{\s{mu}[_j]}{\s{k}\sub{_xi}[_j]}\s{N}[_i]}{\s{N}[_tot]^2}
+\end{equation}
+where \s{N}[_tot]~is the total amount of material in the phase to which the Maxwell-Stefan equations are applied.  As expected, it follows that the binary diffusion coefficients are symmetric ($\s{D}\sub{_i}{_j} = \s{D}\sub{_j}{_i}$).  As noted previously, there is an extra degree of freedom if we wish to determine both $\s{mu}[_i]/\s{k}\sub{_xi}[_i]$ and $\s{mu}[_j]/\s{k}\sub{_xi}[_j]$ from $\s{D}\sub{_i}{_j}$ or $\s{D}\sub{_j}{_i}$.  By default, the adjustment factors (e.g., $\s{k}\sub{_xi}[_i]$) are assumed to be one.  However, in order to match the Maxwell-Stefan binary diffusion coefficients for a set of four or more species, it is necessary to relax this assumption.  Otherwise, the generalized resistances (\autoref{tab:Exchange}) will be overconstrained, even though the topology of the resistor network is not.
+
+If we instead use the hub arrangement,  \autoref{eq:MSDerivationStep3} can be written as
+\begin{equation}
+  \s{V}\boldsymbol{\nabla}\s{p}[_i] = \frac{\sum_{\s{j} \in \s{xi}}\frac{\s{k}\sub{_xi}[_i]\s{k}\sub{_xi}[_j]}{\s{mu}[_i]\s{mu}[_j]}\s{N}[_i]\s{N}[_j]\group{\boldsymbol{\phi}_j - \boldsymbol{\phi}_i}}{\sum_{\s{j} \in \s{xi}}\frac{\s{k}\sub{_xi}[_j]}{\s{mu}[_j]}\s{N}[_j]}
+\end{equation}
+where \s{xi}~is the set of all species in all phases.  We wish for the pressure gradient to match that of the Maxwell-Stefan equation (\ref{eq:MS}); therefore,
+\begin{equation}
+  \s{p}\s{V}\sum_{\s{j} \in \s{xi}}\frac{\s{chi}[_i]\s{chi}[_j]\group{\boldsymbol{\phi}_j - \boldsymbol{\phi}_i}}{\s{D}\sub{_i}{_j}} = \frac{\sum_{\s{j} \in \s{xi}}\frac{\s{k}\sub{_xi}[_i]\s{k}\sub{_xi}[_j]}{\s{mu}[_i]\s{mu}[_j]}\s{N}[_i]\s{N}[_j]\group{\boldsymbol{\phi}_j - \boldsymbol{\phi}_i}}{\sum_{\s{j} \in \s{xi}}\frac{\s{k}\sub{_xi}[_j]}{\s{mu}[_j]}\s{N}[_j]}
+\end{equation}
+In order to isolate each diffusion coefficient, we let all configurations except for~\s{j} have the same velocity as~\s{i}.  Then, the following constraint must be satisfied:
+\begin{equation}
+  \s{D}\sub{_i}{_j} = \s{p}\s{V}\frac{\s{chi}[_i]\s{chi}[_j]}{\s{N}[_i]\s{N}[_j]}\frac{\s{mu}[_i]\s{mu}[_j]}{\s{k}\sub{_xi}[_i]\s{k}\sub{_xi}[_j]}\sum_{\s{n} \in \s{xi}}\frac{\s{k}\sub{_xi}[_n]}{\s{mu}[_n]}\s{N}[_n]
+\end{equation}
+This can also be written as
+\begin{equation}
+  \s{D}\sub{_i}{_j} = \s{p}\s{V}\frac{1}{\s{N}[_tot]^2}\frac{\s{mu}[_i]\s{mu}[_j]}{\s{k}\sub{_xi}[_i]\s{k}\sub{_xi}[_j]}\sum_{\s{n} \in \s{xi}}\frac{\s{k}\sub{_xi}[_n]}{\s{mu}[_n]}\s{N}[_n]
+\end{equation}
+As expected, this gives the same value for $\s{D}\sub{_i}{_j}$ as the binary arrangement if there are only two species.  As mentioned previously, the mobilities are overspecified when there are more than three species.  That is, an arbitrary set of binary diffusion coefficients ($\s{D}\sub{_i}{_j}$) cannot be matched by a consistent set of mobilities.  Fortunately, three species are sufficient for the primary gases in a \n{PEMFC}---\n{H2} and \n{H2O} in the anode and \n{O2}, \n{N2}, and \n{H2O} in the cathode.
+
+The Maxwell-Stefan equations appear in various forms in the literature.  With some assumptions, the driving force (left side of \autoref{eq:MS}) may be written using a gradient of chemical potential or mole fraction instead of pressure.  The drag may be written in terms of a difference in the products of mole fraction and material flux rather than a difference in velocity.  Taylor and Krishna discuss these alternatives~\cite{Taylor1993}.  Yet there is another, more significant, point of variation that arises regarding the bulk fluid motion in the implementation of the whole system of Maxwell-Stefan equations.  It deserves further discussion (below) because it provides insight into the difference between the model and typical implementations of the Maxwell-Stefan equations.
+
+The Maxwell-Stefan equations describe the drag forces among species.  The sum of all these forces must be zero, and in fact, the sum of all the \s{n}[_conf] Maxwell-Stefan equations (\ref{eq:MS}) for a system of~\s{n}[_conf] species gives
+\begin{equation}
+  \sum\boldsymbol{\nabla}\s{p}[_i] = 0
+\end{equation}
+due to the symmetry of the binary diffusion coefficients.  Yet this is unrealistic.  The total pressure may be nonuniform, in which case we would expect the fluid to have some bulk motion.  There are two possible resolutions: \begin{inparaenum}[(1)] \item arbitrarily remove one of the \s{n}[_conf] Maxwell-Stefan equations and replace it with an equation that relates the total pressure gradient and the bulk motion or \item add a term to each of the \s{n}[_conf] Maxwell-Stefan equations that accounts for part of the total pressure gradient\end{inparaenum}.  Both of these methods entail additional choices.  This, which is compounded by the troublesome mathematical qualities of the Maxwell-Stefan equations~\cite{Cussler1997, Kulikovsky1999, Weber2005}, has lead to many implementations.  Cussler stated this more bluntly:  ``Because of an excess of theoretical zeal, many who work in this area have nurtured a glut of alternatives''~\cite{Cussler1997}. %\cite[p. 187]{Cussler1997}
+
+Among these alternatives is the dusty-gas model\label{mark:Dusty}, which has well-noted shortcomings~\cite{Kulikovsky1999, Weber2004ChemRev, Weber2005, Kerkhof2005ChemEngSci}.\footnote{\label{note:DustyGas}The dusty-gas model follows the second method of resolution by adding a portion of the loss due to the interaction with the solid, as characterized by Darcy's law, to each of the \s{n}[_conf] Maxwell-Stefan equations.  However, Weber and Newman~\cite{Weber2004ChemRev} have indicated that this is not rigorously correct and the Darcy's law itself should be introduced as the final equation.  Their approach follows the first method of resolution, and as noted, the choice of the Maxwell-Stefan equation to remove is arbitrary and asymmetric.}  In fact, the recent implementations may miss the original point, as stated by Kerkhof and Geboers~\cite{Kerkhof2005ChemEngSci}:
+\begin{longquote}
+  ``The vision of Maxwell, and very explicitly of Stefan, that one cannot treat a mixture as a single fluid, has also been obscured by the successful work of more recent authors on single-component fluids [\dots]''
+\end{longquote}
+Instead of attempting to cast the binary diffusion equations into a single-component framework, the model embraces the multi-component nature.  With a momentum balance and associated forces for every species, it avoids \begin{inparaenum}[(1)] \item the inherent asymmetry in the implementation, \item the difficulty in determining an appropriate momentum balance for the whole mixture complete with the pressure loss due to bulk flow, and \item the nonlinear problem in solving the individual velocities\end{inparaenum}.  In the model, the bulk-flow pressure loss is due to two effects: the shear forces on each configuration (spatially distributed but intra-configurational) and intermolecular drag between the fluid configurations and the solid ones in each region (inter-configurational but local).  In this manner, it is possible to model pressure-driven flow through a pipe, diffusion through a porous medium, or a combination of the two.
+
+% Maxwell-Stefan diffusion is based on the assumption that after collision, on average, each particle has the velocity of the center of mass of the pair before the collision.  However, an empirical parameter\slash{}property is still necessary to account for the frequency at which the particles collide (assumed proportional to the product of the molar concentrations of the interacting components; the remaining factor is included in the binary diffusion coefficient)~\cite{Taylor1993}.
+
+
+\section{Charge Drift and Diffusion}
+\label{sec:DriftDiffusion}
+
+If we assume that material is not stored along an axis through a region, then the total (advective plus diffusive) current is uniform across the region ($\dot{N}[_neg] = -\dot{N}[_pos] = \s{J}\s{A}$).  Equations \ref{eq:MaterialTransport} and \ref{eq:MaterialAdvection} imply that
+\begin{equation}
+  2\s{J} = \frac{\dot{N}[_neg] - \dot{N}[_pos]}{\s{A}} + \s{phi}[_neg]\s{rho}[_neg] + \s{phi}[_pos]\s{rho}[_pos]
+\end{equation}
+Using the material advection and diffusion equations (\ref{eq:MaterialAdvection} and \ref{eq:MaterialDiffusion}),
+\begin{equation}
+  2\s{J} = \frac{\s{k}}{\s{eta}\s{L}}\Group{\group{\s{rho}[_neg] - \s{rho}}\group{1 + e^{-\s{eta}\s{V}\s{phi}\sub{_perp}[_i]/2\s{k}[_i]\s{A}[_i]}} + \group{\s{rho} - \s{rho}[_pos]}\group{1 + e^{\s{eta}\s{V}\s{phi}\sub{_perp}[_i]/2\s{k}[_i]\s{A}[_i]}}} + \group{\s{rho}[_neg] + \s{rho}[_pos]}\s{phi}
+\end{equation}
+We will assume that the material P\'eclet number is negligible (i.e., the concentration gradient is uniform) and the area factor~(\s{k}) is one.  Then,
+\begin{equation}
+  \s{J} = \frac{\s{rho}[_neg] - \s{rho}[_pos]}{\s{eta}\s{L}} + \s{rho}\s{phi}
+\end{equation}
+We may write the velocity in terms of electric field using the translational momentum balance, assuming that the flow is steady and that there are no forces besides the electric force ($-\s{Z}\s{E}$) and the drag force ($\s{N}\s{phi}/\s{mu}$).  Explicitly, this is, $\s{phi} = \s{mu}\s{z}\s{E}$.\footnote{Typically, electrical mobility is expressed in terms of charge drift velocity which is the product of the bulk material velocity and the charge number.  The charge number is not explicit in that definition of mobility~\cite{Roulston1999}.}  Thus,
+\begin{equation}
+  \label{eq:DriftDiffusion}
+  \s{J} = \frac{\s{rho}[_neg] - \s{rho}[_pos]}{\s{eta}\s{L}} + \s{rho}\s{mu}\s{z}\s{E}
+\end{equation}
+where \s{J}~is the material transport rate.  Taking the limit as length goes to zero ($\s{L} \to 0)$ and generalizing to multiple dimensions,
+\begin{equation}
+  \mathbf{\s{J}} = \s{rho}\s{mu}\s{z}\mathbf{\s{E}} - \frac{1}{\s{eta}}\boldsymbol{\nabla}\s{rho}
+\end{equation}
+We can multiply this equation by the charge number~(\s{z}) to write it in terms of electrical current density (\s{z}\s{J}).  For electrons ($\s{z} = -1$),
+\begin{equation}
+  \s{z}\mathbf{\s{J}} = \s{rho}\s{mu}\mathbf{\s{E}} + \frac{1}{\s{eta}}\boldsymbol{\nabla}\s{rho}
+\end{equation}
+and for holes ($\s{z} = 1$),
+\begin{equation}
+  \s{z}\mathbf{\s{J}} = \s{rho}\s{mu}\mathbf{\s{E}} - \frac{1}{\s{eta}}\boldsymbol{\nabla}\s{rho}
+\end{equation}
+These are the charge drift\slash{}diffusion equations, which are used to describe electron and hole transport in semiconductor devices~\cite{Ashcroft1976, Roulston1999}. %\cite[p.~40]{Roulston1999}, \cite[p.~601]{Ashcroft1976}.
+
+
+\section{Ohm's Law}
+\label{sec:Ohms}
+
+% **re-derive:  let reference pressure be a function of density.  Then, if isopotential between regions with different densities, there will still be pressure difference => transport due to "diffusion"
+% -reference pressure corresponds to Fermi level
+
+Ohm's law is the limiting case of charge drift\slash{}diffusion where drift current is much larger than diffusion current.  If concentration is uniform, then the charge drift\slash{}diffusion equation (\ref{eq:DriftDiffusion}) reduces to
+\begin{equation}
+  \s{z}\s{J} = \s{rho}\s{mu}\s{E}
+\end{equation}
+which is Ohm's law~\cite{Newman1991, Ashcroft1976, Roulston1999, Young1996}.  The factor $\s{rho}\s{mu}$ is the electrical conductivity~\cite{Roulston1999}.  If we assume that the electric field is uniform ($\s{w} = \s{E}\s{L}$) and write this in terms of electrical current ($\s{zI} = \s{z}\s{J}\s{A}$) and electrical resistance ($\s{R} = \s{L}/\s{A}\s{rho}\s{mu}$),
+\begin{equation}
+  \s{w} = \s{zI}\s{R}
+\end{equation}
+which is the form of Ohm's law typically used in electrical circuit theory~\cite{Ashcroft1976, Roulston1999, Young1996, Thomas1998, Horowitz1999}, where \s{w}~is the electrical potential and $\s{z}\s{I}$ is the electrical current.  This derivation may be generalized by superimposing the effects of the appropriate charge carriers (e.g., electrons and holes)~\cite{Roulston1999}.
+
+Although Fick's law (\autoref{sec:MaterialTransport}) and Ohm's law have the same form (diffusivity~: concentration~:: conductivity~: electrical potential), the modes of material transport are different.  Fick's law describes material transport when it is dominated by diffusion or agitation (from high to low concentration).  Ohm's law describes material transport (of charge carriers, cast as charge transport) when it is dominated by advection or translation.  It happens that for electrical devices, the rate of advection is often conveniently proportional to the electric field (high to low electrical potential).
+
+
+\section{Einstein Relation}
+\label{sec:EinsteinRelation}
+
+Although it was not explicit in \autoref{chap:Fundamentals} (only a brief statement in \autoref{sec:Exchange}), the Einstein relation is built into the approximations of the diffusive exchange coefficients.  If we multiply the approximations for the mobility (\autoref{eq:Mobility}) and the material resistance (\autoref{eq:MaterialResistivity}),
+\begin{equation}
+  \s{eta}\s{mu} = \frac{8\pi}{\s{m}}\group{\frac{\s{tau}}{\s{lambda}}}^2
+\end{equation}
+Using the equation for the collision interval (\ref{eq:CollisionInterval}), this can be written as
+\begin{equation}
+  \s{eta}\s{mu}\s{T} = 1
+\end{equation}
+or, since the diffusion coefficient is the reciprocal of the material resistivity ($\s{D} = 1/\s{eta}$),
+\begin{equation}
+  \s{D} = \s{mu}\s{T}
+\end{equation}
+which is the Einstein relation~\cite{Ashcroft1976, Roulston1999}.
+
+We can derive the Einstein relation by assuming that the transported species is an ideal gas in which material advection equals material diffusion at steady state.\footnote{The assumption in the typical derivation of the Einstein relation~\cite{Schumacher2002, Kubo1966} is material equilibrium.  This imposes the opposite condition---that material advection cancels material diffusion.  However, the typical derivation arrives at the same conclusion due to another negative.  In particular, it uses Maxwell-Boltzmann statistics to relate the concentration of particles to the energy.  In fact, Maxwell-Boltzmann statistics describe the expected number (or concentration, in proportion) of particles at an energy state rather than the energy of a particle at given concentration (i.e., external rather than internal energy).}  This implies the following at a boundary between two regions with equal material resistivities~(\s{eta}) and lengths~(\s{L}) along an axis:
+\begin{equation}
+  \s{L}\s{eta}\s{rho}\s{phi} = \s{rho}_1 - \s{rho}_2
+  \glsadd{_123}
+\end{equation}
+The velocity of the gas in each region may be written in terms of the drag force applied by a stationary solid in contact with the moving particles ($\s{phi} = -\s{mu}\dot{mPhi}\sub{_D}[_E]/\s{N}$).  Assuming that the velocity~\s{phi} and mobility~\s{mu} are uniform and realizing that $\s{rho} = \s{N}/\s{V} = \s{N}/\s{A}\s{L}$:
+\begin{equation}
+  -\s{eta}\s{mu}\dot{mPhi}\sub{_D}[_E] = \s{A}\group{\s{rho}_1 - \s{rho}_2}
+\end{equation}
+If there are no other forces, then at steady state the thermodynamic force must cancel the drag force ($0 = \dot{mPhi}\sub{_D}[_E] + \s{A}\group{\s{p}_1 - \s{p}_2}$, from conservation of translational momentum).  Therefore,
+\begin{equation}
+  \s{eta}\s{mu}\group{\s{p}_1 - \s{p}_2} = \s{rho}_1 - \s{rho}_2
+\end{equation}
+The differences become derivatives as the regions become small ($\s{L} \to 0$):
+\begin{equation}
+  \s{eta}\s{mu} = \diffp{\s{rho}}{\s{p}}
+\end{equation}
+where the right side is a property relation.  Since we have assumed that the fluid is an ideal gas,
+\begin{equation}
+  \s{eta}\s{mu}\s{T} = 1
+\end{equation}
+which leads to the Einstein relation as above.

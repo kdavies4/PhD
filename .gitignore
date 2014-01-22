@@ -75,6 +75,14 @@ Figures/Extractions
 *.maf
 *.xdy
 
+# Misc
+Forms
+Future
+Guides & examples
+HNEI
+Results/Cell/Model/*/*.csv
+Reviews
+
 # These are auto-generated from the other tex files:
 equations.tex
 tables.tex
@@ -89,3 +97,4 @@ Thumbs.db*
 *-bak
 * (Case Conflict *)
 *old/
+*.backup

@@ -1,0 +1,24 @@
+\newcommand\C[1]{\multirow{1}*{#1}} % Hack to vertically align entries in a table
+\newcommand\G[1]{\C{\includegraphics[height=1cm]{#1}}} % Insert a graphic across two rows.
+\begin{tabular}{llll}
+  \toprule
+  \textbf{Name} & \textbf{Effort} & \textbf{Flow} & \textbf{Within icon(s)} \\
+  \midrule \addlinespace
+  \C{Material} & Pressure & Current & \G{4-Connectors-BoundaryI}\G{4-Connectors-BoundaryBusI} \\
+    & \s{p} [\dim{M.L^{-1}.T^{-2}}] & $\dot{N}$ [\dim{N.T^{-1}}] \\ \addlinespace
+  \C{Translational} & Velocity & Force & \G{4-Connectors-BoundaryI}\G{4-Connectors-BoundaryBusI}\G{4-Connectors-IntraI}\G{4-Connectors-InterI}\G{4-Connectors-ReactionI} \\
+    & \s{phi} [\dim{L.T^{-1}}] & $\dot{mPhi}$ [\dim{L.M.T^{-2}}] \\ \addlinespace
+  \C{Thermal diffusive} & Temperature & Heat flow rate & \G{4-Connectors-BoundaryI}\G{4-Connectors-BoundaryBusI}\G{4-Connectors-IntraI}\G{4-Connectors-InterI} \\
+    & \s{T} [\dim{L^2.M.N^{-1}.T^{-2}}] & $\dot{Q}$ [\dim{L^2.M.T^{-3}}] \\ \addlinespace
+  \C{Thermal advective} & Temperature times specific entropy & Heat flow rate & \G{4-Connectors-ReactionI} \\
+    & \s{Ts} [\dim{L^2.M.N^{-1}.T^{-2}}] & $\dot{Q}$ [\dim{L^2.M.T^{-3}}] \\ \addlinespace
+  \C{Amagat} & Pressure & Partial volume & \G{4-Connectors-AmagatI} \\
+    & \s{p} [\dim{M.L^{-1}.T^{-2}}] & \s{V} [\dim{L^3}] \\ \addlinespace
+  \C{Dalton} & Volume & Partial pressure & \G{4-Connectors-DaltonI} \\
+    & \s{V} [\dim{L^3}] & \s{p} [\dim{M.L^{-1}.T^{-2}}] \\ \addlinespace
+  \C{Chemical} & Chemical potential & Current & \G{4-Connectors-ChemicalI} \\
+    & \s{g} [\dim{L^{2}.M.N^{-1}.T^{-2}}] & $\dot{N}$ [\dim{N.T^{-1}}] \\ \addlinespace
+  \C{Stoichiometric} & Rate of reaction & Net chemical potential & \G{4-Connectors-ReactionI} \\
+    & $\dot{N}$ [\dim{N.T^{-1}}] & \s{g} [\dim{L^{2}.M.N^{-1}.T^{-2}}] \\ \addlinespace
+  \bottomrule
+\end{tabular}
