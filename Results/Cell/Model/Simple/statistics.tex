@@ -1,0 +1,20 @@
+\begin{table}[h]
+  \caption{Modeling and simulation statistics for the simple fuel cell model}
+  \label{tab:SimpleStatistics}
+  \begin{singlespaced}%
+    \begin{tabular}{llll}%
+        \toprule 
+      & Standard model & \multicolumn{2}{c}{Simple model} \\
+      \cmidrule{3-4}
+      & (with analysis) & w/ analysis & w/o analysis \\
+        \midrule
+      Number of variables & 6887 & 4462 & 3564 \\
+      Number of time-varying variables & 2749 & 1650 & 866 \\
+      Number of states & 55 & 27 & 27 \\
+      Sizes of the nonlinear systems of equations & None & None & None \\
+      Translation time & \SI{23}{s} & \SI{18}{s} & \SI{15}{s} \\
+      Simulation time & \SI{1.56}{s} & \SI{0.222}{s} &  \SI{0.201}{s} \\
+      \bottomrule
+    \end{tabular}
+  \end{singlespaced}
+\end{table}

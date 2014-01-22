@@ -1,0 +1,253 @@
+\ProvidesPackage{davies-dissertation}
+    [2009/05/08  Custom settings for a dissertation]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Formatting and packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Tree diagrams
+\usepackage{tikz-qtree}
+\usetikzlibrary{trees}
+
+% Load misc. packages.  (Some must be loaded after tikz.)
+\usepackage{longtable} % For tables that span several pages
+\usepackage{tabu} % For tables with automatic-width columns
+% Note: longtable (which may be used through longtabu) is better than supertabular because it maintains the same column width across pages.
+\usepackage{lscape} % Support the landscape environment.  Advantage vs. rotating package: can rotate anything (not just figures and tables).
+\usepackage{rotating} % Advantage vs. lscape: floats correctly
+\usepackage{mdwlist} % Single space the lists (using itemize*, enumerate*, etc.).
+%\usepackage{color} % Enable colored text (e.g., hyperlinks) and markups.
+\usepackage{grffile} % Allow intermediate dots (.) in image filenames (necessary for model documentation).
+\usepackage{indentfirst} % Indent the first line of the first paragraph of a section.
+\usepackage{booktabs} % Improved table formatting
+\usepackage{url}
+\usepackage{nameref} % Reference sections, etc. by name (used in appendix).
+%\usepackage{enumitem} % Options for spacing in enumerate and itemize environments
+\usepackage{suffix} % Easy method to define starred versions of commands (\WithSuffix)
+\usepackage[section=chapter, nosuper, notree, nogroupskip, sanitize={name=false, description=true, symbol=false}]{glossaries} % Load the glossaries package.
+\usepackage{comment} % For \begin{comment}, \end{comment} (used in Appendix)
+\usepackage[textformat=period]{caption} % Automatically add a period to the captions, but not in the lists of tables and figures
+% \usepackage{morewrites}
+\usepackage{placeins} % For \FloatBarrier to keep figures within sections
+
+% To list references in place using \bibentry{}
+\usepackage{bibentry}
+\nobibliography*
+
+% Code listing
+\usepackage{listings}
+\usepackage{../Templates/lstpatch} % Listings patch
+\usepackage{../Templates/dtsyntax} % Listings syntax for Modelica (and others)
+\lstset{language=Modelica,
+        float,
+        frame=single,
+        breakatwhitespace=true} % Break only at white space
+\lstnewenvironment{modelicalisting}
+  {\renewcommand{\baselinestretch}{1.0}% Single spaced
+   \lstset{language=Modelica}}
+  {}
+
+% To cross-reference footnotes.
+% From http://tex.stackexchange.com/questions/35043/reference-different-places-to-the-same-footnote, 12/16/2013
+\newcommand\footnoteref[1]{\protected@xdef\@thefnmark{\ref{#1}}\@footnotemark}
+
+% Framed box
+\usepackage{framed}
+\setlength{\topsep}{0cm}
+\newenvironment{contextbox}
+{\vspace{-0.7em}
+   \begin{framed}
+    \begin{singlespaced}
+   \setlength\parindent{0pt}}
+{  \end{singlespaced}
+ \end{framed}}
+
+% Widow and orphan control
+%\widowpenalty=300
+%\clubpenalty=300
+\widowpenalty=10000
+\clubpenalty=10000
+
+% Don't allow the section headings at the bottom of the page.
+% http://tex.stackexchange.com/questions/2347/avoiding-page-breaks-shortly-after-section-subsection-headings, 130226
+% Seems to have bad side effects.
+%\usepackage{etex}
+%\usepackage{etoolbox}
+%\patchcmd{\@afterheading}%
+%    {\clubpenalty \@M}{\clubpenalties 2 \@M \@M}{}{}
+
+% Commands for thick lines
+\newcommand{\tvline}{\vrule width 1pt}
+\newcommand{\thline}{\noalign{\hrule height 1pt}}
+
+% Set up \epigraph command for quotes at beginning of chapters.
+\usepackage{epigraph}
+\setlength{\epigraphwidth}{0.5\textwidth}
+\setlength{\afterepigraphskip}{1cm}
+\renewcommand{\textflush}{flushepinormal}
+
+% Some graphics setup
+\definecolor{darkgreen}{rgb}{0,0.5,0}
+\epstopdfsetup{update, suffix=-\SourceExt-converted-to}
+
+% Number equations, figures, and tables within their chapters.
+\RequirePackage{amsmath}
+\numberwithin{equation}{chapter}
+\numberwithin{figure}{chapter}
+\numberwithin{table}{chapter}
+
+% Support PDF version 1.5 (otherwise, 1.4).
+\pdfminorversion=5
+
+% List the sections, but not subsections, of the appendices in the table of contents.
+%\setchaptertocdepth{4}
+\setappendixtocdepth{1}
+
+% Use Arabic numerals rather than Roman numerals for the chapters
+\renewcommand{\thegtchapter}{\thechapter}
+
+% Bibliography style
+%\bibliographystyle{Templates/gatech-thesis} % Georgia Tech standard (numbered, sorted alphabetically)
+\bibliographystyle{../Templates/gatech-thesis-unsrt} % Georgia Tech, but ordered by appearance
+% Note:  Dr. Harris asked that the references by ordered by appearance.  The
+% unsrt style and many others order the references by appearance, but are very
+% different than the gatech-thesis style.  The IEEE styles (ieee, ieeetr, and
+% IEEEannot) order the references by appearance and seem similar to the
+% gatech-thesis style, but do not seem to work with the Georgia Tech
+% dissertation class.
+
+% Don't list figures and tables from the appendix
+\let\oldappendix\appendix
+\renewcommand{\appendix}{
+  \captionsetup{list=false}
+  \oldappendix
+}
+
+% \newcommand{\subsubsubsection}[1]{\noindent\underline{\textbf{#1}}}
+
+% Switch for generating a lists of abbreviations, symbols, subscripts, and
+% superscripts
+\newif\iflosapage
+\losapagetrue % initially true by default
+
+\renewcommand{\do@losapage}{%
+    \iflosapage
+        \if@openright\cleardoublepage\else\clearpage\fi
+        % Must clear page here, so that phantomsection\addcontentsline is on
+        % the correct page
+        \phantomsection%
+        \settoheight{\gt@tmpa}{A}
+        \set@gttocskip{\gt@tmpa}
+        {\newlinestretch{1}
+         \addcontentsline{toc}{chapter}{\texorpdfstring{LISTS OF ABBREVIATIONS}{Lists of Abbreviations}}
+         \label{chap:ListOfAbbr}
+         \printglossary[title={LISTS OF ABBREVIATIONS}, type=abbr, style=longabbrsection, numberedsection=false]%
+         \glsresetall[abbr]
+        }
+    \newpage
+    \if@openright\cleardoublepage\else\clearpage\fi
+    % Must clear page here, so that phantomsection\addcontentsline is on the
+    % correct page
+    \phantomsection%
+    \settoheight{\gt@tmpa}{A}
+    \set@gttocskip{\gt@tmpa}
+    {\newlinestretch{1}
+     % KLD 3/12/12: Changed the title and the type to ``nota''.
+     %\printglossary[title={LIST OF MATHEMATICAL NOTATION
+     %                      \addcontentsline{toc}{chapter}{LIST OF MATHEMATICAL NOTATION}},
+     %               type=math, style=longnotasection, numberedsection=false, nonumberlist=true]%
+     \printglossary[title={NOMENCLATURE\label{chap:Nomenclature}%
+                           \addcontentsline{toc}{chapter}{\texorpdfstring{NOMENCLATURE}{Nomenclature}}%
+                           \footnote{\normalfont{The dimensions are noted in square brackets in terms of angle (A), length (L), mass (M), particle number (N), and time (T).  Please see Section \ref{sec:Quantities} for details.}}
+                           \footnote{\normalfont{Although not shown here, boldface is used to denote vector quantities and operators.}}}, %
+                    type=nota, style=longnotasection, numberedsection=false]%
+     % The addcontentsline command is within the title macro so that the
+     % bookmark is eliminated from the PDF if there are no entries.
+     }
+     \newpage
+     \fi
+}
+
+\renewcommand{\do@glossarypage}{%
+    \if@openright\cleardoublepage\else\clearpage\fi
+    % Must clear page here, so that phantomsection\addcontentsline is on the
+    % correct page
+    \phantomsection%
+    \settoheight{\gt@tmpa}{A}
+    \set@gttocskip{\gt@tmpa}
+    {\newlinestretch{1}
+     \printglossary[title={GLOSSARY\label{mark:Glossary}%%
+                           \addcontentsline{toc}{chapter}{\texorpdfstring{GLOSSARY}{Glossary}}},%
+                    type=main, style=listindex] %numberedsection=false, nonumberlist=true]%
+
+     % The addcontentsline command is within the title macro so that the
+     % bookmark is eliminated from the PDF if there are no entries.
+    }
+    \newpage
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Initial setup and options
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Choose draft or final formatting
+\newif\if@final       % draft by default
+\DeclareOption{final}{% package option
+    \@finaltrue
+}
+
+\ProcessOptions
+
+% Set up changebar (only for drafts).
+\if@final % \if@final is defined by the document class
+\else
+    \usepackage[outerbars, color]{changebar}
+    \ifx\pdfoutput\undefined
+    \else\ifnum\pdfoutput>0
+        \usepackage{pdfcolmk}
+    \fi\fi
+    \cbcolor{red}
+\fi
+
+% Note: In the document, use \cbstart and \cbend to start and end a change bar, respectively.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Settings for GaTechThesis class
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% The following are the defaults
+%    \titlepagetrue
+%    \signaturepagetrue
+%    \copyrightfalse
+%    \figurespagetrue
+%    \tablespagetrue
+%    \contentspagetrue
+%    \dedicationheadingfalse
+%    \bibpagetrue
+%    \thesisproposalfalse
+%    \strictmarginstrue  (needed for official copies, but looks bad)
+%    \listmajorfalse
+%    \multivolumefalse
+
+\copyrighttrue           % NOT default
+\dissertationtrue        % NOT default
+
+% \if@final                % \if@final is defined by the document class
+% %   \copyrighttrue       % NOT default
+% \else
+%     \strictmarginsfalse    % NOT default
+%     \signaturepagefalse    % NOT default
+% \fi
+
+% Use lowercase Roman numerals for footnote marks.
+\renewcommand{\thefootnote}{\roman{footnote}}
+
+% Create command to set font style of entire row in table
+% http://tex.stackexchange.com/questions/4811/make-first-row-of-table-all-bold, 130315
+% \usepackage{array}
+% \newcolumntype{$}{>{\global\let\currentrowstyle\relax}}
+% \newcolumntype{^}{>{\currentrowstyle}}
+% \newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1}%
+%   #1\ignorespaces
+% }

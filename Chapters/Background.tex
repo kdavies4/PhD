@@ -1,0 +1,375 @@
+\glsresetall
+
+
+In this chapter, we will review the literature and current developments in several related areas.  First, we will consider the \n{EOO} languages that are candidates for demonstrating the modeling contributions of this dissertation (\autoref{sec:EOOLanguages}).  Then we will describe the recent work to model fluid and chemical systems using the Modelica language in particular (\autoref{sec:Upstream}). Finally, we will review models of \glsreset{PEMFC}\np{PEMFC} with an emphasis on the modeling formalism (\autoref{sec:FCModels}).
+
+
+\section{Equation-Based, Object-Oriented (EOO) Modeling Languages}
+\label{sec:EOOLanguages}
+
+There are five major domain-neutral, \n{EOO} modeling languages in current use and development:  Modelica, VHDL-AMS, Verilog-AMS, gPROMS, and Simscape.  A brief overview of these languages is given in the following sections.  All the languages support \np{DAE} and conservation equations via the generalized Kirchhoff current law.  The differentiation is in their syntax, semantics, additional features, and available model libraries and tools.  Since syntax and semantics are somewhat subject to preference, we will focus only on the features and the available libraries and tools.
+
+Modelica, VHDL-AMS, and Verilog-AMS are standardized and tool-neutral, meaning that they are supported by multiple vendors whose software should operate on the same models.  This can help to prevent tool lock-in, or dependence on a particular vendor.  It also tends to encourage a community of open-source model developers.  The languages of gPROMS and Simscape are proprietary and integral to the modeling platforms of the same name by Process Systems Enterprise Limited and The MathWorks Inc., respectively.
+
+In addition to the major domain-neutral \n{EOO} modeling languages, there are several languages that offer capabilities or approaches that are not yet mainstream.  Sol is a domain-neutral \n{EOO} language that is based on Modelica and supports variable-structure systems~\cite{Zimmer2010}.  This is important, for example, in mechanics where connections may be made or broken during the course of a simulation.  Hydra is the most mature language that uses \n{FHM}~\cite{Broman2010}.  This approach is based on functional programming languages such as Haskell.  Functional programming is a method of declarative programming, so it is naturally appealing for declarative or equation-based modeling.
+
+Many other languages and platforms exist that are not simultaneously equation-based, object-oriented, and domain-neutral.  Languages such as Hybrid~$\chi$ and ASCEND are declarative but do not yet support declarative or acausal connections~\cite{Broman2010}.\footnote{This aspect of ASCEND is discussed at \url{http://www.ascend4.org/ascend_processmodeling.htm} (accessed Aug.\ 24, 2013).}  Engineering Equation Solver (EES; by F-Chart Software, LLC) is a declarative modeling tool that has an extensive thermodynamics library, but it does not support declarative connections either.  Numerous languages and platforms are declarative but are domain-specific---for example, aspenOne (Aspen Technology Inc.) for chemical process simulations.
+
+The background of Modelica and Simscape is more general and multi-physical than VHDL-AMS, Verilog-AMS, and gPROMS\@.  Although all five languages are neutral with respect to physical domains, the history is important because it has implications on the extent of the user base and the depth and breadth of the available tools and model libraries.  \autoref{tab:Languages} lists the absolute and relative numbers of articles that reference the languages in four major scientific and engineering databases: Compendex and InSpec (\url{http://www.engineeringvillage.com/}), ScienceDirect (\url{http://www.sciencedirect.com/}), and Web of Science (\url{http://apps.webofknowledge.com/}).  In addition, relative internet search interest is listed from Google Trends (\url{http://www.google.com/trends/}).  Modelica appears to dominate these indices; the smallest margin (12\%) is with gPROMS in ScienceDirect.
+% \url{http://www.google.com/trends/explore?q=vhdl-ams#q=Modelica%2C%20gPROMS%2C%20VHDL%20AMS%2C%20Verilog%20AMS%2C%20SimScape&date=1%2F2008%2049m&cmpt=q}
+
+\captionsetup[table]{textformat=simple}
+\begin{table}[hbtp]
+  \caption[Relative occurrence of declarative modeling languages]{Relative occurrence of declarative modeling languages.\footnotemark}
+  \label{tab:Languages}
+  \begin{tabular}{l rrr rr rrr rrr rrr}
+    \toprule
+     & \multicolumn{3}{c}{\textbf{Compendex}} & \multicolumn{2}{c}{\textbf{InSpec}} & \multicolumn{3}{c}{\textbf{ScienceDirect}} & \multicolumn{3}{c}{\textbf{Web of Science}} & \multicolumn{3}{c}{\textbf{Google Trends}} \\
+    \textbf{Name} & \multicolumn{3}{c}{\textbf{2013}} & \multicolumn{2}{c}{\textbf{2013}} & \multicolumn{3}{c}{\textbf{2013}} & \multicolumn{3}{c}{\textbf{2013}} & \multicolumn{3}{c}{\textbf{2008--2013}} \\
+    \cmidrule(lr){2-4} \cmidrule(lr){5-6} \cmidrule(lr){7-9} \cmidrule(lr){10-12} \cmidrule(lr){13-15}
+    & \# & Rel.\ && \# & Rel.\ & \# & Rel.\ && \# & Rel.\ && --- & Rel.\ \\
+    \midrule
+    Modelica & 108 & 66\% && 36 & 55\% & 112 & 48\% && 42 & 64\% && 74 & 63\% \\
+    VHDL-AMS & 22 & 13\% && 10 & 15\% & 15 & 6\% && 9 & 14\% && 11 & 9\% \\
+    Verilog-AMS & 4 & 2\% && 6 & 9\% & 9 & 4\% && 2 & 3\% && 3 & 3\% \\
+    gPROMS & 11 & 7\% && 3 & 5\% & 84 & 36\% && 7 & 11\% && 13 & 11\% \\
+    Simscape & 18 & 11\% && 10 & 15\% & 13 & 6\% && 6 & 9\% && 17 & 14\% \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+\captionsetup[table]{textformat=period}
+
+
+\subsection{Modelica}
+
+Modelica~\cite{Modelica3.3} was designed as a ``multi-formalism, multi-domain, general-purpose modeling language''~\cite{Elmqvist1997}.  The designers sought to unify the basic syntax and semantics of many modeling languages that were present in the late 1990s, including Dymola, Omola, NMF, SIDOPS+, Smile, ObjectMath, \nobreak{ASCEND}, and U.L.M.~\cite{Elmqvist1997, Astrom1998}.  Of these, gPROMS, VHDL-AMS, and \nobreak{ASCEND} are still independently active.  Dymola is now a modeling and simulation tool that supports Modelica.
+
+\footnotetext{The percentages have been rounded and may not add to 100\%.}
+
+The Modelica language specification is still evolving with new releases every year or two.  It includes keywords and operators for discrete as well as continuous systems.  Methods have been proposed to support \np{PDE}~\cite{Fritzson2004, Saldamli2006}, but they have not yet been integrated into the language~\cite{Modelica3.3}.  Meanwhile, an imperative block-based library is available that uses the \n{MOL} or the \n{FVM} to convert parabolic or hyperbolic \np{PDE} to \np{ODE}~\cite{Dshabarow2007, Dshabarow2008}. \footnote{Available as the PDELib package at \url{https://github.com/modelica-3rdparty/PDELib}.}
+
+% \cite{Saldamli2006}
+% - Language level
+% - define complex boundaries
+% - apply causality
+% Also explained at \url{https://www.ida.liu.se/labs/pelab/modelica/pde.shtml}
+
+% Dshabarow2008 - good discussion of history and trends in PDE solvers and Modelica
+% - limited to time-dependent problems
+% FORSIM VI reimplemented in Modelica
+% PDELib can use upstream discretization
+
+% Li2008 (``Description of PDE Models in Modelica,'' ``Solving PDE Models in Modelica''):
+% Exclude this
+% - Doesn't even properly cite the previous work of Dshabarow and Saldamli
+%   - Is it a copy of their work without attribution?
+% - Implies that gPROMS is limited to PDEs over rectangular domains
+%   - But Oh1996 does discuss parameterized boundaries in gPROMS
+
+Modelica is supported by a growing number of software tools including Dymola (Dassault Syst\`emes), SystemModeler (Wolfram Research), MapleSim (MapleSoft), AMESim (Siemens AG), CyModelica (CyDesign Labs), SimulationX (ITI GmbH), and MWorks (Suzhou Tongyuan).  In addition, there are free modeling and simulation environments including OpenModelica (Open Source Modelica Consortium) and JModelica (Modelon AB).
+
+Modelica has more than thirty free, open-source libraries contributed by the user community.\footnote{See \url{https://modelica.org/libraries}.}  The Modelica Association maintains the Modelica Standard Library, which contains well-established packages of thermal, fluid, electrical, magnetic, and mechanical components.  It also contains a package of thermodynamic and transport properties.
+
+
+\subsection{VHDL-AMS}
+
+VHDL-AMS is the combination of VHDL, a modern hardware description language, and extensions for analog and mixed signals.\footnote{VHDL-AMS stands for \underline{v}ery-high-speed integrated circuit (VHSIC) \underline{h}ardware \underline{d}escription \underline{l}anguage with \underline{a}nalog and \underline{m}ixed-\underline{s}ignal extensions.}  Whereas \np{HDL} have been used to describe the behavior of physical devices and processes since the 1960s, modern \np{HDL} also describe the structure of the device.  VHDL itself is an equation-based language for digital circuits in discrete time with events~\cite{Christen1999}.
+
+The analog and mixed signal extensions are not specific to the electrical domain~\cite{Christen1999, VHDLAMS2007}.  However, due to the history of VHDL, the extensions are particularly appealing in cases where it is desirable to incorporate a model of the physical system with a digital circuit (e.g., an \n{ASIC}).
+
+
+\subsection{Verilog-AMS}
+
+Verilog-AMS parallels VHDL-AMS in many aspects.  VHDL and Verilog are both \np{HDL}, and both have been extended for analog and mixed signals.  Verilog-AMS was developed and is maintained by the Accellera consortium~\cite{VerilogAMS2.3.4} but has not yet been standardized by IEEE like VHDL-AMS\@.  Verilog-AMS does not support replaceable or encapsulated models like Modelica and VHDL-AMS~\cite{Pecheux2005}.  The equations in an analog block of Verilog-AMS must be manually sorted, and implicit equations are not entirely supported~\cite{Pecheux2005}.  P\^echeux et al.~\cite{Pecheux2005} compare Verilog-AMS and VHDL-AMS in detail.
+
+
+\subsection{gPROMS}
+
+The gPROMS\footnote{gPROMS stands for \underline{g}eneral \underline{pro}cess \underline{m}odeling \underline{s}ystem.} language was created in 1992 to support combined discrete\slash{}continuous systems~\cite{Barton1992}.  Several years later it was extended for partial differential equations using the \n{MOL}~\cite{Oh1996}.  gPROMS is now a commercial product of Process Systems Enterprise (PSE).
+
+The gPROMS software suite is primarily marketed and applied to chemical process modeling~\cite{Broman2010}.  It has built-in tools for parameter estimation.  There are various add-on modules and libraries for chemical\slash{}physical properties and advanced components.  A fuel cell model library is also available.\footnote{See \url{http://www.psenterprise.com/gproms/aml/fc} (accessed Aug. 24, 2013).}
+
+
+\subsection{Simscape}
+
+Simscape~\cite{Mathworks2012, SimPowerSystems5} extends the Simulink control systems platform with support for physical system simulation.  The Simscape language is a relatively new offering from The Mathworks Inc.\ (October 2008)~\cite{MathWorks2008} and is likely the company's response to the predominance of Modelica.  Its syntax is somewhat similar to Modelica but is not based on an open standard.  Simscape includes libraries of mechanical, electrical, thermal, and hydraulic components which are similar in concept to those of the Modelica Standard Library.  However, they are integrated with the product rather than freely available.
+
+
+\section{Fluid\slash{}Chemical Modeling in Modelica}
+\label{sec:Upstream}
+
+Much of the literature in fluid dynamics and mass transfer uses \np{PDE}, but the core formalism of \n{EOO} models is differential algebraic.  \np{PDE} may be introduced by extensions to the \n{EOO} language (e.g., gPROMS~\cite{Oh1996}) or model libraries (e.g., Modelica~\cite{Modelica3.3}); however, the capabilities are limited compared to languages and tools that are designed primarily for \np{PDE} (e.g., OpenFOAM or COMSOL).  Thus, it may be best to implement analytical solutions or correlations to experiments or offline \n{CFD} simulations where possible.  Co-simulation is also becoming a strong option with the movement towards software interoperability (e.g., the \nname{FMI}---FMI).  However, in using co-simulation (as well as \n{PDE} extensions or libraries in an \n{EOO} environment), it is important to weigh the value of increased fidelity against the computational requirements of distributed submodels in an otherwise lumped-parameter model.
+
+Given the current limitations of including \np{PDE} in an \n{EOO} environment and the conceptual advantages of discrete-space representations (see \autoref{sec:ModelingApproach}), the following survey is limited to \n{DAE}-compatible representations of fluid and chemical systems.  It is also limited to the Modelica language, since it offers the largest base of open-source work in the area.  The discussion emphasizes advection and diffusion since they are central to fluid and chemical models.  A common theme is how the one-way nature of advection is handled given the two-way nature of equations and declarative language.  %In terms of differential equations, this type of problem is classified as parabolic~\cite{Patankar1980}.  In \np{DAE}, it is often addressed by an implementation the upwind scheme.
+
+% McGill University investigation into distributed heat flow in Modelica.
+
+
+\subsection{Without Coupled Advection}
+
+
+The easiest approach to modeling fluid\slash{}chemical systems is to ignore the advection of properties with the material stream.  In some physical situations, this is appropriate because the advection of momentum and energy is insignificant and the material flow is purely advective or diffusive.  For example, in chemical diffusion, the material flow may be slow enough that the rates of advection of momentum and energy are negligible or are dominated by translational and thermal diffusion (i.e., friction and thermal conduction).\footnote{As presented in \autoref{chap:Fundamentals}, purely diffusive material flow can cause thermal advection.  It should be noted that thermal convection is thermal conduction in series with thermal advection.}  These assumptions are implicit in the BioChem~\cite{Nilsson2003, Nilsson2005} and ADGenKinetics~\cite{Elsheikh2012} biochemical libraries.  Their connectors only consist of concentration as an effort variable and molar flow rate or volumetric reaction rate (respectively) as a flow.  In isothermal, isochoric, pressure-driven scenarios (e.g., simple pipe flow), there is no material diffusion.  Heat transport may not be of interest, and the rate of momentum transport (dynamic pressure times area) is proportional to the square of the rate of material advection.  Then it is only necessary to include the pressure and material (or mass) flow rate at each boundary.  This is the case in pure hydraulics (e.g., the OpenHydraulics library in Modelica~\cite{Paredis2008}).  It is also essentially the case for electrical circuits, where electrical conduction (a la Ohm's law) is actually material advection (of charge carriers).  %It is interesting that the model equations have the same form in the purely diffusive case (e.g., Fick's law) and the purely advective case (e.g., Poiseuille's law or Ohm's law).
+
+
+\subsection{Central Difference}
+
+Another approach is to include advection but ignore its one-way nature.  This is the essence of the central difference scheme.  It can be accomplished in an \n{EOO} framework by adding a diffusive pathway for the appropriate quantities (e.g., energy) to determine properties such as temperature at a boundary.  If the resistances to either side of a boundary are equal, then the value of a property at the boundary is the mean of the values in the neighboring subregions, just as it is in the central difference scheme.  Advection can then be determined using the mean value.
+
+Unfortunately, the central difference scheme gives unrealistic results when the rate of advection is large compared to the rate of diffusion~\cite{Patankar1980}. %[pp.\ 82--83]
+ It is generally accepted that some form of upstream discretization is necessary, and current Modelica libraries do not use the central difference scheme for fluid flow.
+
+
+
+\subsection{Without Coupled Diffusion}
+\label{sec:NoDiffusion}
+
+
+The third approach is to assume that the advection is not accompanied by any diffusion.  If there is no diffusion, then the advected property only depends on the material source(s).  This is the upwind scheme, also known as the upwind-difference scheme, the upstream-difference scheme, or the donor-cell method~\cite{Patankar1980}.  Unfortunately, the upwind scheme implies causality which is difficult to implement in declarative or acausal language.  It introduces challenges with respect to \begin{inparaenum}[(1)]\item the semantics of the language and \item the numerical robustness and computational efficiency under initialization, zero material flow, and flow reversal\end{inparaenum}.  These challenges have led to a number of sub-approaches, which are described in the following sections.
+
+Due to the assumption that the advected properties are not affected by diffusion, this approach is more appropriate for fluid networks than for chemical devices.  Diffusion could be added in parallel with the advective flow, but as mentioned in \autoref{sec:DeclarativeLimitations}, this would produce redundant and inconsistent intensive properties at a boundary.
+
+
+\subsubsection{Balanced Efforts and Flows}
+\label{sec:BalancedEffortFlow}
+
+One sub-approach, embodied by the \modelica{semiLinear} function of Modelica, is to implement the upwind scheme using pairs of effort and flow variables~\cite{Elmqvist2003}.  This is appealing because the effort\slash{}flow construct is well-established in \n{EOO} languages and supports an arbitrary number of connections at a node.  The advected property is like an effort in that it is equal among the connected models.  It can be calculated from the generalized Kirchhoff current law for the associated flow variable.
+
+The value of the advected property depends on the material source(s), so it is discontinuous upon reversal of the material or mass flow.  This is not generally a problem, but difficulties arise when the material or mass flow rates are zero or are not explicitly known.  If the mass flow rates are zero, then the effort variable (the advected property) disappears from the system of connection equations---a mathematical singularity.  If the mass flow rates are not known, they must be solved from the connection equations.  This is challenging because it is a nonlinear problem with Boolean expressions (the upwind conditions)~\cite{Franke2009}.
+
+
+\subsubsection{Special Connectors}
+\label{sec:SpecialConnectors}
+
+Other implementations add special variables to the connectors besides the primary effort\slash{}flow pair for material or mass transport.  The conservation equation associated with the advected property is instantiated multiple times for each node.  This is in contrast with the balanced effort\slash{}flow approach (previous section), where there is one conservation equation for every node---the generalized Kirchhoff current law.
+
+The standard approach in the Modelica language since version 3.1 (May 2009) is to use a connector where the \modelica{stream} keyword denotes a property which is advected with the material.  This property is not an effort or a flow, and in fact, it is not equal among connectors at a node.  A stream connector contains one driving property such as pressure, one flow variable such as mass flow rate, and one or more stream properties.  Model equations can reference a stream property directly or via built-in \modelica{inStream} or \modelica{actualStream} operators.  A direct reference yields the value of the property that would hypothetically occur if material is exiting a component.  The \modelica{inStream} operator returns the value that would occur if material is entering the component.  The \modelica{actualStream} operator returns the actual value which depends on the flow direction~\cite{Modelica3.3}.
+
+This organization avoids the need to devote a variable to the actual, mixed value of the advected property.  As mentioned previously (\autoref{sec:BalancedEffortFlow}), that value is ill-defined at zero-flow conditions and discontinuous upon flow reversal.  With the \modelica{actualStream} operator, it is determined only where it is needed, for example in the conservation equations of control volumes and in the definitions of variables for analysis and plotting.  In the conservation equations, it is multiplied by the material or mass flow rate such that the product is not discontinuous~\cite{Modelica3.3}.  In other cases, either the outflow value (direct reference to the stream variable) or the inflow value (\modelica{inStream} operator) is appropriate.  The outflow value usually depends on the thermodynamic state of a control volume (no Boolean conditions) or on inflow value(s).  The inflow value is calculated from a unique conservation equation for each connector given the assumption that fluid is entering the associated component.  Although the actual material or mass flow rates of the other connectors are used in the equation, this means fewer discontinuities~\cite{Franke2009}.  The Modelica specification requires that modeling tools implement a method of regularization to eliminate the singularities at zero material flow~\cite{Modelica3.3}.  However, since stream connectors are a relatively new addition to the Modelica language, some modeling tools do not fully support them.
+
+The Modelica Fluid library, which is part of the Modelica Standard Library, uses stream connectors to model \nfirst{1D} fluid networks~\cite{ModelicaSL3.2}.  Like the balanced effort\slash{}flow method (previous section), multiple stream connectors can be connected to a node.  
+
+Some \nfirst{1D} fluid libraries use custom upwind implementations that place restrictions on the connections.  Both ThermoSysPro~\cite{Hefni2011} and ThermoPower~\cite{Casella2006} each contain two basic types of fluid connectors.  A connection must consist of exactly one connector of each type; therefore, a stream can only be split or merged using special models~\cite{Franke2009}.  Essentially, a conservation equation is implemented for each of the two possible flow directions, but only one is selected at a given time.  ThermoSysPro uses only effort variables (no flows).  In fact, ``no physical meaning is assigned to the fluid connectors: they are considered as a means to pass information between components, so they are not part of the physical equations''~\cite{Hefni2011}.  Since Modelica 3.0 (Sep.\ 2007)~\cite{Modelica3.3}, this approach has been outlawed in order to improve model quality~\cite{Olsson2008}, but it is still allowed by some tools.  %Flow reversal is handled with explicit if\slash{}then\slash{}else statements.
+% ``It is planned to investigate the interest of taking diffusion into account for a more robust computation of flow reversal near zero-flow''~\cite{Hefni2011}
+ThermoPower uses opposing inputs and outputs to transmit information in the two possible downstream directions.  The correct signal is chosen depending on the direction of material flow~\cite{Casella2006, Franke2009}.  Unfortunately, the ThermoPower pipe models do not guarantee material conservation due to the method used to discretize the underlying \np{PDE}.
+%https://github.com/modelica-3rdparty/ThermoPower
+
+All of these libraries---Modelica Fluid, ThermoSysPro, and ThermoPower---use a staggered grid approach.  The dynamics of translational momentum, if included, are inside the pipe models.  The material and thermal dynamics is included in the volume models.  Typically, a fluid network consists of alternating volumes and pipes or other restrictive devices.  The staggered grid approach is one way of avoiding a wavy pressure and velocity profile along a flow path, which is an unrealistic model result~\cite{Patankar1980}.
+
+The Modelica Fluid, ThermoSysPro, and ThermoPower libraries use the Modelica Media library to varying degrees.  The Modelica Media library represents thermodynamic and transport properties of a large variety of fluids.  The concept is to use replaceable classes to describe the fluid properties within the hardware models (vessels, pipes, etc.).  This serves two purposes: to enhance the flexibility of the hardware models and to lessen the barrier to creating new hardware models.  There are currently two main drawbacks:  \begin{inparaenum}[(1)] \item the overhead of supporting all the necessary ways of accessing the same information and \item the fact that chemical species are not independently selectable\end{inparaenum}.
+
+% QSSFluidFlow (old; last update 2004)
+% \url{https://github.com/modelica-3rdparty/QSSFluidFlow}
+
+
+\subsubsection{Bond Graphs}
+\label{sec:BondGraphs}
+
+Another sub-approach of the upwind scheme is to use coupled bond graphs.  In bond graphs, there are no efforts and flows---not even for material or mass transport.  The built-in mechanism to generate the Kirchhoff circuit laws (\modelica{connect}) is not used~\cite{Broenink1999}.  Instead, junction models are used to implement these equations.
+
+Cellier et al.\ have developed libraries to model thermodynamic systems and chemical networks using these coupled bond graphs or ``multi-bonds''~\cite{Cellier2008, Cellier2009, Greifeneder2012}.  The bonds may be causal or acausal.  The connectors include multiple effort variables but no flow variables.  As mentioned previously, this approach is now illegal according to the Modelica language specification.
+
+ThermoBondLib, the thermodynamic library of Cellier et al., uses media models with relatively simple correlations instead of models from the Modelica Media library.  
+%https://github.com/modelica-3rdparty/ThermoBondLib
+The thermal conjugate variables are temperature and entropy flow rate.  However, thermal conduction is known to be nonlinear in this formulation~\cite{Hogan2006}.  Pseudo-bond graphs, which use heat flow rate instead of entropy flow rate, are often preferred~\cite{Bruun2009}.
+
+The compiled models of ThermoBondLib appear to have a significant amount of algebraic overhead due to the large number of basic models and connections associated with the bonds and junctions.  Another drawback of the additional models is that bond graphs are less intuitive than the typical circuit-based form of \n{EOO} models.  However, they may offer additional insight to skilled bond-graph modelers~\cite{Zupancic2013}.
+
+
+
+\section{Fuel Cell Models}
+\label{sec:FCModels}
+
+William Grove probably established the first fuel cell model in 1842 by describing the basic working principles of a fuel cell~\cite[pp.~3--4]{Chen2003}.  However, most of the recent \n{PEMFC} models can be traced to those developed by Springer et al.~\cite{Springer1991, Springer1993} and Bernardi and Verbrugge~\cite{Bernardi1991, Bernardi1992} in the early 1990s.  There are well over 200 of these models.\footnote{based on a count in 2004 by Weber and Newman \cite[p.~4681]{Weber2004ChemRev}}  
+
+Some of the recent or otherwise notable physics-based and phenomenological modeling papers are discussed in Sections~\ref{sec:PhysicsBasedFC} and \ref{sec:PhenomenologicalFC} below.  Here, a model is considered physics-based if it contains a form of the Navier-Stokes equations.  The \nfirst{EOO} fuel cell models are set aside for a separate, more detailed discussion in \autoref{sec:DeclarativeFC}.  Only models that include electrochemistry are included below.  Some papers do not include electrochemistry because they focus on fluid transport (e.g., \cite{Mennola2003}); others use neural networks instead of explicit electrochemical equations (e.g., \cite{Jemei2003}, \cite{Lee2004}).
+
+More information is available in the reviews by Weber and Newman~\cite{Weber2004ChemRev}, Wang~\cite{Wang2004}, Haraldsson and Wipke~\cite{Haraldsson2004}, Faghri and Guo~\cite{Faghri2005}, and Djilali~\cite{Djilali2007}.  In addition, the fuel cell modeling paper by Dawes et al.~\cite{Dawes2009} begins with a very good literature review.  
+
+% FC system models excluded unless have a detailed FC model.
+
+
+\subsection{Physics-Based}
+\label{sec:PhysicsBasedFC}
+
+Physics-based or theoretical models can be used to help explain observed behavior and evaluate hardware designs with relatively high spatial resolution.  However, they have not been used directly in the design and analysis of fuel cell control algorithms due to their computational complexity.  In theory, a \n{CFD} description could be linearized into state space for control analysis and design, but it is difficult to retain the essential physical behavior in the process~\cite{Gratton2004}.
+
+\autoref{tab:PhysicsBasedModels} summarizes the features of some notable physics-based \n{PEMFC} models.  The models all use a form of the Navier-Stokes equations to determine the velocity of the fluid.  Only Berning and Djilali~\cite{Berning2003} and Nguyen et al.~\cite{Nguyen2004} consider compressible flow.  The only dynamic model is by Wang and Wang~\cite{Wang2006}.
+
+To model material diffusion (e.g., through the \ntext{GDL}), either the Maxwell-Stefan equations (coupled rates) or Fick's law (independent rates) is used.  Several of the models that use Fick's law have diffusion coefficients that depend on the concentrations as presented by Slattery and Bird~\cite{Slattery1958}.
+
+Most of the physics-based models use the Nernst equation to determine the open circuit voltage and the Butler-Volmer equation to determine the overpotentials of each half reaction.  However, several of the models use simplifications.  Sousa et al.\ and Mazumder and Cole use a lumped Butler-Volmer equation for the anode and cathode~\cite{Mazumder2003a, Mazumder2003b}.  Sousa et al.\ heavily modify the Butler-Volmer equation~\cite{Sousa2012}.  Dutta et al., Chippar and Ju, Wang and Wang, and Um et al.\ use the Tafel equation for the cathode~\cite{Dutta2000, Chippar2012, Wang2006, Um2000, Um2004}.  Sivertsen and Djilali assume that the anode overpotential is constant~\cite{Sivertsen2005}, and Dutta et al.\ seem to assume that it is zero~\cite{Dutta2000}.  Chippar and Ju, Wang and Wang, and Um et al.\ linearize the anode Butler-Volmer equation~\cite{Chippar2012, Wang2006, Um2000, Um2004}.  Dawes et al.\ use a lumped Tafel expression with a fixed open circuit voltage~\cite{Dawes2009}.  Shimpalee et al.\ and Meng and Wang and do not include details of the reaction rate\slash{}overpotential relationship~\cite{Shimpalee2009, Meng2004, Meng2005}.  Um et al., Sivertsen and Djilali, and Nguyen et al.~\cite{Um2000, Um2004, Sivertsen2005, Nguyen2004} use an exchange current density which depends on temperature as determined by Parthasarathy et al.~\cite{Parthasarathy1992} and used by Fuller and Newman~\cite{Fuller1993}.
+
+All of the models are \nfirst{3D} with the exception of the oldest model by Gurau et al.~\cite{Gurau1998}.  Most of the models in the table (\ref{tab:PhysicsBasedModels}) are static, and this agrees with the observation of Weber and Newman over a larger set of models \cite[p.~4719]{Weber2004ChemRev}.  One exception is the work by Wang and Wang, but even it assumes constant temperature~\cite{Um2000, Wang2006}.  About half of the models are isothermal and half consider liquid water.  Of those that do include liquid water, several (at least Um et al.~\cite{Um2004}, Shimpalee et al.~\cite{Shimpalee2009}, and Obayopo et al.~\cite{Obayopo2013}) assume that the liquid and gas phases have the same velocity.
+
+% Due to the treatment of dynamics in \n{CFD} descriptions, the numerical method casts the flow field problem into a huge system of algebraic equations.  In reality, the gases are compressible, but \n{CFD} analyses usually assume incompressible flow.  These assumptions directly couple systems of algebraic equations that would otherwise be coupled through differential equations.  The assumptions that are applied to simplify the problem are precisely the ones that make it difficult to solve.
+
+Most of the physics-based models are implemented and simulated using a \n{CFD} package.  The \n{CFD} software spatially discretizes the physical domain so that a particular numerical method (often \ntext{FVM}) can be applied to convert the problem into a system of algebraic equations (if static) or differential algebraic equations (if dynamic).  This class of \n{PEMFC} models is growing rapidly due to the recent advancements in computing power and \n{CFD} packages.  In fact, three major \n{CFD} companies (ANSYS, CD-adapco, COMSOL) offer specialized off-the-shelf modules for fuel cell simulation~\cite{ANSYS12.0FC, CDadapcoFC, COMSOLFC}.  These have been used in at least one of the models listed in \autoref{tab:PhysicsBasedModels} (Shimpalee et al.).
+
+Due to the computational expense of \n{CFD} simulations, physics-based \n{PEMFC} models are usually limited to the single-cell or even sub-cell level (e.g., \ntext{GDL}).  The model of Shimpalee et al.\ is one exception; it encompasses an entire stack~\cite{Shimpalee2009}.
+
+\begin{landscape}
+  \begin{longtable}{lccccccl}
+    \caption[Features of selected physics-based fuel cell models]{Features of selected physics-based \n{PEMFC} models.  The bold entries indicate the most detailed modeling choices}%
+    \label{tab:PhysicsBasedModels} \\
+    \toprule
+       &  & \textbf{Dimen-} & \textbf{Dy-} &  & \textbf{Iso-} & \textbf{Comp-} & \vspace{-2ex}\\
+       \textbf{Author(s) and citation(s)} & \textbf{Year} & \textbf{sions} & \textbf{namic} & \textbf{Liquid} & \textbf{thermal} & \textbf{ressible} & \textbf{Material diffusion} \\
+    \midrule
+    \endfirsthead
+      \multicolumn{8}{l}{\ldots \textit{continued from the previous page}} \\
+       &  & \textbf{Dimen-} & \textbf{Dy-} &  & \textbf{Iso-} & \textbf{Comp-} & \vspace{-2ex}\\
+       \textbf{Author(s) and citation(s)} & \textbf{Year} & \textbf{sions} & \textbf{namic} & \textbf{Liquid} & \textbf{thermal} & \textbf{ressible} & \textbf{Material diffusion} \\
+    \midrule
+    \endhead
+    \midrule
+    \multicolumn{8}{r}{\textit{continued on the next page \ldots}}
+    \endfoot
+    \bottomrule
+    \endlastfoot
+    Gurau et al.~\cite{Gurau1998} & 1998 & 2 & No & \textbf{Yes} & \textbf{No} & No & Fick's law, dependent coefficients \\
+    Dutta et al.~\cite{Dutta2000} & 2000 & \textbf{3} & No & No & Yes & No & Fick's law, dependent coefficients \\
+    Um et al.~\cite{Um2000, Um2004} & 2000 & \textbf{3} & No & \textbf{Yes} & Yes & No & Unknown method \\
+    Berning \& Djilali~\cite{Berning2003} & 2003 & \textbf{3} & No & \textbf{Yes} & \textbf{No} & \textbf{Yes} & \textbf{Maxwell-Stefan} \\
+    Mazumder \& Cole~\cite{Mazumder2003a, Mazumder2003b} & 2003 & \textbf{3} & No & \textbf{Yes} & \textbf{No} & No & \textbf{Maxwell-Stefan} \\
+    Nguyen et al.~\cite{Nguyen2004} & 2004 & \textbf{3} & No & No & \textbf{No} & \textbf{Yes} & \textbf{Maxwell-Stefan} \\
+    Meng \& Wang~\cite{Meng2005} & 2005 & \textbf{3} & No & No & Yes & No & Fick's law \\
+    Sivertsen \& Djilali~\cite{Sivertsen2005} & 2005 & \textbf{3} & No & \textbf{Yes} & \textbf{No} & No & \textbf{Maxwell-Stefan} \\
+    Wang \& Wang~\cite{Wang2006} & 2006 & \textbf{3} & \textbf{Yes} & No & Yes & No & Fick's law \\
+    Dawes et al.~\cite{Dawes2009} & 2009 & \textbf{3} & No & No & Yes & No & Fick's law, dependent coefficients \\
+    Shimpalee et al.~\cite{Shimpalee2009} & 2009 & \textbf{3} & No & \textbf{Yes} & \textbf{No} & Unknown & Unknown method \\
+    Chippar \& Ju~\cite{Chippar2012} & 2012 & \textbf{3} & No & No & \textbf{No} & No & Fick's law, dependent coefficients \\
+    Sousa et al.~\cite{Sousa2012} & 2012 & \textbf{3} & No & \textbf{Yes} & Yes & No & \textbf{Maxwell-Stefan} \\
+    Obayopo et al.~\cite{Obayopo2013} & 2013 & \textbf{3} & No & \textbf{Yes} & \textbf{No} & No & Fick's law \\
+  \end{longtable}
+\end{landscape}
+
+% ``almost all of the CFD models use the Bernardi and Verbrugge approach of Schlogl's equation'' \cite[p.~4684]{Weber2004ChemRev}  However, in the general field of multi-component flow theory, Kerkoff and Geboers have raised concerns about that approach \cite[p.~3162]{Kerkhof2005ChemEngSci}.  They argue that the work by Chapman and Enskog has clouded the original contributions of Stefan and Maxwell \cite[p.~3163]{Kerkhof2005ChemEngSci}.  Many detailed models in the fuel cell literature describe diffusion via the dusty-gas model or derivatives of it, which are empirically based and may lead to mathematical singularities~\cite{Weber2005}.  Although the partial derivative equations (e.g., heat equation) are based on concurrent storage and transport, they cannot generally be solved directly.  The numerical approximations (e.g., \n{FDM}, \n{FEM}, \n{FVM}) assume local storage and distributed transport.
+
+% Volume of flow (VOF):~\cite{Djilali2006}
+
+% FEM, FVM, etc.:
+% -~\cite{Kreith2000}
+% -~\cite{Bhaskaran2009}
+% -~\cite{Peiro2005}
+% -~\cite{Mattiussi1997}
+
+% Other assumptions:
+% \cite{Sivertsen2005}:
+% ``- All water produced in the electrochemical reactions is assumed to be in the gas phase, and phase change and two phase-transport are not considered.
+% - The membrane is assumed to be fully humidified and its protonic conductivity is taken to be constant.
+% - The membrane is considered to be impermeable to gases and cross-over of reactant gases is neglected [13].
+% - Ohmic heating in the bipolar plates and in the gas diffusion electrodes is neglected due to high conductivity.
+% - Ohmic heating is neglected in the membrane.  Heat transport in the membrane is assumed to take place due to conduction only.
+% - Electro-neutrality prevails inside the membrane.  The proton concentration in the membrane is assumed to be constant and equal to the concentration of fixed sulfonic acid groups.
+% [...]
+% - The gas diffusion layer is assumed to be homogeneous and isotropic.''
+%
+% \cite{Berning2003}:
+% - No liquid water enters the cells at the inlets
+% - The gases entering the cell are fully humidified
+% - The product water is in the liquid phase
+% - Two-phase flow inside the porous media can be described by the unsaturated flow theory
+% - The liquid phase and the gas phase share the same pressure field inside the flow channels
+% - Both phases occupy a certain local volume fraction inside the porous media and their interaction is accounted for through a multifluid approach~\cite{Um2004}
+% - Ideal gas mixtures;
+% - Incompressible and laminar flow because of small pressure gradients and Reynolds numbers;
+% - Isotropic and homogeneous electrodes, catalyst layers and membrane;
+% - Negligible ohmic drop in the electronically-conductive solid matrix of porous electrodes, catalyst layers, and the current collectors; and
+% - Existence of liquid water in small volume fraction and as finely dispersed droplets (i.e.\ mist flow) so that it does not affect the gas flow, transport, and electrochemical processes.  This single-phase assumption then allows for super-saturation of water in the gas phase, namely the water activity greater than unity~\cite{Um2000} (i) ideal gas mixtures; (ii) incompressible and laminar flow because of small pressure gradients and flow velocities (iii) isotropic and homogeneous electrodes, catalyst layers, and membrane; (iv) constant cell temperature; and (v) negligible ohmic potential drop in the electronically conductive solid matrix of porous electrodes and catalyst layers as well as the current collectors.
+%
+% \cite{Gurau1998}:
+% - The gas mixtures are considered to be perfect gases.
+% - The volume occupied by liquid water in the gas channels coming from the gas diffusers is negligible (in gas channels, only gas mixtures are present).
+% - The flow is laminar everywhere.
+% - The gas mixture flows are incompressible.
+% - The gas diffusers, catalyst layers, and the \n{PEM} are considered each as isotropic porous media.
+%
+% \cite{Wang2006}:
+% - Constant gas concentration no mass source
+% - Given the spatial detail of the physical \n{PEMFC} models (as many as several million regions~\cite{Shimpalee2009}), it is surprising that bold assumptions are often applied (e.g., full hydrated membrane~\cite{Sivertsen2005}) and the polarization curves do not necessary match experimental data full hydrated membrane~\cite{Sivertsen2005}
+
+% Bad polarization curves:
+% - \cite[p.~73]{Sivertsen2005} (Djilali group)
+% - \cite[p.~A1514 \& A1516]{Mazumder2003a}
+% - \cite{Mazumder2003b}
+
+
+\subsection{Phenomenological}
+\label{sec:PhenomenologicalFC}
+
+Phenomenological or semi-empirical \n{PEMFC} models use correlations rather than momentum balances (i.e., Navier-Stokes) to relate properties such as pressure to material transport rates.  These correlations may be analytically derived (e.g., Poiseuille's law) or based on results from experiment or physics-based models.   %In some models, the correlations are not even explicit or deterministic.  Methods such as artificial neural networks, genetic algorithms, and particle swarm optimization have been applied to match fuel cell polarizations.
+Most phenomenological models are computationally smaller than physics-based models, so they are of particular interest for dynamic analyses, system- or application-level simulations (e.g, a fuel cell vehicle), and real-time embedded control~\cite{McCain2006}.  Phenomenological \n{PEMFC} models typically do not include as much detail as physics-based \n{PEMFC} models~\cite{Haraldsson2004}.  They are not necessarily less accurate, but the degree of uncertainty they introduce under extrapolation is generally greater.
+
+This class includes the models of Springer et al.~\cite{Springer1993, Springer1991}, Bernardi and Verbrugge~\cite{Bernardi1991, Bernardi1992}, Fuller and Newman~\cite{Fuller1993}, Nguyen et al.~\cite{Natarajan2001, Nguyen1993}, Bevers et al.~\cite{Bevers1997}, and many others.  The models are typically written in imperative languages such as Fortran, C, or \nobreak{MATLAB}.  With the recent interest in transient behavior, there is a trend towards high-level languages and graphical, signal-based tools with built-in integration algorithms such as MATLAB\slash{}Simulink~\cite{MATLABSimulink2007A}.  Complete fuel cell models are even commercially available for these platforms, for example MskFcStack and the fuel cell stack model in SimPowerSystems~\cite{LMSFC, SimPowerSystemsFC}.
+
+The phenomenological models are often based on a \nfirst{1D} lumped-parameter approach through the layers of the cell.  They have, however, been developed with up to two or even three dimensions in a limited manner (i.e, quasi-3D)~\cite{Park2012}.  The spatial discretization is manual and much lower in resolution than the physics-based models.  For instance, the most complex phenomenological model, that of Park and Min, has 225 control volumes \cite{Park2012}, whereas the physics-based models of Shimpalee et al.\ and Wang and Wang have \num{4823906} and \num{100000} grid points, respectively~\cite{Shimpalee2009, Wang2006}.
+
+Franco et al.\ have developed a multi-scale, modular \n{MEA} model based on irreversible thermodynamics and electrodynamics.  It is able to predict the effects of nominal current, reactant pressures, cell temperature, and electrode composition on the electro-impedance spectra.  Franco et al.\ used bond graphs to determine the appropriate causality at the nano scale.  The model does not encompass the entire cell.  It assumes that the feed gases are pure (no nitrogen) and saturated with water~\cite{Franco2006, Franco2007}.
+
+Some phenomenological \n{PEMFC} models have been developed specifically for control system analysis and design.  The group of Stefanopoulou and Peng have been particularly active in the area of modeling for \n{PEMFC} controls.  Of this group, Pukrushpan has addressed a broad range of topics within fuel cell control (e.g., real-time observation, multi-variable control, and air management)~\cite{Pukrushpan2004}.  Vahidi has applied \n{MPC} to \n{PEMFC} systems~\cite{Vahidi2004, Vahidi2006}.  The group has also created a detailed water dynamics model to support water management and a model with nitrogen accumulation in the anode to optimize the purge cycle of a \n{PEMFC} without anode recirculation~\cite{McKay2005, Chen2013}.
+
+% Fuzzy logic-based model with MPC, of SOFC:~\cite{Jurado2006}
+% Vanilla dynamic models for controls:~\cite{Correa2004, Grasser2007}
+% Dynamic model to speed up response via controller:~\cite{Chiu2004}
+% ``multiple piecewise linear models of the nonlinear system'', for control:~\cite{ChenGao2009}
+% Energetic macroscopic representation (EMR): ``EMR organizes a complex system such as a fuel cell stack in interconnected subsystems and implies to take into account the physical causality principles (an output can only be an integral function of an input).'' but physical systems are not causal, even if time delay or integral~\cite{Boulon2010}
+% Cathode only; compares 2 models:~\cite{Broka1997}
+% 2D for water management, in MATLAB:~\cite{Berg2004}
+% For system control, ``attempted to integrate component models for a PEM fuel cell power system that includes a stack, air supply system, thermal circuit and a PWM DC/DC converter as well as the associated control strategies'':~\cite{Choe2007}
+
+
+\subsection{Declarative}
+\label{sec:DeclarativeFC}
+
+Declarative or equation-based fuel cell models support symbolic manipulation.  As mentioned in \autoref{sec:DeclarativeAdvantages}, this allows a modeling tool to solve a model for the desired causality, linearize it, perform index reduction, and improve the numerical efficiency of simulations.  In contrast, most multidimensional fuel cell models have fixed causality~\cite{Meng2005}.  Zenith et al.\ noted that many fuel cell models are not suitable for control system design because they consider current density as an input, although in reality it is determined by the interaction between the fuel cell and the external load~\cite{Zenith2006}.  Declarative models can in theory remove this limitation and resolve that inconsistency.
+
+A declarative model may be modular or flat.  For the purposes of the sections below, a fuel cell model is considered modular if it has interconnected sub-models that are partitioned physically below the cell level.
+
+
+\subsubsection{Modular}
+
+There are six declarative modular or \nfirst{EOO} fuel cell models.  Five are of \np{PEMFC} and one is of a \n{SOFC}.  All of these models are phenomenological.  They are discussed below in order of publication.
+
+Steinmann and Treffinger developed a \n{PEMFC} model with lumped models for each of the seven layers.  It uses the dusty-gas model for transport through the cathode \n{GDL}, which encompasses Maxwell-Stefan multi-component diffusion and Knudsen pore interactions in parallel with advective mass flow.  It includes heat transport.  The results exhibit activation and Ohmic losses but no concentration loss.  The model does not appear to operate at open circuit.  Although no details are given on the overpotential\slash{}reaction rate equation, this may indicate that the Tafel approximation is used.  No model dynamics were reported~\cite{Steinmann2000}.  Treffinger and Goedecke used the model to simulate a hybrid electric drivetrain (battery and fuel cell)~\cite{Treffinger2002}.
+
+Rubio et al.\ openly and freely shared a dynamic three-layer lumped \n{PEMFC} model which includes electro-osmotic drag and double-layer capacitance.  It also includes Maxwell-Stefan multi-component diffusion and Knudsen pore interactions.  The assumptions are flexible.  It is capable of simulating cell flooding and electrical transients under a step electrical load.  The major limitations are that it is isothermal, does not include heat generation or models of the flow plates, and does not have external fluid or thermal connections (only electrical)~\cite{Rubio2005, Rubio2009, Rubio2010}.
+
+Davies and Moore published a quasi-\nfirst{2D} (through-the-cell and along-the-channel) dynamic \n{PEMFC} model. %\footnote{Robert Moore and I published this paper and extended abstract based on work completed before I enrolled at Georgia Tech, so they are mentioned here.}
+It also includes electro-osmotic drag and has flexible assumptions, but it is isothermal.  The model uses the Butler-Volmer equation by default.  The catalyst layers of the published version do not include chemical transport---only reactions and charge transport~\cite{Davies2007ElectrochemSocT, Davies2007FCSeminar}.
+
+% However, the model is prone to numerical issues and gives unreasonable results in some cases due to its transport equations.  It assumes that the flow through the cell is entirely diffusive and the flow along the channels is entirely advective.  Modelica's \modelica{semiLinear} function is used to apply the upwind scheme along the channels~\cite{Modelica3.3}.  However, the advective and diffusive flows are linked perpendicularly by a mixing scheme that assumed the concentration at the intersection is the average of the concentration at the two boundaries along the channel (advective axis).  Investigation into the numerical issues led to two conclusions: \begin{inparaenum}[(1)]\item the \texttt{semiLinear} operator was not designed to be used in this manner (in conjunction with diffusion)\footnote{based on a discussion with Hubertus Tummescheit (an architect of the Modelica Fluid library) at the Modelica Conference in Sep.~2009 (Como, Italy).} and \item the assumption of mixing according to an average is only appropriate if a flow is entirely diffusive~\cite{Patankar1980}, yet the flow along the axis upon which the mixing occurs (along-the-channel) was assumed to be exactly the opposite---entirely advective\end{inparaenum}.
+
+McCain et al.~\cite{McCain2006} implemented the model of McKay et al.~\cite{McKay2005} (mentioned above) within a declarative framework in order to perform \n{MOR} and linearize the model for control studies.  The model includes liquid water and considers the obstruction of pores.  It focuses on \nfirst{1D} diffusive transport through the cell layers (particularly the GDL), which is described using Fick's law via finite differences.  Each species can be discretized with different resolutions.  However, this requires a data bus that hides information about the interactions between species.  The overpotentials and the electrical resistances are not discussed.  These may not have been included in order to focus on chemical diffusion.  Heat transport is neglected as well~\cite{McCain2006}.
+
+Blunier et al.\ created a \n{PEMFC} model in VHDL-AMS with lumped models for each layer.  The model is linearly scaled to represent a fuel cell stack and simulated with system components.  The model assumes that there is no pressure loss down the cathode channels, the hydrogen pressure is constant, the cell is isothermal, and there is no anode overpotential.  Water can only leave the cell as vapor~\cite{Blunier2008, Gao2009}.
+
+Salogni and Colonna created a \nfirst{1D} model of a \n{SOFC}.  Along the channel, the cell is declarative, but each segment is internally causal.  The model considers gas transport and storage in the channels with the assumption of ideal gas and laminar flow.  It also includes the diffusion of ions through the electrolyte and heat storage in the gas and solid.
+% It also includes radiative heat transfer, which is much more important in \np{SOFC} than in \np{PEMFC}.
+The model assumes that the entire cell is adiabatic and that there is no thermal resistance in the \n{PEN} unit (equivalent to the \ntext{MEA} in a \n{PEMFC}).  The Nernst and Butler-Volmer equations are used to determine the electrochemical potential and the Maxwell-Stefan equations are used to describe multi-component diffusion.  The model interfaces are compatible with the ThermoPower library described above~\cite{Salogni2010}.
+
+Equivalent circuits are another type of declarative, modular representation that appears in \n{PEMFC} literature.  These often encompass the electrical resistances of the flow plates, \np{GDL}, and \n{PEM} as well as the electrical behavior of the electrode\slash{}electrolyte interface.  The electrode\slash{}electrolyte interface may be modeled using a Randles cell (with a capacitor and resistors) or more complex representations with Warburg or constant phase elements~\cite{Yuan2009}.  These representations can be used to represent the key features of the impedance spectra.  However, the equivalent circuits are not complete fuel cell models unless they include chemical and thermal transport and storage.  These effects can be modeled using separate equivalent circuits, but it becomes difficult to integrate all the domains in a flexible manner~\cite{Blunier2008}.  Another drawback is that there are no analytical expressions for the parameters of the electrical elements except to consider some simple factors such as nominal current and reactant concentration~\cite{Franco2007}.
+
+
+\subsubsection{Flat}
+
+Several other declarative fuel cell models are not modular below the cell or stack level.  Ungeth\"um developed a model of the cathode side of a \n{PEMFC} system for real-time simulation, but the model does not include the electrochemistry of the cell or the anode side of the system~\cite{Ungethum2005}.  Maringanti et al.\ implemented a model of the \np{GDL}, catalyst layers, and \n{PEM} of a \n{PEMFC} in Modelica.  However, it appears that the model is entirely textual with no modularity or external interfaces~\cite{Maringanti2005}.
+
+A line of system-level research has also developed from the \n{PEMFC} system model of Eborn et al.\ at the United Technologies Corporation (UTC) in 2003~\cite{Eborn2003}.  The earlier work was in Modelica, but gPROMS was used in 2005~\cite{Seshadri2005}.  Andersson and \r{A}berg, advised by Eborn, have also modeled SOFC systems in Modelica~\cite{Andersson2010, Andersson2011}.
+% \cite{Zhu2005}: Probably similar to Seshadri2005
+% Zhu, G., Ramaswamy, S., & Seshadri, P. (2005). Dynamic modeling of PEM fuel cell power plant. In AIChE Annual Meeting.
+% Abstract: ``System level dynamic models can be used in various stages of fuel cell power plant development activities to help guide plant and control design studies. To facilitate this, UTC Power has developed system level dynamic models for a number of its fuel cell power plants using equation-based simulation package gPROMS. A dynamic fuel cell stack model is at the core of these power plant models. The stack model includes kinetics and transport phenomenon that have a significant impact on overall system performance. It also has the flexibility to accommodate different configurations of fuel cell stack designs. This paper discusses the models, approaches to increasing model robustness, importance of
+% model validation and examples from our development efforts illustrating the use of such models to characterize and refine plant & control system performance.''
+
+Process Systems Enterprise Limited (PSE), the owner of the gPROMS language\slash{}environment mentioned in \autoref{sec:EOOLanguages}, offers gFuelCell, an off-the-shelf package for modeling \np{PEMFC} and \np{SOFC}.  It has declarative interfaces, but it does not appear be modular below the cell level.  It supports two- and \nfirst{3D} analyses.  In some examples, the \n{MEA} is interfaced to a \n{CFD} representation of the flow plates and channels~\cite{Matzopoulos2007}.  PSE claims that gFuelCell includes all the relevant physics and chemistry, but few details are publicly available~\cite{gFuelCell}.
+
+Modelon AB offers a commercial fuel cell package for system simulation in Modelica.  Like gFuelCell, has declarative interfaces but does not appear be modular below the cell level.  Few details are publicly available~\cite{ModelonFC}.
+
+Bruun developed a model of a \n{SOFC} system with integral causality using bond graphs.  It includes heat transfer.  Although the cell model consists of many bonds and junctions, the elements are not partitioned in a layer-based manner~\cite{Bruun2009}.
+
+
+
+\section{Summary}
+
+This chapter reviewed the current \nfirst{EOO} languages, the recent work to model fluid and chemical systems using the Modelica language in particular, and the very active area of fuel cell modeling.  The Modelica language was selected to implement the equations of the next chapter in a manner that is physics-based, modular, reconfigurable, and leads to numerically efficient and robust models.  The developments will be demonstrated in a fuel cell model.  From the previous section (\ref{sec:FCModels}), it is apparent that this will be the first declarative, physics-based fuel cell model.
+
+

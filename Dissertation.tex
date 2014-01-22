@@ -1,0 +1,143 @@
+%\documentclass[hyperref, twoside]{gatech-thesis}
+%\documentclass[hyperref, draft]{gatech-thesis}
+\documentclass[hyperref]{gatech-thesis}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Document information  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{\texorpdfstring%
+% Include formatting here:
+{Declarative Modeling of Coupled Advection and Diffusion\protect\\as Applied to Fuel Cells}%
+% but not here:
+{Declarative Modeling of Coupled Advection and Diffusion as Applied to Fuel Cells}}
+\author{Kevin L. Davies}
+\newcommand{\subject}{PhD Dissertation}
+\newcommand{\keywords}{declarative; acausal; equation based; object oriented; Modelica; model; advection; diffusion; transport; exchange; proton exchange membrane; PEM; fuel cell; FC}
+\department{George W.\ Woodruff School of Mechanical Engineering}
+\degree{Doctor of Philosophy}
+\gradyear{2014}
+\submitdate{May 2014}
+\approveddate{8 January 2014} % Date the last committee member signs the thesis form
+\committeechair{Dr.\ Christiaan J.J.\ Paredis}
+\principaladvisor{Dr.\ Comas L.\ Haynes}[Georgia Tech Research Institute]
+\firstreader{Dr.\ Tequila A.L.\  Harris}
+\secondreader{Dr.\ Sheldon M.\ Jeter}
+\thirdreader{Dr.\ Thomas F.\ Fuller}[Chemical and Biological Engineering]
+\fourthreader{Dr.\ Robert M.\ Moore}[Hawaii Natural Energy Institute][University of Hawaii]
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Load packages and files.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Load packages.
+\usepackage{../Templates/davies-math} % Load custom macros for math.
+\usepackage{../Templates/davies} % Load basic packages and macros.
+\usepackage{davies-dissertation} % Custom settings
+\usepackage{../Templates/davies-hyperref} % Create hyperlinks.
+\usepackage[glshyper]{../Templates/davies-glossaries} % Create custom macros based on the glossaries package.
+
+% Load glossary entries.
+\loadglsentries{../Nomenclature/main}
+\loadglsentries{../Nomenclature/stdabbr}
+\loadglsentries{../Nomenclature/acronyms}
+\loadglsentries{../Nomenclature/symbols}
+\loadglsentries{../Nomenclature/accents}
+\loadglsentries{../Nomenclature/underscores}
+\loadglsentries{../Nomenclature/superscripts}
+\loadglsentries{../Nomenclature/subscripts}
+\loadglsentries{../Nomenclature/species}
+% The following abbreviations are used without being listed or called out:
+% e.g., i.e., etc., misc., vs.
+% vol., no., ed., p., pp., ver.
+% Inc., Ph.D., U.S.
+% SI unit abbreviations
+% Abbreviations of journal titles
+% 3-letter abbreviations of the months
+% 2-letter abbreviations of the states of the United States
+
+% Set up the references.
+\bibfiles{../References/primary}
+
+% Specify where images are located.
+% This can be used to build the dissertation with alternate images.
+\graphicspath{{Figures/}, {Figures/Master/ModelPDFs/}, {Figures/Master/ModelHelp/}}
+
+% Extract equations to a separate file.  
+% 3/12/12:  The \contents line must be commented out in order to use this feature.  Otherwise, there is an error: ``No room for a new \write.''
+% \usepackage[active, header=false, handles=false, copydocumentclass=false, generate=equations, extract-env={equation, subequations, multline}]{extract}
+% Extract tables to a separate file. 
+% \usepackage[active, header=false, handles=false, copydocumentclass=false, generate=tables, extract-env={table, longtabu}]{extract}
+
+\begin{document}
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %% Front matter
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  \begin{preliminary}
+    \input{FrontMatter/Publication}
+    \input{FrontMatter/Dedication}
+    \input{FrontMatter/Acknowledgements}
+     \contents % TOC, nomenclature, glossary, and lists of tables, figures, and abbreviations
+    \begin{summary} % The summary environment is opened and closed here so that the summary can be generated as a stand-alone document.
+      \input{FrontMatter/Summary} 
+    \end{summary}
+  \end{preliminary}
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %% Chapters
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  \chapter{Introduction}
+  \label{chap:Introduction}
+  \input{Chapters/Intro}
+
+  \chapter{Background}
+  \label{chap:Background}
+  \input{Chapters/Background}
+
+  \chapter{Fundamentals of the Model}
+  \label{chap:Fundamentals}
+  \input{Chapters/Fundamentals}
+
+  \chapter{Implementation of the Model}
+  \label{chap:Implementation}
+  \input{Chapters/Implementation}
+
+  \chapter{Basic Examples}
+  \label{chap:Basic}
+  \input{Chapters/Basic}
+
+  \chapter{Simulation of the Fuel Cell Model}
+  \label{chap:Cell}
+  \input{Chapters/Cell}
+
+  \chapter{Conclusions}
+  \label{chap:Conclusions}%
+  \input{Chapters/Conclusions}
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %% Appendices
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  \appendix
+
+  \chapter{Related Theory}
+  \label{chap:RelatedTheory}
+  \input{Appendices/RelatedTheory}
+
+%   \chapter{Selected Documentation and Source Code}
+%   \label{chap:Doc}
+%   \input{Appendices/Doc}
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %% Back matter
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  \begin{postliminary}
+    \references
+  \end{postliminary}
+
+\end{document}

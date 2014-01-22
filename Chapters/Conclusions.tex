@@ -1,0 +1,236 @@
+\glsresetall
+
+%\begin{singlespaced}
+%  \epigraph{``The functionality and usefulness of computational fuel cell models in a design environment will require the effective and robust integration of the various submodels in a [computational fuel cell engineering] framework [\dots]. This will necessitate the development of novel algorithms that take into account the specific nature of the couplings, the large range of scales encountered in PEMFCs fuel cells [sic], and the multi-variable nature of the optimization problems.''}{\sc N.\ Djilali~\cite{Djilali2006}}
+%\end{singlespaced}
+
+\section{Recapitulation}
+
+In the first chapter, the advantages of declarative modeling were presented.  Although declarative modeling has been successfully applied to many domains (e.g., electrical, thermal, and mechanical), there is no widely accepted way to apply it to chemical\slash{}fluid devices.  One of the main reasons is that these devices involve both advection and diffusion.  It is sometimes appropriate to assume pure diffusion or pure advection, but each assumption leads to different implementations in declarative language.  The goal of this work has been to realize the advantages of declarative modeling for complex physical systems that involve both advection and diffusion to varying degrees in multiple domains.  
+
+The first research question established in the first chapter was the following:
+\begin{enumerate}[\bfseries RQ1:]
+  \item How can we create a generic declarative framework to model systems with processes that exhibit coupled advection and diffusion?
+\end{enumerate}
+The approach that is presented, justified, and demonstrated in this work is to use effort\slash{}flow pairs with a custom, generic upstream discretization scheme.  It reduces to the central difference scheme under pure diffusion and the upstream scheme under pure advection.  The transition between these two extremes is gradual, and no switching events are generated.  No mathematical causality is assigned.  No nonlinear systems of equations are generated, regardless of the size of the physical system.  The approach is compatible with traditional declarative connectors because there is exactly one effort for each flow.  However, unique choices are made regarding the quantities used as efforts and flows.  The effort\slash{}flow pairs established in \autoref{tab:Connectors2} allow exact conservation equations for material, translational momentum, and energy.\footnote{The only caveat is that the thermodynamic pressure at a boundary is biased by the dynamic pressure unless nonlinear equations are introduced.  However, this is not a violation of the conservation of momentum or energy since the error is consistent between neighboring subregions.}
+
+
+\begin{sidewaystable}[hbtp]
+  \caption{Effort\slash{}flow pairs of the connectors (duplicate of \autoref{tab:Connectors})}
+  \label{tab:Connectors2}
+  \input{Tables/Connectors}
+\end{sidewaystable}
+
+
+The second research question was:
+\begin{enumerate}[\bfseries RQ2:]
+  \item How can the equations be best implemented to reflect the physical structure of a device and support reconfiguration?
+\end{enumerate}
+By implementing individual chemical species as models with connectors, the approach follows the advice of Cellier to reduce the semantic distance between the lowest graphical objects and the textual equations~\cite{Cellier2009}.  The \modelica{Species} model describes both storage and transport, which is more physically representative than the traditional lumped parameter method (i.e., modeling a fluid network as a set of alternating volumes and pipes).  The model equations are implemented in an \n{EOO} modeling language.  The object-oriented structure corresponds to a physical device:  models of chemical species are instantiated within phases and phases are instantiated within subregions.  Multiple subregions are combined to form regions, and regions are connected to build assemblies such as a fuel cell.  
+
+Material and energy are stored within the subregions.  Momentum is stored at the boundaries.  This is essentially the staggered grid concept, which is known to avoid the possibility of a wavy pressure and velocity profile~\cite{Patankar1980}.  %It has physical meaning as well, since the uncertainty principle states that momentum and position cannot be simultaneously known.  
+
+The \n{EOO} approach is even used for chemical reactions, where the stoichiometry of a reaction is represented neatly by submodels for each species (\autoref{fig:Reactions}).  It is also used to constrain the relations between the pressures and volumes of species and phases (e.g., Amagat's law, Dalton's law, and the Young-Laplace equation).
+
+The implementation is highly reconfigurable, as indicated by the wide array of examples in \autoref{chap:Basic} that are all built by assembling the same subregion in various ways.  Species can be included or excluded.  Assumptions can be applied using parameters.  It is possible to directly couple certain properties (e.g., temperature) within sets of species.  Through index reduction, this reduces the number of states and yields a simpler model.  
+
+The third research question had three parts:\nopagebreak
+\begin{enumerate}[\bfseries RQ3:]
+  \item How appropriate is the framework for modeling all the relevant physical phenomena of an electrochemical device such as a fuel cell?
+  \begin{enumerate}[\bfseries a:]
+    \item For which processes is it necessary to model mixed advection and diffusion?  Where is it appropriate to assume pure advection or pure diffusion?
+    \item What characteristics do the models exhibit that would not be present given an imperative formalism?
+    \item Which combinations of accuracy and speed can be achieved by adjusting fidelity?
+  \end{enumerate}
+\end{enumerate}
+A fuel cell model was successfully demonstrated using the modeling framework.  The model simulates very efficiently and offers a high level of detail regarding physical properties and interactions, as shown in \autoref{chap:Cell}.  However, the physical accuracy is currently less than desirable.  It appears that this could be due to parameter settings,  but it will be difficult to know for sure until the fuel cell model library is thoroughly vetted.  For this reason and in the spirit of open-source collaboration, the library has been made publicly available.
+
+Regarding the first subquestion (RQ3a), advection and diffusion are generally both considered for transport processes.  Often advection or diffusion dominates, but using the modeling framework, it is convenient and does not appear to introduce unmanageable complexity to always consider the possibility of both advection and diffusion.  The exception is solid materials.  For solids, the base \modelica{Species} model is extended to create a simplified version that does not include material transport.  Thus, advective transport is eliminated.  For exchange (as opposed to transport), it has been appropriate to consider that advection and diffusion occur along separate pathways.  The general advective\slash{}diffusive equation reduces to special cases for pure advection and diffusion.  Pure diffusion is assumed for interactions that do not involve chemical reactions or phase change, as there is no material exchange.  Pure advection is assumed for the exchange of momentum and energy among species along with chemical reactions and phase change.
+
+Regarding the second subquestion (RQ3b), declarative modeling has been beneficial for several reasons which have been demonstrated.  The first is index reduction, which has been used to create versions of the fuel cell model which do and do not assume the same temperature of all phases in the flow plates.  Since index reduction is performed automatically, these types of assumptions are easy to manage.  The second reason is model reuse.  It would not have been possible to demonstrate all of the examples in \autoref{chap:Basic}, given all of the various boundary conditions, with a single base imperative model.  Third, the fuel cell model simply could not have been created in an imperative, object-oriented formalism given the level of complexity of the interactions that were included.  Djilali states that ``[o]ne of the most challenging aspects of computational modelling of PEMFCs is the multi-physics nature of the transport processes, and the coupling between these processes [\dots].''~\cite{Djilali2007}  \n{EOO} modeling has helped with that challenge.  The fourth reason is computational efficiency.  The algebraic manipulation necessary to create a numerically efficient segmented fuel cell model with 42 subregions (7 layers $\times$ 6 segments) and \num{12711} time-varying equations could not be completed manually.  Yet the declarative modeling tool performs this task in \SI{67}{s} on a current laptop computer.   The compiled model takes less than \SI{19}{s} to simulate.  Finally, the \n{EOO} implementation has allowed the model to be structured like the physical fuel cell.  This is an advantage because as stated by Franke et al., ``[t]he understanding of simulation models is generally simplified if the modular model structure corresponds to the structure of actual physical devices.''~\cite{Franke2009}
+
+Regarding the third subquestion (RQ3c), a wide fairly range of fidelity has been demonstrated, especially in the fuel cell model.  The standard fuel cell model yields a polarization curve in \SI{1.56}{s} with 55 states, whereas a simplified model simulates in \SI{0.22}{s} with 27 states.  A segmented cell with six segments down the length of the channel has 266 states and simulates in \SI{18.8}{s}.  The effect of model detail on physical accuracy is currently difficult to establish since there is still a significant difference between the results of the model and experiment.
+
+The fuel cell model fits in the space of physical detail and computational complexity somewhere between simple \n{0D} models and \n{CFD} models with high spatial resolution.  This is an important gap because \n{0D} models often do not provide enough insight into physical behavior, yet \n{CFD} models are unwieldy for dynamic design studies.  The models simulate quickly enough to be manageable for design studies of the fuel cell or combined with other models (e.g., \modelica{Modelica.Fluid}) to study larger systems.  The simplified cell model may be simple enough to run in real time, although the fast simulation time may be largely due to the variable-step solver, which is not available in real-time, embedded simulation.  
+
+
+\section{Contributions}
+
+\subsection{Primary}
+
+\begin{itemize*}
+
+  \item Creation of an upstream discretization scheme that is suitable for declarative implementation
+    \begin{itemize*}
+      \item Avoids the numerical singularity of the exponential scheme~\cite{Patankar1980} at pure diffusion
+      \item Avoids the switching behavior of the upwind scheme upon flow reversal
+      \item Used in the fuel cell model library and a \n{1D} fluid network to represent a Rankine power plant:\\
+      \vspace{-4ex}
+      \begin{itemize*}%
+        \item[$\circ$] \bibentry{Binder2014}
+      \end{itemize*}
+    \end{itemize*}
+    
+  \item Creation of a set of dynamic chemical\slash{}fluid\slash{}thermal equations that are well-structured for implementation in \n{EOO} language
+    \begin{itemize*}
+      \item Includes the transport, storage, and exchange of material, momentum, and energy
+      \item Exact conservation equations
+      \item No nonlinear systems of equations
+      \item No switching equations except for chemical reactions and phase change
+      \item Avoids the problems of the dusty gas model noted in~\cite{Kulikovsky1999, Weber2005}
+    \end{itemize*}
+  
+  \item Development of derivations that relate the model equations to selected theories in solid state physics, fluid dynamics, mass and heat transfer, electrochemistry, and thermodynamics (\autoref{chap:Fundamentals} and \autoref{chap:RelatedTheory})
+
+  \item Derivation and implementation of equations that relate various thermodynamic properties to \begin{inparaenum}[(1)]\item specific heat capacities represented as functions of temperature in the form of McBride et al.~\cite{McBride2002} and \item a virial equation of state where the coefficients are polynomials of temperature\end{inparaenum} (Sections~\ref{sec:DerivedThermo} and \ref{sec:FCSys_Characteristics_BaseClasses_Characteristic})
+    \begin{itemize*}
+      \item Suitable for incompressible species and ideal gases, but more general than either
+      \item Properties are exact given the virial coefficients and heat capacity coefficients
+      \item Polynomials are supported up to any degree
+    \end{itemize*}
+
+  \item Creation of FCSys, an open-source Modelica library for modeling fuel cells (\autoref{chap:Implementation} and \autoref{chap:Doc})
+    \begin{itemize*}
+       \item The first \n{3D} fluid/thermal/chemical model in Modelica
+       \item The first declarative, physics-based fuel cell model
+       \item Key features:
+       \begin{itemize*}
+          \item[$\circ$] Multi-component, multi-phase
+          \item[$\circ$] Based on first principles
+          \item[$\circ$] Numerically efficient
+          \item[$\circ$] Modular and reconfigurable in terms of spatial resolution and dimensionality, choices of species, and assumptions about properties and processes
+        \end{itemize*}%
+
+      \item Included phenomena:
+        \begin{itemize*}
+          \item[$\circ$] Diffusion and pressure-driven transport
+          \item[$\circ$] Dynamic storage of material, momentum, and energy
+          \item[$\circ$] Electrochemical reactions
+          \item[$\circ$] Phase change (of \s{H2O} among three phases: gas, liquid, and absorbed in ionomer)
+          \item[$\circ$] Binary diffusion
+          \item[$\circ$] Electrical conduction
+          \item[$\circ$] Thermal conduction and convection
+          \item[$\circ$] Electro-osmotic drag
+          \item[$\circ$] Capillary pressure
+        \end{itemize*}%
+
+      \item Meets the requirements of a good, general-purpose, object-oriented thermo-fluid modeling framework established by Franke et al.~\cite{Franke2009}
+
+      \item Available for download from \url{http://kdavies4.github.io/FCSys/} and the Modelica web page at \url{https://www.modelica.org/libraries}
+
+      \item Published in the following papers:\\
+      \vspace{-4ex}
+      \begin{itemize*}%
+        \item[$\circ$] \bibentry{Davies2012ModelicaLibrary}
+        \item[$\circ$] \bibentry{Davies2009ModelicaLibrary}
+        \item[$\circ$] \bibentry{Davies2009ModelicaReactionDiffusion}
+        \item[$\circ$] \bibentry{Davies2007ElectrochemSocT}
+      \end{itemize*}%
+    \end{itemize*}%
+
+  \item Surveys of literature related to: 
+    \begin{itemize*}
+      \item \N{EOO} modeling languages (\autoref{sec:EOOLanguages})
+      \item Approaches to modeling fluid systems in Modelica (\autoref{sec:Upstream})
+      \item Fuel cell models, with an emphasis on declarative models (\autoref{sec:FCModels})
+    \end{itemize*}%
+
+  \item Model-based investigation of a \n{PEMFC} including losses and heat generation, water transport and storage, and electro-osmotic drag (\autoref{sec:Baseline})
+
+  \item Assessment of the accuracy of the \n{PEMFC} model's polarization curves under various temperatures, pressures, humidities, and flow rates (Sections~\ref{sec:Baseline}--\ref{sec:CaHumidity})
+
+  \item Assessment of the computational complexity of the fuel cell models (\autoref{chap:Cell})
+
+  \item Creation of a flexible method to establish systems of physical units from fundamental constants (Sections~\ref{sec:Units} and~\ref{sec:FCSys_Units})
+    \begin{itemize*}
+      \item Key features:
+        \begin{itemize*}
+          \item[$\circ$] Supports unit conversion inherently
+          \item[$\circ$] Relates all units, including those of \glstext{SI} (besides the lumen), to six fundamental physical constants
+          \item[$\circ$] No other empirical constants are required
+          \item[$\circ$] Organizes quantities by physical dimensionality
+        \end{itemize*}
+    
+      \item Initial implementation published as follows:\\      \vspace{-4ex}
+      \begin{itemize*}%
+        \item[$\circ$] \bibentry{Davies2012ModelicaUnits}
+      \end{itemize*}%
+    \end{itemize*}
+\end{itemize*}
+
+
+\subsection{Secondary}
+
+\begin{itemize*}
+
+  \item Creation of ModelicaRes, an open-source Python package to analyze and plot the results of Modelica simulations
+    \begin{itemize*}
+      \item Used to analyze data and create all the plots for Chapters~\ref{chap:Basic} and~\ref{chap:Cell}
+      \item Available online at \url{http://kdavies4.github.io/ModelicaRes/} and from the Modelica web page at \url{https://www.modelica.org/tools}
+    \end{itemize*}
+
+  \item Based on the initial work of Yannick Chopin, the development of a module for Sankey diagrams in matplotlib
+    \begin{itemize*}
+      \item Used to create Figures~\ref{fig:BaselineEnergy} and~\ref{fig:BaselineWater}
+      \item Now a standard part of matplotlib (documentation at \url{http://matplotlib.org/api/sankey_api.html})
+    \end{itemize*}
+
+  \item Submission of several functions for the Modelica Standard Library 
+  \begin{itemize*}
+    \item Used in the fuel cell model library
+    \item Included in the \modelica{Modelica.Math.BooleanVectors} package
+  \end{itemize*}
+
+  \item Translation of a \n{SOFC} model from C~code to Embedded MATLAB for real-time simulation
+  \begin{itemize*}
+    \item Led to the following publication:\\      \vspace{-4ex}
+    \begin{itemize*}
+      \item[$\circ$] \bibentry{Hughes2011}
+    \end{itemize*}
+  \end{itemize*}
+\end{itemize*}
+
+
+\section{Future Work}
+
+\begin{itemize*}
+  \item Re-derive the physical topics and laws (\autoref{tab:Derivations}) that relate to material transport.  As implemented, the momentum balances are located at and are normal to the boundaries of a subregion.  Material advection and diffusion are included within the subregion and are not distinguished.  This should be proven to relate directly to the established theories.
+
+  \item Further calibrate and validate the fuel cell model.  In \autoref{chap:Cell}, the free parameters were manually calibrated.  An accurate calibration would require a sensitivity analysis and parameter identification.  The calibration and validation should consider dynamic behavior and the current distribution of the segmented cell model.  As stated by Meng and Wang~\cite{Meng2004}, ``an experimental validation of a PEFC model based on the polarization curve alone is insufficient, and [\ldots]\ detailed current density distribution data in the along-channel direction is essential.''
+
+  \item Further investigations using the fuel cell model:
+  \begin{itemize*}
+    \item Run the segmented cell under counter flow.
+
+    \item Consider the effects of reactant impurities and manufacturing defects on the performance of the cell over time (i.e., degradation).
+
+    \item Evaluate the electro-impedance spectra using a linearized, state-space version of the model.
+
+    \item Perform trade-off studies for system design, for example to establish the optimal air supply, humidification, or thermal management.  It may be possible to use the acausal nature of the model to directly determine some control set points.  In theory, the voltage or efficiency could be specified instead of a set point such as outlet pressure.  The simulation would yield the pressure necessary to achieve the voltage or efficiency.
+  \end{itemize*}
+   
+  \item Combine the fuel cell model with models from \modelica{Modelica.Fluid} to describe an entire fuel cell system.
+
+  \item Use the fuel cell model for optimal model-based control of a fuel cell system.  It may be possible to use a linearized version of the model.  Tools are available to automatically linearize declarative models.
+
+  \item Extend the modeling framework to complex grids (beyond rectangular cubic).  This may become more feasible in Modelica as the language evolves, or it may be best done with offline tools to generate Modelica code.
+
+  \item Create a \n{3D} electrochemical\slash{}fluid package for the Modelica Standard Library.  This could complement the existing \n{1D} \modelica{Modelica.Fluid} package just as the \n{3D} \modelica{Modelica.Mechanical.Multibody} packages complements the \n{1D} \modelica{Modelica.Mechanical.Rotational} and \modelica{Modelica.Mechanical.Translational} packages.
+
+  \item Enhancements to Modelica language and tools:
+  \begin{itemize*}
+
+    \item Add the capability to label bus (expandable) connections according to a string variable.  This would simplify some of the models of the fuel cell library.
+
+    \item Leverage the repetitive structure of a model like the segmented fuel cell to reduce the translation time, reduce the simulation time by using parallel processing, and allow larger models by managing memory more efficiently during simulation.
+  \end{itemize*}
+
+\end{itemize*}
+
+
+\section{Final Comments}
+
+A large amount of work is required to develop \n{EOO} models beyond the well-established domains.  However, the potential rewards are also large in terms of not only the usefulness of \n{EOO} models, but also the knowledge that comes with creating the models.  The structural and mathematical constraints of \n{EOO} language seem to force a thorough understanding of the relevant physics.  This work challenges us to ask the questions posed by Willems~\cite{Willems2007}: 
+\begin{quote}
+  Did we, system theorists, get the physics right?  Do our basic model structures adequately translate physical reality?  Does the way in which we view interconnections respect the physics?
+\end{quote}

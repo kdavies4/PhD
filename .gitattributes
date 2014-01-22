@@ -1,20 +1,30 @@
 # Keep the development files and work in progress on the development branch.
 00-* merge=ours
 *old* merge=ours
-*Old* merge=ours
 Future merge=ours
-best-practices.txt merge=ours
-todo.md merge=ours
+best*practices.* merge=ours
+TODO merge=ours
 zz-Placeholder* merge=ours
 html2latex-1.1 merge=ours
 dsin.txt merge=ours
+*.mat merge=ours
+dslin.mat merge=ours
 dslog.txt merge=ours
+dsfinal.txt merge=ours
+dymosim.exe merge=ours
+dymosim merge=ours
+dymolalg.txt merge=ours
+translg.txt merge=ours
 *.py merge=ours
 *.sh merge=ours
 *.mos merge=ours
 *.svg merge=ours
 *.cdf merge=ours
-translg.txt merge=ours
+*.xls merge=ours
+*Guides* merge=ours
+*Master merge=ours
+Extractions merge=ours
+Extra* merge=ours
 
 # Keep the HNEI results on the hnei branch.
-Results/Cell/Physical merge=ours
+Results/Cell/HNEI merge=ours
