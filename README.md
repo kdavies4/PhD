@@ -8,3 +8,8 @@ following:
 This branch (*development*) includes the files necessary to build the document 
 as well as supporting scripts and original images and data.  The *master* branch
 only contains the files necessary to build the document.  
+
+The model library described in the dissertation is available at 
+[http://kdavies4.github.io/FCSys/](http://kdavies4.github.io/FCSys/).  The 
+dissertation is based on 
+[version 0.2.0](https://github.com/kdavies4/FCSys/archive/v0.2.0.zip).
