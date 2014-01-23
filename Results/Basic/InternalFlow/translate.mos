@@ -1,0 +1,25 @@
+// Modelica experiment script written by modelicares 2013-08-22
+cd("D:/Documents/Modelica");
+Advanced.TranslationInCommandLog = true "Also include translation log in command log";
+destination = "D:/Documents/LaTeX/Dissertation/Results/Basic/InternalFlow/";
+import Modelica.Utilities.Files.copy;
+import Modelica.Utilities.Files.createDirectory;
+
+// Experiment 1
+clearlog();
+ok = FCSys.Utilities.Time.timeTranslation(problem="FCSys.Subregions.Examples.InternalFlow");
+if ok then
+    savelog();
+    createDirectory(destination + "1");
+    copy("translg.txt", destination + "1/translg.txt", true);
+end if;
+
+// Experiment 2
+clearlog();
+ok = FCSys.Utilities.Time.timeTranslation(problem="FCSys.Subregions.Examples.InternalFlow(environment.analysis=false)");
+if ok then
+    savelog();
+    createDirectory(destination + "2");
+    copy("translg.txt", destination + "2/translg.txt", true);
+end if;
+

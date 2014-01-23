@@ -1,0 +1,80 @@
+ = true
+ok = simulateModel(problem="FCSys.Subregions.Examples.ThermalConductionConvection", stopTime=400);
+Translation of FCSys.Subregions.Examples.ThermalConductionConvection:
+The DAE has 1936 scalar unknowns and 1936 scalar equations.
+ 
+Statistics
+ 
+Original Model
+  Number of components: 132
+  Variables: 2407
+  Constants: 16 (16 scalars)
+  Parameters: 1095 (1347 scalars)
+  Unknowns: 1296 (1936 scalars)
+  Differentiated variables: 80 scalars
+  Equations: 2116
+    Nontrivial : 2060
+Translated Model
+  Constants: 1370 scalars
+  Free parameters: 223 scalars
+  Parameter depending: 310 scalars
+  Outputs: 1 scalars
+  Continuous time states: 31 scalars
+  Time-varying variables: 574 scalars
+  Alias variables: 822 scalars
+  Number of mixed real/discrete systems of equations: 0
+  Sizes of linear systems of equations: {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,   2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
+  Sizes after manipulation of the linear systems: {2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2,   2, 2, 0, 2, 2, 2, 2, 2, 0, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0}
+  Sizes of nonlinear systems of equations: { }
+  Sizes after manipulation of the nonlinear systems: { }
+  Number of numerical Jacobians: 0
+  Initialization problem
+    Sizes of nonlinear systems of equations: {1, 1, 1, 1, 1, 1, 1, 1}
+    Sizes after manipulation of the nonlinear systems: {0, 0, 0, 0, 0, 0, 0, 0}
+    Number of numerical Jacobians: 0
+ 
+SELECTED CONTINUOUS TIME STATES
+  subregion1.gas.N2.N
+  subregion1.gas.N2.phi[1]
+  subregion1.gas.N2.T
+  subregion1.graphite.'C+'.T
+  subregion2.gas.N2.N
+  subregion2.gas.N2.T
+  subregion2.graphite.'C+'.T
+  subregions[1].gas.N2.N
+  subregions[1].gas.N2.phi[1]
+  subregions[1].gas.N2.T
+  subregions[1].graphite.'C+'.T
+  subregions[2].gas.N2.N
+  subregions[2].gas.N2.phi[1]
+  subregions[2].gas.N2.T
+  subregions[2].graphite.'C+'.T
+  subregions[3].gas.N2.N
+  subregions[3].gas.N2.phi[1]
+  subregions[3].gas.N2.T
+  subregions[3].graphite.'C+'.T
+  subregions[4].gas.N2.N
+  subregions[4].gas.N2.phi[1]
+  subregions[4].gas.N2.T
+  subregions[4].graphite.'C+'.T
+  subregions[5].gas.N2.N
+  subregions[5].gas.N2.phi[1]
+  subregions[5].gas.N2.T
+  subregions[5].graphite.'C+'.T
+  subregions[6].gas.N2.N
+  subregions[6].gas.N2.phi[1]
+  subregions[6].gas.N2.T
+  subregions[6].graphite.'C+'.T
+ 
+Finished
+// experiment StopTime=400 __Dymola_Algorithm=Dassl
+Finished
+if ok then
+    savelog();
+    createDirectory(destination + "1");
+    copy("dsin.txt", destination + "1/dsin.txt", true);
+    copy("dslog.txt", destination + "1/dslog.txt", true);
+    copy("dsres.mat", destination + "1/dsres.mat", true);
+    copy("dymosim.exe", destination + "1/dymosim.exe", true);
+    copy("dymolalg.txt", destination + "1/dymolalg.txt", true);
+end if;

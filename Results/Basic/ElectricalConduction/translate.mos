@@ -1,0 +1,17 @@
+// Modelica experiment script written by modelicares 2013-07-13
+cd("D:/Documents/Modelica");
+Advanced.TranslationInCommandLog = true "Also include translation log in command log";
+destination = "D:/Documents/LaTeX/Dissertation/Results/Basic/ElectricalConduction/";
+import Modelica.Utilities.Files.copy;
+import Modelica.Utilities.Files.createDirectory;
+
+// Experiment 1
+clearlog();
+ok = FCSys.Utilities.Time.timeTranslation(problem="FCSys.Subregions.Examples.ElectricalConduction");
+if ok then
+    savelog();
+    createDirectory(destination + "1");
+    copy("translg.txt", destination + "1/translg.txt", true);
+end if;
+
+

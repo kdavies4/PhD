@@ -1,0 +1,13 @@
+thisFolder = "../LaTeX/Dissertation/Results/Cell/Model/";
+
+scripts = {"translate-16.mos",
+           "Cycle/translate.mos", 
+		   "FlowType/translate.mos", 
+		   "Segmented/translate.mos", 
+		   "Simple/translate.mos"};
+
+for script in scripts loop
+    cd(thisFolder);
+    RunScript(script);
+end for;
+

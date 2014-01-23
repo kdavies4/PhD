@@ -1,0 +1,38 @@
+ = true
+ = true
+Translation of FCSys.Subregions.Examples.InternalFlow:
+The DAE has 721 scalar unknowns and 721 scalar equations.
+Warning: The following connector variables are not used in the model
+and are removed from the simulation problem:
+  subregion.volume.solid.p
+ 
+ 
+Statistics
+ 
+Original Model
+  Number of components: 100
+  Variables: 516
+  Constants: 17 (17 scalars)
+  Parameters: 217 (255 scalars)
+  Unknowns: 282 (734 scalars)
+  Differentiated variables: 13 scalars
+  Equations: 682
+    Nontrivial : 641
+Translated Model
+  Constants: 490 scalars
+  Free parameters: 36 scalars
+  Parameter depending: 64 scalars
+  Outputs: 6 scalars
+  Continuous time states: 1 scalars
+  Time-varying variables: 104 scalars
+  Alias variables: 312 scalars
+  Number of mixed real/discrete systems of equations: 0
+  Sizes of linear systems of equations: { }
+  Sizes after manipulation of the linear systems: { }
+  Sizes of nonlinear systems of equations: {1, 1}
+  Sizes after manipulation of the nonlinear systems: {0, 0}
+  Number of numerical Jacobians: 0
+ 
+Finished
+// experiment StopTime=5 Tolerance=1e-008 __Dymola_Algorithm=Dassl
+WARNING: 1 warning was issued

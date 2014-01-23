@@ -1,0 +1,27 @@
+// Modelica experiment script written by modelicares 2013-07-23
+cd("D:/Documents/Modelica");
+Advanced.TranslationInCommandLog = true "Also include translation log in command log";
+destination = "D:/Documents/LaTeX/Dissertation/Results/Basic/ElectricalConduction/";
+import Modelica.Utilities.Files.copy;
+import Modelica.Utilities.Files.createDirectory;
+
+remove("dsin.txt");
+remove("dslog.txt");
+remove("dsres.mat");
+remove("dymosim.exe");
+remove("dymolalg.txt");
+
+// Experiment 1
+clearlog();
+simulateModel(problem="FCSys.Subregions.Examples.ElectricalConduction", stopTime=100);
+if exist("dsres.mat") then
+    savelog();
+    createDirectory(destination + "1");
+    copy("dsin.txt", destination + "1/dsin.txt", true);
+    copy("dslog.txt", destination + "1/dslog.txt", true);
+    copy("dsres.mat", destination + "1/dsres.mat", true);
+    copy("dymosim.exe", destination + "1/dymosim.exe", true);
+    copy("dymolalg.txt", destination + "1/dymolalg.txt", true);
+end if;
+
+

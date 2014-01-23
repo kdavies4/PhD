@@ -1,0 +1,16 @@
+thisFolder = "../LaTeX/Dissertation/Results/Basic/";
+
+scripts = {"AirColumn/sim.mos",
+           "Echo/sim.mos", 
+           "ElectricalConduction/sim.mos", 
+		   "Evaporation/sim.mos", 
+		   "Hydration/sim.mos", 
+		   "InternalFlow/sim.mos", 
+		   "ThermalConduction/sim.mos", 
+		   "ThermalConductionConvection/sim.mos"};
+
+for script in scripts loop
+    cd(thisFolder);
+    RunScript(script);
+end for;
+

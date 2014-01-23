@@ -1,0 +1,14 @@
+ = true
+testConditions.caRH = 0.7;
+simulateModel(stopTime=36180, resultFile="dsres");
+Finished
+ = true
+if exist("dsres.mat") then
+    savelog();
+    createDirectory(destination + "5");
+    copy("dsin.txt", destination + "5/dsin.txt", true);
+    copy("dslog.txt", destination + "5/dslog.txt", true);
+    move("dsres.mat", destination + "5/dsres.mat", true);
+    copy("dymosim.exe", destination + "5/dymosim", true);
+    copy("dymolalg.txt", destination + "5/dymolalg.txt", true);
+end if;

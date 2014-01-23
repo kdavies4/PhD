@@ -25,14 +25,6 @@ Link *
 # Links
 #style-check.rb
 
-# Microsoft Office documents
-*.xls
-*.doc
-*.docx
-
-# Other PhDs
-"Guides & examples"
-
 # Executables/compiled files
 *.exe
 *.pyc
@@ -74,6 +66,14 @@ Figures/Extractions
 *.mtc*
 *.maf
 *.xdy
+
+# Misc
+Forms
+Future
+Guides & examples
+HNEI
+Results/Cell/Model/*/*.csv
+Reviews
 
 # These are auto-generated from the other tex files:
 equations.tex

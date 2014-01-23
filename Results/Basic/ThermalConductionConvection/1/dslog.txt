@@ -1,0 +1,58 @@
+Log-file of program ./dymosim
+(generated: Tue Dec 17 23:08:55 2013)
+
+dymosim started
+... "dsin.txt" loading (dymosim input file)
+... "dsres.mat" creating (simulation result file)
+
+Integration started at T = 0 using integration method DASSL
+(DAE multi-step solver (dassl/dasslrt of Petzold modified by Dynasim))
+Integration terminated successfully at T = 400
+  Limit stepsize, Dominate error, Exceeds 10% of error Component (#number)
+  0  2 35 subregion1.gas.N2.N (#  1) 
+  0  6 33 subregion1.gas.N2.T (#  2) 
+  0  0  4 subregion1.gas.N2.phi[1] (#  3) 
+  0  8 33 subregion1.graphite.'C+'.T (#  4) 
+  0  4 42 subregions[1].gas.N2.N (#  5) 
+  0  1 30 subregions[1].gas.N2.T (#  6) 
+  0  1  7 subregions[1].gas.N2.phi[1] (#  7) 
+  0 12 30 subregions[1].graphite.'C+'.T (#  8) 
+  0  1 41 subregions[2].gas.N2.N (#  9) 
+  0  1 25 subregions[2].gas.N2.T (# 10) 
+  0  0  8 subregions[2].gas.N2.phi[1] (# 11) 
+  0  1 25 subregions[2].graphite.'C+'.T (# 12) 
+  0  0 32 subregions[3].gas.N2.N (# 13) 
+  0  0 14 subregions[3].gas.N2.T (# 14) 
+  0  0  6 subregions[3].gas.N2.phi[1] (# 15) 
+  0  0 14 subregions[3].graphite.'C+'.T (# 16) 
+  0 11 25 subregions[4].gas.N2.N (# 17) 
+  0  0 12 subregions[4].gas.N2.T (# 18) 
+  0  0  7 subregions[4].gas.N2.phi[1] (# 19) 
+  0  0 12 subregions[4].graphite.'C+'.T (# 20) 
+  0  0 23 subregions[5].gas.N2.N (# 21) 
+  0  0  7 subregions[5].gas.N2.T (# 22) 
+  0  0  6 subregions[5].gas.N2.phi[1] (# 23) 
+  0  0  7 subregions[5].graphite.'C+'.T (# 24) 
+  0  0 22 subregions[6].gas.N2.N (# 25) 
+  0  0  6 subregions[6].gas.N2.T (# 26) 
+  0  7  8 subregions[6].gas.N2.phi[1] (# 27) 
+  0  0  6 subregions[6].graphite.'C+'.T (# 28) 
+  0  0 14 subregion2.gas.N2.N (# 29) 
+  0  1  7 subregion2.gas.N2.T (# 30) 
+  0  0  7 subregion2.graphite.'C+'.T (# 31) 
+   CPU-time for integration      : 0.072 seconds
+   CPU-time for one GRID interval: 0.144 milli-seconds
+   Number of result points       : 501
+   Number of GRID   points       : 501
+   Number of (successful) steps  : 56
+   Number of F-evaluations       : 649
+   Number of Jacobian-evaluations: 29
+   Number of (model) time events : 0
+   Number of (U) time events     : 0
+   Number of state    events     : 0
+   Number of step     events     : 0
+   Minimum integration stepsize  : 3.48e-008
+   Maximum integration stepsize  : 67.2
+   Maximum integration order     : 3
+Calling terminal section
+... "dsfinal.txt" creating (final states)

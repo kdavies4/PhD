@@ -1,0 +1,14 @@
+// Translate the first of the 16 polarization test cases
+import Modelica.Utilities.Files.copy;
+import Modelica.Utilities.Files.createDirectory;
+Advanced.TranslationInCommandLog = true "Also include translation log in command log";
+cd("D:/Documents/Modelica");
+destination = "D:/Documents/LaTeX/Dissertation/Results/Cell/Model/";
+
+clearlog();
+ok = FCSys.Utilities.Time.timeTranslation("FCSys.Assemblies.Cells.Examples.TestStand");
+if ok then
+    savelog();
+    createDirectory(destination + "1");
+    copy("translg.txt", destination + "1/translg.txt", true);
+end if;

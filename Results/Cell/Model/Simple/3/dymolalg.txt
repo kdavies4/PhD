@@ -1,0 +1,87 @@
+ = true
+ = true
+Translation of FCSys.Assemblies.Cells.Examples.TestStandSimple:
+Warning: Replaceable must be a subtype of constraining class.
+ But different specialized classes model cell and class cell.
+  In declaration of component cell:
+  File: D:/Documents/Modelica/FCSys/FCSys/Assemblies.mo, line 197
+Warning: Redeclaration requires a subtype.
+ But different specialized classes model cell and class cell.
+  In redeclaration of component cell:
+  File: D:/Documents/Modelica/FCSys/FCSys/Assemblies.mo, line 508
+Original declaration of cell:
+  File: D:/Documents/Modelica/FCSys/FCSys/Assemblies.mo, line 197
+  Context: FCSys.Assemblies.Cells.Examples.TestStand.cell
+The DAE has 4573 scalar unknowns and 4573 scalar equations.
+Warning: The value=-2873.21 not in range [0,1e+100] for variable cell.anCGDL.subregions[1, 1, 1].ionomer.'SO3-'.s.
+Ignoring range
+Warning: The value=-2873.21 not in range [0,1e+100] for variable cell.PEM.subregions[1, 1, 1].ionomer.'SO3-'.s.
+Ignoring range
+Warning: The value=-2873.21 not in range [0,1e+100] for variable cell.caCGDL.subregions[1, 1, 1].ionomer.'SO3-'.s.
+Ignoring range
+ 
+Statistics
+ 
+Original Model
+  Number of components: 268
+  Variables: 3564
+  Constants: 42 (42 scalars)
+  Parameters: 1562 (1905 scalars)
+  Unknowns: 1960 (4633 scalars)
+  Differentiated variables: 152 scalars
+  Equations: 2030
+    Nontrivial : 1874
+Translated Model
+  Constants: 2624 scalars
+  Free parameters: 217 scalars
+  Parameter depending: 391 scalars
+  Outputs: 4 scalars
+  Continuous time states: 27 scalars
+  Time-varying variables: 866 scalars
+  Alias variables: 2482 scalars
+  Number of mixed real/discrete systems of equations: 0
+  Sizes of linear systems of equations: {4, 4, 2, 2, 2, 5, 4, 2, 2, 4, 2, 2, 4, 4, 2, 2, 4, 2, 2, 2, 2, 2, 2, 5, 4, 2, 2,   2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 25, 4, 2, 2, 4, 2, 6, 4,   2, 2, 4, 2, 16, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,   2, 2, 2, 2, 2, 2, 2, 21, 2, 2, 2, 8, 2, 2, 2, 4, 2, 2, 2, 12}
+  Sizes after manipulation of the linear systems: {0, 3, 2, 2, 2, 0, 3, 2, 2, 3, 2, 2, 3, 3, 2, 2, 3, 2, 2, 2, 2, 2, 2, 0, 3, 2, 2,   2, 2, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 8, 3, 2, 2, 3, 2, 3, 3,   2, 2, 3, 2, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 0, 0, 2, 2,   2, 2, 2, 2, 2, 2, 2, 7, 0, 0, 2, 3, 2, 2, 2, 2, 2, 2, 2, 4}
+  Sizes of nonlinear systems of equations: { }
+  Sizes after manipulation of the nonlinear systems: { }
+  Number of numerical Jacobians: 0
+  Initialization problem
+    Sizes of linear systems of equations: {2, 2, 2, 2}
+    Sizes after manipulation of the linear systems: {2, 2, 2, 2}
+    Sizes of nonlinear systems of equations: {3, 3, 3, 3, 3, 3, 3, 3, 3, 3}
+    Sizes after manipulation of the nonlinear systems: {2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
+    Number of numerical Jacobians: 0
+ 
+SELECTED CONTINUOUS TIME STATES
+  cell.anCGDL.subregions[1, 1, 1].gas.H2.N
+  cell.anCGDL.subregions[1, 1, 1].gas.H2.phi[1]
+  cell.anCGDL.subregions[1, 1, 1].gas.H2O.N
+  cell.anCGDL.subregions[1, 1, 1].graphite.'C+'.T
+  cell.anCGDL.subregions[1, 1, 1].ionomer.H2O.N
+  cell.anCGDL.subregions[1, 1, 1].ionomer.H2O.phi[1]
+  cell.anFP.subregions[1, 1, 1].gas.H2.N
+  cell.anFP.subregions[1, 1, 1].gas.H2O.I[1]
+  cell.anFP.subregions[1, 1, 1].gas.H2O.I[2]
+  cell.anFP.subregions[1, 1, 1].gas.H2O.N
+  cell.anFP.subregions[1, 1, 1].graphite.'C+'.T
+  cell.caCGDL.subregions[1, 1, 1].gas.H2O.N
+  cell.caCGDL.subregions[1, 1, 1].gas.H2O.phi[1]
+  cell.caCGDL.subregions[1, 1, 1].gas.N2.N
+  cell.caCGDL.subregions[1, 1, 1].gas.O2.I[1]
+  cell.caCGDL.subregions[1, 1, 1].gas.O2.N
+  cell.caCGDL.subregions[1, 1, 1].graphite.'C+'.T
+  cell.caCGDL.subregions[1, 1, 1].ionomer.H2O.N
+  cell.caCGDL.subregions[1, 1, 1].ionomer.H2O.phi[1]
+  cell.caFP.subregions[1, 1, 1].gas.H2O.N
+  cell.caFP.subregions[1, 1, 1].gas.N2.I[1]
+  cell.caFP.subregions[1, 1, 1].gas.N2.I[2]
+  cell.caFP.subregions[1, 1, 1].gas.N2.N
+  cell.caFP.subregions[1, 1, 1].gas.O2.N
+  cell.caFP.subregions[1, 1, 1].graphite.'C+'.T
+  cell.PEM.subregions[1, 1, 1].ionomer.'SO3-'.T
+  cell.PEM.subregions[1, 1, 1].ionomer.H2O.N
+ 
+Finished
+// experiment StopTime=36180 __Dymola_Algorithm=Dassl
+WARNING: 5 warnings were issued
+Finished

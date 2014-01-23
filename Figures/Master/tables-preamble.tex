@@ -1,0 +1,45 @@
+\documentclass[11pt]{article}
+\pagestyle{empty} % No page numbers
+
+% Load packages.
+\usepackage{longtable} % For tables that span several pages
+\usepackage{tabu} % For tables with automatic-width columns
+\usepackage{booktabs} % Improved table formatting
+\usepackage{multirow} % Multiple rows
+\usepackage{suffix} % Easy method to define starred versions of commands (\WithSuffix)
+\usepackage{graphicx} % Enable the inclusion of graphics.
+\usepackage{/home/kld/Documents/LaTeX/Templates/davies-math} % Load custom macros for math.
+\usepackage[section=section,xindy,nolong,notree,sanitize={name=false,description=true,symbol=false}]{glossaries}% Load the glossaries package.
+\usepackage[glshyper]{/home/kld/Documents/LaTeX/Templates/davies-glossaries} % Create custom macros based on the glossaries package.
+\usepackage{setspace} % Line spacing
+\usepackage{lscape} % Support the landscape environment.  Another option is the rotating package, but lscape can rotate anything (not just figures and tables).
+
+% Make plenty of room
+\usepackage[a0paper]{geometry}
+\setlength{\linewidth}{100cm}
+
+% Turn off captions.
+% http://tex.stackexchange.com/questions/84614/how-can-i-turn-off-table-and-figure-captions, 130329
+\usepackage{caption}
+\DeclareCaptionFormat{empty}{}
+\captionsetup{format=empty}
+
+% Aliases for line spacing (necessary to be compatible with the Georgia Tech
+% thesis class)
+\newcommand{\singlespaced}{\singlespace}
+\newcommand{\onehalfspaced}{\onehalfspace}
+\newcommand{\doublespaced}{\doublespace}
+
+% Specify the directory where figure images are located.
+\graphicspath{{../../Figures/}}
+
+% Load the glossary entries.
+\loadglsentries{/home/kld/Documents/LaTeX/Nomenclature/main}
+\loadglsentries{/home/kld/Documents/LaTeX/Nomenclature/stdabbr}
+\loadglsentries{/home/kld/Documents/LaTeX/Nomenclature/acronyms}
+\loadglsentries{/home/kld/Documents/LaTeX/Nomenclature/symbols}
+\loadglsentries{/home/kld/Documents/LaTeX/Nomenclature/accents}
+\loadglsentries{/home/kld/Documents/LaTeX/Nomenclature/underscores}
+\loadglsentries{/home/kld/Documents/LaTeX/Nomenclature/superscripts}
+\loadglsentries{/home/kld/Documents/LaTeX/Nomenclature/subscripts}
+\loadglsentries{/home/kld/Documents/LaTeX/Nomenclature/chemicals}

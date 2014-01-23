@@ -1,0 +1,53 @@
+ = true
+ok = simulateModel(problem="FCSys.Subregions.Examples.ThermalConduction", stopTime=500);
+Translation of FCSys.Subregions.Examples.ThermalConduction:
+The DAE has 592 scalar unknowns and 592 scalar equations.
+ 
+Statistics
+ 
+Original Model
+  Number of components: 92
+  Variables: 1119
+  Constants: 16 (16 scalars)
+  Parameters: 639 (763 scalars)
+  Unknowns: 464 (592 scalars)
+  Differentiated variables: 16 scalars
+  Equations: 1604
+    Nontrivial : 1588
+Translated Model
+  Constants: 792 scalars
+  Free parameters: 131 scalars
+  Parameter depending: 190 scalars
+  Outputs: 1 scalars
+  Continuous time states: 8 scalars
+  Time-varying variables: 80 scalars
+  Alias variables: 178 scalars
+  Number of mixed real/discrete systems of equations: 0
+  Sizes of linear systems of equations: {2, 2, 2, 2, 2, 2, 2}
+  Sizes after manipulation of the linear systems: {2, 2, 2, 2, 2, 2, 2}
+  Sizes of nonlinear systems of equations: { }
+  Sizes after manipulation of the nonlinear systems: { }
+  Number of numerical Jacobians: 0
+ 
+SELECTED CONTINUOUS TIME STATES
+  subregion1.graphite.'C+'.T
+  subregion2.graphite.'C+'.T
+  subregions[1].graphite.'C+'.T
+  subregions[2].graphite.'C+'.T
+  subregions[3].graphite.'C+'.T
+  subregions[4].graphite.'C+'.T
+  subregions[5].graphite.'C+'.T
+  subregions[6].graphite.'C+'.T
+ 
+Finished
+// experiment StopTime=500 __Dymola_Algorithm=Dassl
+Finished
+if ok then
+    savelog();
+    createDirectory(destination + "1");
+    copy("dsin.txt", destination + "1/dsin.txt", true);
+    copy("dslog.txt", destination + "1/dslog.txt", true);
+    copy("dsres.mat", destination + "1/dsres.mat", true);
+    copy("dymosim.exe", destination + "1/dymosim.exe", true);
+    copy("dymolalg.txt", destination + "1/dymolalg.txt", true);
+end if;

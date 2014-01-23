@@ -1,0 +1,13 @@
+thisFolder = "../LaTeX/Dissertation/Results/Cell/Model/";
+
+scripts = {"sim-16.mos",
+           "Cycle/sim.mos",  
+		   "Segmented/sim.mos", 
+		   "Simple/sim.mos"};
+           //"Linearization/lin.mos", 
+           
+for script in scripts loop
+    cd(thisFolder);
+    RunScript(script);
+end for;
+

@@ -1,0 +1,8 @@
+Log-file of program ./dymosim
+(generated: Wed Dec 18 22:32:08 2013)
+
+dymosim started
+... "dsin.txt" loading (dymosim input file)
+... linearize
+    (relative precision = 1.00e-004, relative stepsize=1.00e-006)
+... "dslin.mat" creating (result of linearization)

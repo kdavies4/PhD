@@ -1,0 +1,40 @@
+Log-file of program ./dymosim
+(generated: Tue Dec 17 23:08:17 2013)
+
+dymosim started
+... "dsin.txt" loading (dymosim input file)
+... "dsres.mat" creating (simulation result file)
+
+Integration started at T = 0 using integration method DASSL
+(DAE multi-step solver (dassl/dasslrt of Petzold modified by Dynasim))
+Integration terminated successfully at T = 100000000
+  Limit stepsize, Dominate error, Exceeds 10% of error Component (#number)
+  0   0  22 subregion1.gas.N2.N (#  1) 
+  0   0  22 subregion1.gas.N2.T (#  2) 
+  0  15  84 subregion1.gas.N2.phi[1] (#  3) 
+  0   2  21 subregions[1].gas.N2.N (#  4) 
+  0   0  20 subregions[1].gas.N2.T (#  5) 
+  0  16 131 subregions[1].gas.N2.phi[1] (#  6) 
+  1  10 140 subregions[2].gas.N2.phi[1] (#  9) 
+  0   0  21 subregions[3].gas.N2.N (# 10) 
+  0   0  20 subregions[3].gas.N2.T (# 11) 
+  2   5 128 subregions[3].gas.N2.phi[1] (# 12) 
+  0  20  22 subregion2.gas.N2.N (# 13) 
+  0   0  22 subregion2.gas.N2.T (# 14) 
+  2 100 129 subregion2.gas.N2.phi[1] (# 15) 
+   CPU-time for integration      : 0.019 seconds
+   CPU-time for one GRID interval: 0.038 milli-seconds
+   Number of result points       : 501
+   Number of GRID   points       : 501
+   Number of (successful) steps  : 165
+   Number of F-evaluations       : 888
+   Number of Jacobian-evaluations: 44
+   Number of (model) time events : 0
+   Number of (U) time events     : 0
+   Number of state    events     : 0
+   Number of step     events     : 0
+   Minimum integration stepsize  : 9.58e-006
+   Maximum integration stepsize  : 3.05e+007
+   Maximum integration order     : 1
+Calling terminal section
+... "dsfinal.txt" creating (final states)

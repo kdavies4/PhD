@@ -1,0 +1,46 @@
+ = true
+ok = simulateModel(problem="FCSys.Subregions.Examples.ElectricalConduction", stopTime=100);
+Translation of FCSys.Subregions.Examples.ElectricalConduction:
+The DAE has 327 scalar unknowns and 327 scalar equations.
+ 
+Statistics
+ 
+Original Model
+  Number of components: 48
+  Variables: 374
+  Constants: 16 (16 scalars)
+  Parameters: 162 (183 scalars)
+  Unknowns: 196 (327 scalars)
+  Differentiated variables: 6 scalars
+  Equations: 429
+    Nontrivial : 402
+Translated Model
+  Constants: 275 scalars
+  Free parameters: 32 scalars
+  Parameter depending: 63 scalars
+  Outputs: 9 scalars
+  Continuous time states: 1 scalars
+  Time-varying variables: 31 scalars
+  Alias variables: 125 scalars
+  Number of mixed real/discrete systems of equations: 0
+  Sizes of linear systems of equations: { }
+  Sizes after manipulation of the linear systems: { }
+  Sizes of nonlinear systems of equations: { }
+  Sizes after manipulation of the nonlinear systems: { }
+  Number of numerical Jacobians: 0
+ 
+SELECTED CONTINUOUS TIME STATES
+  subregion.graphite.'C+'.T
+ 
+Finished
+// experiment StopTime=40
+Finished
+if ok then
+    savelog();
+    createDirectory(destination + "1");
+    copy("dsin.txt", destination + "1/dsin.txt", true);
+    copy("dslog.txt", destination + "1/dslog.txt", true);
+    copy("dsres.mat", destination + "1/dsres.mat", true);
+    copy("dymosim.exe", destination + "1/dymosim.exe", true);
+    copy("dymolalg.txt", destination + "1/dymolalg.txt", true);
+end if;

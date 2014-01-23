@@ -1,0 +1,77 @@
+ = true
+ok = simulateModel(problem="FCSys.Subregions.Examples.AirColumn", stopTime=1e8);
+Translation of FCSys.Subregions.Examples.AirColumn:
+The DAE has 947 scalar unknowns and 947 scalar equations.
+Warning: The initial conditions for variables of type Real are not fully specified.
+Assuming fixed start value for the continuous states:
+    subregion1.gas.N2.phi[1](start = 0)
+    subregion2.gas.N2.phi[1](start = 0)
+    subregions[1].gas.N2.phi[1](start = 0)
+    subregions[2].gas.N2.phi[1](start = 0)
+    subregions[3].gas.N2.phi[1](start = 0)
+ 
+ 
+Statistics
+ 
+Original Model
+  Number of components: 88
+  Variables: 1168
+  Constants: 16 (16 scalars)
+  Parameters: 575 (724 scalars)
+  Unknowns: 577 (947 scalars)
+  Differentiated variables: 40 scalars
+  Equations: 1234
+    Nontrivial : 1203
+Translated Model
+  Constants: 773 scalars
+  Free parameters: 113 scalars
+  Parameter depending: 141 scalars
+  Outputs: 3 scalars
+  Continuous time states: 15 scalars
+  Time-varying variables: 284 scalars
+  Alias variables: 376 scalars
+  Assumed default initial conditions: 5
+  Number of mixed real/discrete systems of equations: 0
+  Sizes of linear systems of equations: {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
+  Sizes after manipulation of the linear systems: {2, 2, 0, 2, 2, 2, 2, 0, 2, 0, 2, 0, 0}
+  Sizes of nonlinear systems of equations: { }
+  Sizes after manipulation of the nonlinear systems: { }
+  Number of numerical Jacobians: 0
+  Initialization problem
+    Sizes of linear systems of equations: {2, 2, 2, 2, 2, 2, 2, 2}
+    Sizes after manipulation of the linear systems: {2, 2, 2, 2, 2, 2, 2, 2}
+    Sizes of nonlinear systems of equations: {1, 1, 1, 1, 1}
+    Sizes after manipulation of the nonlinear systems: {0, 0, 0, 0, 0}
+    Number of numerical Jacobians: 0
+ 
+SELECTED CONTINUOUS TIME STATES
+  subregion1.gas.N2.N
+  subregion1.gas.N2.phi[1]
+  subregion1.gas.N2.T
+  subregion2.gas.N2.N
+  subregion2.gas.N2.phi[1]
+  subregion2.gas.N2.T
+  subregions[1].gas.N2.N
+  subregions[1].gas.N2.phi[1]
+  subregions[1].gas.N2.T
+  subregions[2].gas.N2.N
+  subregions[2].gas.N2.phi[1]
+  subregions[2].gas.N2.T
+  subregions[3].gas.N2.N
+  subregions[3].gas.N2.phi[1]
+  subregions[3].gas.N2.T
+ 
+Finished
+// experiment StopTime=3 __Dymola_Algorithm=Dassl
+WARNING: 1 warning was issued
+Finished
+Declaring variable: Boolean ok ;
+if ok then
+    savelog();
+    createDirectory(destination + "1");
+    copy("dsin.txt", destination + "1/dsin.txt", true);
+    copy("dslog.txt", destination + "1/dslog.txt", true);
+    copy("dsres.mat", destination + "1/dsres.mat", true);
+    copy("dymosim.exe", destination + "1/dymosim.exe", true);
+    copy("dymolalg.txt", destination + "1/dymolalg.txt", true);
+end if;

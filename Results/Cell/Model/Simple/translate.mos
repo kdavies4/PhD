@@ -1,0 +1,30 @@
+// Modelica experiment script written by modelicares 2013-07-24
+import Modelica.Utilities.Files.copy;
+import Modelica.Utilities.Files.createDirectory;
+Advanced.TranslationInCommandLog = true "Also include translation log in command log";
+cd("D:/Documents/Modelica");
+destination = "D:/Documents/LaTeX/Dissertation/Results/Cell/Model/Simple/";
+
+clearlog();
+ok = FCSys.Utilities.Time.timeTranslation(problem="FCSys.Assemblies.Cells.Examples.TestStand");
+if ok then
+    savelog();
+    createDirectory(destination + "1");
+    copy("translg.txt", destination + "1/translg.txt", true);
+end if;
+
+clearlog();
+ok = FCSys.Utilities.Time.timeTranslation(problem="FCSys.Assemblies.Cells.Examples.TestStandSimple");
+if ok then
+    savelog();
+    createDirectory(destination + "2");
+    copy("translg.txt", destination + "2/translg.txt", true);
+end if;
+
+clearlog();
+ok = FCSys.Utilities.Time.timeTranslation(problem="FCSys.Assemblies.Cells.Examples.TestStandSimple(environment(analysis=false))");
+if ok then
+    savelog();
+    createDirectory(destination + "3");
+    copy("translg.txt", destination + "3/translg.txt", true);
+end if;

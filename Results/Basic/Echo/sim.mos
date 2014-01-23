@@ -1,0 +1,86 @@
+// Modelica experiment script written by modelicares 2013-08-22
+cd("D:/Documents/Modelica");
+Advanced.TranslationInCommandLog = true "Also include translation log in command log";
+destination = "D:/Documents/LaTeX/Dissertation/Results/Basic/Echo/";
+import Modelica.Utilities.Files.copy;
+import Modelica.Utilities.Files.createDirectory;
+
+// Experiment 1
+clearlog();
+ok = simulateModel(problem="FCSys.Subregions.Examples.Echo", stopTime=2.5, tolerance=1e-6);
+if ok then
+    savelog();
+    createDirectory(destination + "1");
+    copy("dsin.txt", destination + "1/dsin.txt", true);
+    copy("dslog.txt", destination + "1/dslog.txt", true);
+    copy("dsres.mat", destination + "1/dsres.mat", true);
+    copy("dymosim.exe", destination + "1/dymosim.exe", true);
+    copy("dymolalg.txt", destination + "1/dymolalg.txt", true);
+end if;
+
+// Experiment 2
+clearlog();
+ok = simulateModel(problem="FCSys.Subregions.Examples.Echo", stopTime=5e-5);
+if ok then
+    savelog();
+    createDirectory(destination + "2");
+    copy("dsin.txt", destination + "2/dsin.txt", true);
+    copy("dslog.txt", destination + "2/dslog.txt", true);
+    copy("dsres.mat", destination + "2/dsres.mat", true);
+    copy("dymosim.exe", destination + "2/dymosim.exe", true);
+    copy("dymolalg.txt", destination + "2/dymolalg.txt", true);
+end if;
+
+// Experiment 3
+clearlog();
+ok = simulateModel(problem="FCSys.Subregions.Examples.Echo(k=0)", stopTime=1e-4);
+if ok then
+    savelog();
+    createDirectory(destination + "3");
+    copy("dsin.txt", destination + "3/dsin.txt", true);
+    copy("dslog.txt", destination + "3/dslog.txt", true);
+    copy("dsres.mat", destination + "3/dsres.mat", true);
+    copy("dymosim.exe", destination + "3/dymosim.exe", true);
+    copy("dymolalg.txt", destination + "3/dymolalg.txt", true);
+end if;
+
+// Experiment 4
+clearlog();
+ok = simulateModel(problem="FCSys.Subregions.Examples.EchoCentral", stopTime=2.5, tolerance=1e-6);
+if ok then
+    savelog();
+    createDirectory(destination + "4");
+    copy("dsin.txt", destination + "4/dsin.txt", true);
+    copy("dslog.txt", destination + "4/dslog.txt", true);
+    copy("dsres.mat", destination + "4/dsres.mat", true);
+    copy("dymosim.exe", destination + "4/dymosim.exe", true);
+    copy("dymolalg.txt", destination + "4/dymolalg.txt", true);
+end if;
+
+// Experiment 5
+clearlog();
+ok = simulateModel(problem="FCSys.Subregions.Examples.EchoCentral", stopTime=5e-5);
+if ok then
+    savelog();
+    createDirectory(destination + "5");
+    copy("dsin.txt", destination + "5/dsin.txt", true);
+    copy("dslog.txt", destination + "5/dslog.txt", true);
+    copy("dsres.mat", destination + "5/dsres.mat", true);
+    copy("dymosim.exe", destination + "5/dymosim.exe", true);
+    copy("dymolalg.txt", destination + "5/dymolalg.txt", true);
+end if;
+
+// Experiment 6
+clearlog();
+ok = simulateModel(problem="FCSys.Subregions.Examples.EchoCentral(k=0)", stopTime=1e-4);
+if ok then
+    savelog();
+    createDirectory(destination + "6");
+    copy("dsin.txt", destination + "6/dsin.txt", true);
+    copy("dslog.txt", destination + "6/dslog.txt", true);
+    copy("dsres.mat", destination + "6/dsres.mat", true);
+    copy("dymosim.exe", destination + "6/dymosim.exe", true);
+    copy("dymolalg.txt", destination + "6/dymolalg.txt", true);
+end if;
+
+

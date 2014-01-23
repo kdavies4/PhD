@@ -1,0 +1,51 @@
+// Modelica experiment script written by modelicares 2013-07-21, then modified manually
+cd("D:/Documents/Modelica");
+import Modelica.Utilities.Files.exist;
+import Modelica.Utilities.Files.move;
+import Modelica.Utilities.Files.copy;
+import Modelica.Utilities.Files.remove;
+import Modelica.Utilities.Files.createDirectory;
+Advanced.TranslationInCommandLog = true "Also include translation log in command log";
+destination = "D:/Documents/LaTeX/Dissertation/Results/Cell/Model/Simple/";
+
+remove("dsin.txt");
+remove("dslog.txt");
+remove("dsres.mat");
+remove("dymosim.exe");
+remove("dymolalg.txt");
+
+clearlog();
+simulateModel("FCSys.Assemblies.Cells.Examples.TestStand", stopTime=36180, resultFile="dsres");
+if exist("dsres.mat") then
+    savelog();
+    createDirectory(destination + "1");
+    copy("dsin.txt", destination + "1/dsin.txt", true);
+    copy("dslog.txt", destination + "1/dslog.txt", true);
+    move("dsres.mat", destination + "1/dsres.mat", true);
+    copy("dymosim.exe", destination + "1/dymosim.exe", true);
+    copy("dymolalg.txt", destination + "1/dymolalg.txt", true);
+end if;
+
+clearlog();
+simulateModel("FCSys.Assemblies.Cells.Examples.TestStandSimple", stopTime=36180, resultFile="dsres");
+if exist("dsres.mat") then
+    savelog();
+    createDirectory(destination + "2");
+    copy("dsin.txt", destination + "2/dsin.txt", true);
+    copy("dslog.txt", destination + "2/dslog.txt", true);
+    move("dsres.mat", destination + "2/dsres.mat", true);
+    copy("dymosim.exe", destination + "2/dymosim.exe", true);
+    copy("dymolalg.txt", destination + "2/dymolalg.txt", true);
+end if;
+
+clearlog();
+simulateModel("FCSys.Assemblies.Cells.Examples.TestStandSimple(environment(analysis=false))", stopTime=36180, resultFile="dsres");
+if exist("dsres.mat") then
+    savelog();
+    createDirectory(destination + "3");
+    copy("dsin.txt", destination + "3/dsin.txt", true);
+    copy("dslog.txt", destination + "3/dslog.txt", true);
+    move("dsres.mat", destination + "3/dsres.mat", true);
+    copy("dymosim.exe", destination + "3/dymosim.exe", true);
+    copy("dymolalg.txt", destination + "3/dymolalg.txt", true);
+end if;

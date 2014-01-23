@@ -1,0 +1,14 @@
+ = true
+caStoich = 1.5;
+simulateModel(stopTime=36180, resultFile="dsres");
+Finished
+ = true
+if exist("dsres.mat") then
+    savelog();
+    createDirectory(destination + "12");
+    copy("dsin.txt", destination + "12/dsin.txt", true);
+    copy("dslog.txt", destination + "12/dslog.txt", true);
+    move("dsres.mat", destination + "12/dsres.mat", true);
+    copy("dymosim.exe", destination + "12/dymosim", true);
+    copy("dymolalg.txt", destination + "12/dymolalg.txt", true);
+end if;

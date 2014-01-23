@@ -1,0 +1,6 @@
+modelPath = "/home/kld/Documents/Dymola/FCSys";
+RunScript(script=modelPath + "/lib/Modelica/open_in_unix.mos", silent=true);
+
+//simulateModel("Modelica.Electrical.Analog.Examples.CauerLowPassAnalog");
+
+Design.Calibration.calibrate(Design.Internal.Records.ModelCalibrationSetup(Model="FCSys.Assemblies.Examples.Calibration", tunerParameters={Design.Internal.Records.TunerParameter(name="a")}, calibrationData=Design.Calibration.Internal.Dynamic_common(Design.Internal.Records.DynamicCommonCalibrationCases(experimentNames={"/home/kld/Documents/LaTeX/Dissertation/Results/Cell/Model/Calibration/temp.csv"}, task={1}, startTime={-1e100}, stopTime={1e100}, parameterNames={"a"}, parameterValues=[10]), resultCouplings={Design.Internal.Records.DynamicCalibrationResultCoupling(variable="x", data="a")})));

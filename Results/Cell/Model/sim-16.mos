@@ -1,0 +1,219 @@
+// Run the 16 polarization test cases
+cd("D:/Documents/Modelica");
+import Modelica.Utilities.Files.exist;
+import Modelica.Utilities.Files.move;
+import Modelica.Utilities.Files.copy;
+import Modelica.Utilities.Files.remove;
+import Modelica.Utilities.Files.createDirectory;
+Advanced.TranslationInCommandLog = true "Also include translation log in command log";
+destination = "D:/Documents/LaTeX/Dissertation/Results/Cell/Model/";
+import U = FCSys.Units;
+import FCSys.Figures.TestStand;
+
+remove("dsin.txt");
+remove("dslog.txt");
+remove("dsres.mat");
+remove("dymosim.exe");
+remove("dymolalg.txt");
+
+clearlog();
+simulateModel("TestStand", stopTime=36180, resultFile="dsres");
+if exist("dsres.mat") then
+    savelog();
+    createDirectory(destination + "1");
+    copy("dsin.txt", destination + "1/dsin.txt", true);
+    copy("dslog.txt", destination + "1/dslog.txt", true);
+    move("dsres.mat", destination + "1/dsres.mat", true);
+    copy("dymosim.exe", destination + "1/dymosim", true);
+    copy("dymolalg.txt", destination + "1/dymolalg.txt", true);
+end if;
+
+clearlog();
+simulateModel("TestStand(environment.T=U.from_degC(40))", stopTime=36180, resultFile="dsres");
+// Note:  If "TestStand" is supplied as an argument again, then Dymola 2014
+// re-translates the model, which wastes time.
+if exist("dsres.mat") then
+    savelog();
+    createDirectory(destination + "2");
+    copy("dsin.txt", destination + "2/dsin.txt", true);
+    copy("dslog.txt", destination + "2/dslog.txt", true);
+    move("dsres.mat", destination + "2/dsres.mat", true);
+    copy("dymosim.exe", destination + "2/dymosim", true);
+    copy("dymolalg.txt", destination + "2/dymolalg.txt", true);
+end if;
+
+clearlog();
+simulateModel("TestStand(environment.T=U.from_degC(80))", stopTime=36180, resultFile="dsres");
+if exist("dsres.mat") then
+    savelog();
+    createDirectory(destination + "3");
+    copy("dsin.txt", destination + "3/dsin.txt", true);
+    copy("dslog.txt", destination + "3/dslog.txt", true);
+    move("dsres.mat", destination + "3/dsres.mat", true);
+    copy("dymosim.exe", destination + "3/dymosim", true);
+    copy("dymolalg.txt", destination + "3/dymolalg.txt", true);
+end if;
+
+clearlog();
+simulateModel("TestStand(testConditions.caRH = 0.3)", stopTime=36180, resultFile="dsres");
+simulateModel(stopTime=36180, resultFile="dsres");
+if exist("dsres.mat") then
+    savelog();
+    createDirectory(destination + "4");
+    copy("dsin.txt", destination + "4/dsin.txt", true);
+    copy("dslog.txt", destination + "4/dslog.txt", true);
+    move("dsres.mat", destination + "4/dsres.mat", true);
+    copy("dymosim.exe", destination + "4/dymosim", true);
+    copy("dymolalg.txt", destination + "4/dymolalg.txt", true);
+end if;
+
+clearlog();
+testConditions.caRH = 0.7;
+simulateModel(stopTime=36180, resultFile="dsres");
+if exist("dsres.mat") then
+    savelog();
+    createDirectory(destination + "5");
+    copy("dsin.txt", destination + "5/dsin.txt", true);
+    copy("dslog.txt", destination + "5/dslog.txt", true);
+    move("dsres.mat", destination + "5/dsres.mat", true);
+    copy("dymosim.exe", destination + "5/dymosim", true);
+    copy("dymolalg.txt", destination + "5/dymolalg.txt", true);
+end if;
+
+clearlog();
+simulateModel("TestStand(testConditions.anRH=0.6)", stopTime=36180, resultFile="dsres");
+if exist("dsres.mat") then
+    savelog();
+    createDirectory(destination + "6");
+    copy("dsin.txt", destination + "6/dsin.txt", true);
+    copy("dslog.txt", destination + "6/dslog.txt", true);
+    move("dsres.mat", destination + "6/dsres.mat", true);
+    copy("dymosim.exe", destination + "6/dymosim", true);
+    copy("dymolalg.txt", destination + "6/dymolalg.txt", true);
+end if;
+
+clearlog();
+simulateModel("TestStand(testConditions.anRH=1)", stopTime=36180, resultFile="dsres");
+if exist("dsres.mat") then
+    savelog();
+    createDirectory(destination + "7");
+    copy("dsin.txt", destination + "7/dsin.txt", true);
+    copy("dslog.txt", destination + "7/dslog.txt", true);
+    move("dsres.mat", destination + "7/dsres.mat", true);
+    copy("dymosim.exe", destination + "7/dymosim", true);
+    copy("dymolalg.txt", destination + "7/dymolalg.txt", true);
+end if;
+
+clearlog();
+simulateModel("TestStand(environment.p=U.from_kPag(0))", stopTime=36180, resultFile="dsres");
+if exist("dsres.mat") then
+    savelog();
+    createDirectory(destination + "8");
+    copy("dsin.txt", destination + "8/dsin.txt", true);
+    copy("dslog.txt", destination + "8/dslog.txt", true);
+    move("dsres.mat", destination + "8/dsres.mat", true);
+    copy("dymosim.exe", destination + "8/dymosim", true);
+    copy("dymolalg.txt", destination + "8/dymolalg.txt", true);
+end if;
+
+clearlog();
+simulateModel("TestStand(environment.p=U.from_kPag(202.7))", stopTime=36180, resultFile="dsres");
+if exist("dsres.mat") then
+    savelog();
+    createDirectory(destination + "9");
+    copy("dsin.txt", destination + "9/dsin.txt", true);
+    copy("dslog.txt", destination + "9/dslog.txt", true);
+    move("dsres.mat", destination + "9/dsres.mat", true);
+    copy("dymosim.exe", destination + "9/dymosim", true);
+    copy("dymolalg.txt", destination + "9/dymolalg.txt", true);
+end if;
+
+clearlog();
+simulateModel("TestStand(anStoich=1.1)", stopTime=36180, resultFile="dsres");
+if exist("dsres.mat") then
+    savelog();
+    createDirectory(destination + "10");
+    copy("dsin.txt", destination + "10/dsin.txt", true);
+    copy("dslog.txt", destination + "10/dslog.txt", true);
+    move("dsres.mat", destination + "10/dsres.mat", true);
+    copy("dymosim.exe", destination + "10/dymosim", true);
+    copy("dymolalg.txt", destination + "10/dymolalg.txt", true);
+end if;
+
+clearlog();
+anStoich = 2;
+simulateModel(stopTime=36180, resultFile="dsres");
+if exist("dsres.mat") then
+    savelog();
+    createDirectory(destination + "11");
+    copy("dsin.txt", destination + "11/dsin.txt", true);
+    copy("dslog.txt", destination + "11/dslog.txt", true);
+    move("dsres.mat", destination + "11/dsres.mat", true);
+    copy("dymosim.exe", destination + "11/dymosim", true);
+    copy("dymolalg.txt", destination + "11/dymolalg.txt", true);
+end if;
+anStoich = 1.5;
+
+clearlog();
+caStoich = 1.5;
+simulateModel(stopTime=36180, resultFile="dsres");
+if exist("dsres.mat") then
+    savelog();
+    createDirectory(destination + "12");
+    copy("dsin.txt", destination + "12/dsin.txt", true);
+    copy("dslog.txt", destination + "12/dslog.txt", true);
+    move("dsres.mat", destination + "12/dsres.mat", true);
+    copy("dymosim.exe", destination + "12/dymosim", true);
+    copy("dymolalg.txt", destination + "12/dymolalg.txt", true);
+end if;
+
+clearlog();
+caStoich = 2.5;
+simulateModel(stopTime=36180, resultFile="dsres");
+if exist("dsres.mat") then
+    savelog();
+    createDirectory(destination + "13");
+    copy("dsin.txt", destination + "13/dsin.txt", true);
+    copy("dslog.txt", destination + "13/dslog.txt", true);
+    move("dsres.mat", destination + "13/dsres.mat", true);
+    copy("dymosim.exe", destination + "13/dymosim", true);
+    copy("dymolalg.txt", destination + "13/dymolalg.txt", true);
+end if;
+
+clearlog();
+simulateModel("TestStand(environment.psi_O2_dry=1, caStoich=9.569)", stopTime=36180, resultFile="dsres");
+if exist("dsres.mat") then
+    savelog();
+    createDirectory(destination + "14");
+    copy("dsin.txt", destination + "14/dsin.txt", true);
+    copy("dslog.txt", destination + "14/dslog.txt", true);
+    move("dsres.mat", destination + "14/dsres.mat", true);
+    copy("dymosim.exe", destination + "14/dymosim", true);
+    copy("dymolalg.txt", destination + "14/dymolalg.txt", true);
+end if;
+
+clearlog();
+caStoich = 7.177;
+simulateModel(stopTime=36180, resultFile="dsres");
+if exist("dsres.mat") then
+    savelog();
+    createDirectory(destination + "15");
+    copy("dsin.txt", destination + "15/dsin.txt", true);
+    copy("dslog.txt", destination + "15/dslog.txt", true);
+    move("dsres.mat", destination + "15/dsres.mat", true);
+    copy("dymosim.exe", destination + "15/dymosim", true);
+    copy("dymolalg.txt", destination + "15/dymolalg.txt", true);
+end if;
+
+clearlog();
+caStoich = 11.962;
+simulateModel(stopTime=36180, resultFile="dsres");
+if exist("dsres.mat") then
+    savelog();
+    createDirectory(destination + "16");
+    copy("dsin.txt", destination + "16/dsin.txt", true);
+    copy("dslog.txt", destination + "16/dslog.txt", true);
+    move("dsres.mat", destination + "16/dsres.mat", true);
+    copy("dymosim.exe", destination + "16/dymosim", true);
+    copy("dymolalg.txt", destination + "16/dymolalg.txt", true);
+end if;

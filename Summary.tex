@@ -1,0 +1,100 @@
+\documentclass[12pt]{article}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Document information  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Declarative Modeling of Proton Exchange Membrane Fuel Cells \\ for System Design}
+\author{Kevin L. Davies}
+\newcommand{\subtitle}{Ph.D. Research Summary}
+\newcommand{\keywords}{proton exchange membrane fuel cell;system design;declarative;model;Modelica;electrochemistry;mass transport;momentum transport;heat transport;advection;diffusion}        
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Load packages and files  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Load packages.
+\usepackage{../Templates/davies-math} % Load custom macros for math.
+\usepackage{../Templates/davies} % Load basic packages and macros.
+% \usepackage{davies-dissertation} % Custom settings
+% \usepackage{../Templates/davies-hyperref} % Create hyperlinks.
+\usepackage[glshyper]{../Templates/davies-glossaries} % Create custom macros based on the glossaries package.
+\usepackage[margin=1in]{geometry} % Adjust the margins.
+
+% Load the glossary entries from external files.
+\loadglsentries{../Nomenclature/main}
+% \loadglsentries{../Nomenclature/stdabbr}
+\loadglsentries{../Nomenclature/acronyms}
+% \loadglsentries{../Nomenclature/symbols}
+% \loadglsentries{../Nomenclature/accents}
+% \loadglsentries{../Nomenclature/underscores}
+% \loadglsentries{../Nomenclature/superscripts}
+% \loadglsentries{../Nomenclature/subscripts}
+% \loadglsentries{../Nomenclature/chemicals}
+
+% Set up the references.
+%\bibfiles{../../References/primary} 
+                  
+% Specify the directory where figure images are located.
+% Note: This can be used to build the document with alternate images.
+\graphicspath{{Figures/}}
+\pdfminorversion=5 % Support PDF version 1.5 (otherwise, 1.4).
+
+% Suppress some of the underfull/overfull warnings.
+\hbadness=10000 % Underfull \hbox.  (Occurring due to some of the URLs in the references section.)
+\hfuzz=10000pt % Overfull \hbox.  (Occurring in the list of notation.)
+
+% Redefine the maketitle command to:
+%   1. Remove the date field and the space associated with it.
+%   2. Make the title smaller.
+%   3. Add a subtitle. 
+\makeatletter
+\renewcommand{\@maketitle}{
+  \newpage                
+  %\null
+  %\vskip 2em%
+  \begin{center}%
+    \let \footnote \thanks
+    %{\LARGE \@title \par}%
+    {\large \@title \par}%
+    \vskip 1em%
+    {%\large
+    \lineskip .5em%
+    \begin{tabular}[t]{c}%
+    \subtitle
+    \end{tabular}\par}
+    \vskip 1em%
+    {%\large
+    \lineskip .5em%
+    \begin{tabular}[t]{c}%
+    \@author
+    \end{tabular}\par}
+    \vskip 1em%
+    %{\large \@date}%
+    \end{center}
+    \par
+    \vskip 1.5em}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\maketitle{\title}
+\thispagestyle{empty}
+\input{FrontMatter/Summary}
+
+\begin{figure}[htbp!]
+\centering
+\subfloat[Test configuration]{
+\includegraphics[width=0.42\textwidth]{4-TestStandD}%
+}\quad
+\subfloat[Layers of the cell]{
+\includegraphics[width=0.52\textwidth]{4-CellD}%
+}
+\caption{Diagrams showing the declarative, object-oriented nature of the PEMFC model}%
+\end{figure}
+
+\end{document}

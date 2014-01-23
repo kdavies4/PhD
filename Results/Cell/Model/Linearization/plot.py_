@@ -1,0 +1,68 @@
+#!/usr/bin/python
+"""Plot the results of linearizations.
+"""
+__author__ = "Kevin Davies"
+__version__ = "2013-7-4"
+
+import os
+import matplotlib.pyplot as plt
+
+from glob import glob
+from numpy import pi, logspace
+from modelicares import LinRes, save, read_params, multibode, multinyquist
+
+# Settings
+# Begin customize--------------------------------------------------------------
+
+# Formats in which to save the figures (e.g., ['pdf', 'eps', 'svg', 'png'])
+# If the figures shouldn't be saved, specify an empty list.
+formats = ['pdf', 'png']
+
+# Load and process data.
+lins = map(LinRes, glob('*/dslin.mat'))
+#descriptions = [r"C=%g F"
+#                % read_params('capacitor.C', os.path.join(lin.dir, 'dsin.txt'))
+#                for lin in lins]
+
+# Individual plots
+for lin, description in zip(lins, ["1","2","3"]):
+    # Plot 1
+    lin.dir = os.path.split(lin.dir)[1] # So that the printout is less verbose
+    ax1, ax2 = lin.bode(title="Bode Plot of Cell Impedance\n" + description,
+             label=os.path.join(lin.dir, "Bode"), omega=2*pi*logspace(0, 7))
+    ax1.set_ylabel(r"Magnitude / $\Omega\,m^2$")
+    save(formats)
+    plt.close()
+
+    # Plot 2
+    ax = lin.nyquist(title="Nyquist Plot of Cell Impedance\n" + description,
+                label=os.path.join(lin.dir, "Nyquist"),
+                omega=2*pi*logspace(-1, 5, 121), labelFreq=20)
+    ax.set_xlabel('Real Component / $\Omega\,m^2$')
+    ax.set_ylabel('Reactive Component / $\Omega\,m^2$')
+    save(formats)
+    plt.close()
+
+# Plot 1
+ax1, ax2 = multibode(lins, title="Bode Plot of Cell Impedance",
+                     omega=2*pi*logspace(0, 7), label="Bode",
+                     labels=descriptions)
+ax1.set_ylabel(r"Magnitude / $\Omega\,m^2$")
+save(formats)
+plt.close()
+
+# Plot 2
+ax = multinyquist(lins, title="Nyquist Plot of Cell Impedance", label="Nyquist",
+                  labels=descriptions, textFreq=True,
+                  omega=2*pi*logspace(-1, 5, 121), labelFreq=20)
+ax.set_xlabel('Real Component / $\Omega\,m^2$')
+ax.set_ylabel('Reactive Component / $\Omega\,m^2$')
+save(formats)
+plt.close()
+
+
+# End customize----------------------------------------------------------------
+
+# Save the plots.
+#saveall(formats)
+#plt.show()

@@ -1,0 +1,24 @@
+\documentclass[11pt]{article}
+\pagestyle{empty} % No page numbers
+
+% Load packages.
+\usepackage{/home/kld/Documents/LaTeX/Templates/davies-math} % Load custom macros for math.
+\usepackage[section=section, xindy, nolong, notree, sanitize={name=false, description=true, symbol=false}]{glossaries}% Load the glossaries package.
+\usepackage[glshyper]{/home/kld/Documents/LaTeX/Templates/davies-glossaries} % Create custom macros based on the glossaries package.
+
+% Load the glossary entries.
+\loadglsentries{/home/kld/Documents/LaTeX/Nomenclature/symbols}
+\loadglsentries{/home/kld/Documents/LaTeX/Nomenclature/accents}
+\loadglsentries{/home/kld/Documents/LaTeX/Nomenclature/underscores}
+\loadglsentries{/home/kld/Documents/LaTeX/Nomenclature/superscripts}
+\loadglsentries{/home/kld/Documents/LaTeX/Nomenclature/subscripts}
+\loadglsentries{/home/kld/Documents/LaTeX/Nomenclature/chemicals}
+
+% Don't display equation numbers. (This is a hack.)
+\usepackage{mathtools}
+\mathtoolsset{showonlyrefs}
+
+% Additional vertical gaps
+\newcommand{\vgapa}{\vphantom{ }}
+\newcommand{\vgapb}{\vphantom{ }}
+\newcommand{\vgapc}{\vphantom{ }}

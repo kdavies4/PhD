@@ -1,0 +1,10 @@
+openModel("/home/kld/Documents/Dymola/FuelCellSystems/package.mo");
+cd ..
+
+simulateModel("FuelCellSystems.Components.Examples.Test2MixtureEqs", resultFile="dsres");
+system("cp dsres.mat /media/Storage/Documents/LaTeX/Dissertation/Figures/Master/Other/Test2MixtureEqs.mat");
+
+simulateModel("FuelCellSystems.Blocks.Examples.MPCRossiterExample2", stopTime=60, resultFile="dsres");
+system("cp dsres.mat /media/Storage/Documents/LaTeX/Dissertation/Figures/Master/Other/MPCRossiterExample2.mat");
+
+exit

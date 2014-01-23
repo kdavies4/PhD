@@ -1,0 +1,15 @@
+See Mark1999, p. 233:
+Nafion Sulfonate is Nafion Sulfonate Resin after hydrolysis
+Each C2F4 group adds 100.015 g/mol
+
+C9F18O4S or C7F14O4S.C2F4 is Nafion Sulfonate Resin with n=1:
+   -Equivalent weight (EW):  546.130 g/mol
+C19F38O4S or C7F14O4S.(C2F4)6 is Nafion Sulfonate Resin with n=6:
+   -EW:  1046.205 g/mol
+   -According to Mark1999, p. 234, this is a typical configuration
+   -1046.205 g/mol is close to the 1100 g/mol EW indicated by Nafion 11xx.
+C9HF17O5S or C7HF13O5S.C2F4 is Nafion Sulfonate with n=1:
+   -Same as shown on http://en.wikipedia.org/wiki/Nafion (with x = y = z = 1)
+   -EW:  544.139 g/mol
+C19HF37O5S or C7HF13O5S.(C2F4)6 is Nafion Sulfonate with n=6:
+   -EW: 1044.214 g/mol

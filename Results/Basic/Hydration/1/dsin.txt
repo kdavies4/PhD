@@ -1,0 +1,3267 @@
+#1
+char Aclass(3,24)
+Adymosim
+1.4
+Modelica experiment file
+
+
+#    Experiment parameters
+double experiment(7,1)
+       0                   # StartTime    Time at which integration starts
+                           #              (and linearization and trimming time)
+     120                   # StopTime     Time at which integration stops
+       0                   # Increment    Communication step size, if > 0
+     500                   # nInterval    Number of communication intervals, if > 0
+ 1.0000000000000000E-004   # Tolerance    Relative precision of signals for
+                           #              simulation, linearization and trimming
+       0                   # MaxFixedStep Maximum step size of fixed step size
+                           #              integrators, if > 0.0
+       8                   # Algorithm    Integration algorithm as integer (1...28)
+                           #
+                           #             | model|       |        | dense | state |
+                           # Algorithm   | typ  | stiff | order  | output| event |
+                           # ------------+------+-------+--------+-------+-------+
+                           #  1 | deabm  |  ode |   no  |  1-12  |  yes  |   no  |
+                           #  2 | lsode1 |  ode |   no  |  1-12  |  yes  |   no  |
+                           #  3 | lsode2 |  ode |  yes  |  1-5   |  yes  |   no  |
+                           #  4 | lsodar |  ode |  both |1-12,1-5|  yes  |  yes  |
+                           #  5 | dopri5 |  ode |   no  |   5    |   no  |   no  |
+                           #  6 | dopri8 |  ode |   no  |   8    |   no  |   no  |
+                           #  7 | grk4t  |  ode |  yes  |   4    |   no  |   no  |
+                           #  8 | dassl  |  dae |  yes  |  1-5   |  yes  |  yes  |
+                           #  9 | odassl | hdae |  yes  |  1-5   |  yes  |  yes  |
+                           # 10 | mexx   | hdae |   no  |  2-24  |   no  |   no  |
+                           # 11 | euler  |  ode |   no  |   1    |   no  |  yes  |
+                           # 12 | rkfix2 |  ode |   no  |   2    |   no  |  yes  |
+                           # 13 | rkfix3 |  ode |   no  |   3    |   no  |  yes  |
+                           # 14 | rkfix4 |  ode |   no  |   4    |   no  |  yes  |
+                           #>=14| others |  ode |yes/no |  2-5   |   yes |  yes  |
+                           # ---+--------+------+-------+--------+-------+-------+
+                           # euler and rkfix have fixed stepsize.
+
+
+#    Method tuning parameters
+double method(27,1)
+       1                   # grid     type of communication time grid, defined by
+                           #          = 1: equidistant points ("Increment/nInterval")
+                           #          = 2: vector of grid points ("tgrid")
+                           #          = 3: variable step integrator (automatically)
+                           #          = 4: model (call of "increment" in Dymola, e.g.
+                           #                      incr=Time > 2 then 0 else 0.1
+                           #                      dummy=increment(incr))
+                           #          grid = 1,3 is stopped by "StopTime"
+                           #          grid = 2   is stopped by "tgrid(last)"
+                           #          grid = 4   runs forever (stopped by model)
+       1                   # nt       Use every NT time instant, if grid = 3
+       3                   # dense    1/2/3 restart/step/interpolate GRID points
+       1                   # evgrid   0/1 do not/save event points in comm. time grid
+       1                   # evu      0/1 U-discontinuity does not/trigger events
+       0                   # evuord       U-discontinuity order to consider (0,1,...)
+       0                   # error    0/1/2 One message/warning/error messages
+       0                   # jac      0/1 Compute jacobian numerically/by BLOCKJ
+       0                   # xd0c     0/1 Compute/set XD0
+       0                   # f3       0/1 Ignore/use F3 of HDAE (= index 1)
+       0                   # f4       0/1 Ignore/use F4 of HDAE (= index 2)
+       0                   # f5       0/1 Ignore/use F5 of HDAE (= invar.)
+       0                   # debug    flags for debug information (1<<0 uses pdebug) 
+     100                   # pdebug       priority of debug information (1...100)
+       0                   # fmax     Maximum number of evaluations of BLOCKF, if > 0
+       0                   # ordmax   Maximum allowed integration order, if > 0
+       0                   # hmax     Maximum absolute stepsize, if > 0
+       0                   # hmin     Minimum absolute stepsize, if > 0 (use with care!)
+       0                   # h0       Stepsize to be attempted on first step, if > 0
+ 2.0000000000000000E-014   # teps     Bound to check, if 2 equal time instants
+ 1.0000000000000000E-010   # eveps    Hysteresis epsilon at event points
+      20                   # eviter   Maximum number of event iterations
+ 9.9999999999999995E-007   # delaym   Minimum time increment in delay buffers
+       1                   # fexcep   0/1 floating exception crashes/stops dymosim
+       1                   # tscale   clock-time = tscale*simulation-time, if grid = 5
+                           #          > 1: simulation too slow
+                           #          = 1: simulation-time = real-time
+                           #          < 1: simulation too fast
+       1                   # shared   (not used)
+    2473                   # memkey   (not used)
+
+
+#    Output parameters
+int settings(13,1)
+ 0                         # lprec    0/1 do not/store result data in double
+ 1                         # lx       0/1 do not/store x  (state variables)
+ 1                         # lxd      0/1 do not/store xd (derivative of states)
+ 1                         # lu       0/1 do not/store u  (input     signals)
+ 1                         # ly       0/1 do not/store y  (output    signals)
+ 0                         # lz       0/1 do not/store z  (indicator signals)
+ 1                         # lw       0/1 do not/store w  (auxiliary signals)
+ 1                         # la       0/1 do not/store a  (alias     signals)
+ 0                         # lperf    0/1 do not/store performance indicators
+ 0                         # levent   0/1 do not/store event point
+ 1                         # lres     0/1 do not/store results on result file
+ 0                         # lshare   0/1 do not/store info data for shared memory on dsshare.txt
+ 1                         # lform    0/1 ASCII/Matlab-binary storage format of results
+                           #              (for simulation/linearization; not for trimming)
+
+
+#    Names of initial variables
+char initialName(777,59)
+environment.baseUnits.rad
+environment.baseUnits.R_inf
+environment.baseUnits.c
+environment.baseUnits.k_J
+environment.baseUnits.R_K
+environment.baseUnits.'cd'
+environment.baseUnits.k_F
+environment.baseUnits.R
+_GlobalScope.FCSys.Units.base.rad
+_GlobalScope.FCSys.Units.base.R_inf
+_GlobalScope.FCSys.Units.base.c
+_GlobalScope.FCSys.Units.base.k_J
+_GlobalScope.FCSys.Units.base.R_K
+_GlobalScope.FCSys.Units.base.'cd'
+_GlobalScope.FCSys.Units.base.k_F
+_GlobalScope.FCSys.Units.base.R
+environment.analysis
+environment.T
+environment.p
+environment.RH
+environment.psi_O2_dry
+environment.p_sat
+environment.p_H2O
+environment.p_dry
+environment.p_O2
+environment.psi_H2O
+environment.psi_dry
+environment.a[1]
+environment.a[2]
+environment.a[3]
+environment.E[1]
+environment.E[2]
+environment.E[3]
+'inclC+'
+'inclSO3-'
+'incle-'
+'inclH+'
+inclH2
+inclH2O
+inclN2
+inclO2
+subregion.L[1]
+subregion.L[2]
+subregion.L[3]
+subregion.V
+subregion.inclTrans[1]
+subregion.inclTrans[2]
+subregion.inclTrans[3]
+subregion.inclRot[1]
+subregion.inclRot[2]
+subregion.inclRot[3]
+subregion.cartTrans[1]
+subregion.transCart[1]
+subregion.transCart[2]
+subregion.transCart[3]
+subregion.inclTransX
+subregion.inclTransY
+subregion.inclTransZ
+subregion.A[1]
+subregion.A[2]
+subregion.A[3]
+subregion.n_spec
+subregion.n_trans
+subregion.gas.n_spec
+subregion.gas.n_inter
+subregion.gas.n_trans
+subregion.gas.inclH2
+subregion.gas.inclH2O
+subregion.gas.inclN2
+subregion.gas.N2.initMaterial
+subregion.gas.N2.initEnergy
+subregion.gas.N2.mu
+subregion.gas.N2.nu
+subregion.gas.N2.n_trans
+subregion.gas.N2.n_intra
+subregion.gas.N2.n_inter
+subregion.gas.N2.N_IC
+subregion.gas.N2.rho_IC
+subregion.gas.N2.V_IC
+subregion.gas.N2.p_IC
+subregion.gas.N2.T_IC
+subregion.gas.N2.h_IC
+subregion.gas.N2.g_IC
+subregion.gas.N2.k_intra_Phi[1, 1]
+subregion.gas.N2.k_intra_Phi[2, 1]
+subregion.gas.N2.k_intra_Phi[3, 1]
+subregion.gas.N2.k_intra_Q[1]
+subregion.gas.N2.k_intra_Q[2]
+subregion.gas.N2.k_intra_Q[3]
+subregion.gas.N2.N
+subregion.gas.N2.T
+subregion.gas.N2.der(T)
+subregion.gas.N2.phi[1]
+subregion.gas.N2.der(phi[1])
+subregion.gas.N2.p
+subregion.gas.N2.der(p)
+subregion.gas.N2.g
+subregion.gas.N2.M
+subregion.gas.N2.v
+subregion.gas.N2.h
+subregion.gas.N2.s
+subregion.gas.N2.rho
+subregion.gas.N2.mrho
+subregion.gas.N2.S
+subregion.gas.N2.c_p
+subregion.gas.N2.c_v
+subregion.gas.N2.beta
+subregion.gas.N2.tau_PhiE_intra[1, 1]
+subregion.gas.N2.tau_PhiE_intra[2, 1]
+subregion.gas.N2.tau_PhiE_intra[3, 1]
+subregion.gas.N2.tau_PhiE_inter[1, 1]
+subregion.gas.N2.tau_PhiE_inter[2, 1]
+subregion.gas.N2.tau_QE_intra[1]
+subregion.gas.N2.tau_QE_intra[2]
+subregion.gas.N2.tau_QE_intra[3]
+subregion.gas.N2.tau_QE_inter[1]
+subregion.gas.N2.tau_QE_inter[2]
+subregion.gas.N2.f_DE[1]
+subregion.gas.N2.Edot_DE
+subregion.gas.N2.intra[1].n_trans
+subregion.gas.N2.intra[1].mPhidot[1]
+subregion.gas.N2.intra[1].Qdot
+subregion.gas.N2.intra[2].n_trans
+subregion.gas.N2.intra[2].mPhidot[1]
+subregion.gas.N2.intra[2].Qdot
+subregion.gas.N2.intra[3].n_trans
+subregion.gas.N2.intra[3].mPhidot[1]
+subregion.gas.N2.intra[3].Qdot
+subregion.gas.N2.inter[1].n_trans
+subregion.gas.N2.inter[2].n_trans
+subregion.gas.N2.dalton.p
+subregion.gas.N2.n_chem
+subregion.gas.N2.zeta
+subregion.gas.N2.eta
+subregion.gas.N2.theta
+subregion.gas.N2.consMaterial
+subregion.gas.N2.consRot
+subregion.gas.N2.consTransX
+subregion.gas.N2.consTransY
+subregion.gas.N2.consTransZ
+subregion.gas.N2.consEnergy
+subregion.gas.N2.upstreamX
+subregion.gas.N2.upstreamY
+subregion.gas.N2.upstreamZ
+subregion.gas.N2.approxVelocity
+subregion.gas.N2.Nu_Phi[1]
+subregion.gas.N2.Nu_Phi[2]
+subregion.gas.N2.Nu_Phi[3]
+subregion.gas.N2.Nu_Q
+subregion.gas.N2.N0
+subregion.gas.N2.I[1]
+subregion.gas.N2.phi_boundaries[1, 1]
+subregion.gas.N2.phi_boundaries[1, 2]
+subregion.gas.N2.f[1]
+subregion.gas.N2.minusDeltaf[1]
+subregion.gas.N2.rho_boundaries[1, 1]
+subregion.gas.N2.rho_boundaries[1, 2]
+subregion.gas.N2.Vdot_boundaries[1, 1]
+subregion.gas.N2.Vdot_boundaries[1, 2]
+subregion.gas.N2.q[1]
+subregion.gas.N2.DeltaT[1]
+subregion.gas.N2.Deltap[1]
+subregion.gas.N2.Hprimedot[1, 1]
+subregion.gas.N2.Hprimedot[1, 2]
+subregion.gas.N2.tau_NT[1]
+subregion.gas.N2.tau_PhiT[1]
+subregion.gas.N2.tau_QT[1]
+subregion.gas.N2.Pe_N[1]
+subregion.gas.N2.Pe_Phi[1]
+subregion.gas.N2.Pe_Q[1]
+subregion.gas.N2.mphiI[1, 1]
+subregion.gas.N2.Vdot[1]
+subregion.gas.N2.hI[1]
+subregion.gas.N2.Ma[1]
+subregion.gas.N2.f_thermo[1]
+subregion.gas.N2.f_AE[1]
+subregion.gas.N2.f_AT[1]
+subregion.gas.N2.f_DT[1]
+subregion.gas.N2.Ndere
+subregion.gas.N2.Edot_AE
+subregion.gas.N2.Edot_AT
+subregion.gas.N2.Edot_DT
+subregion.gas.N2.consTrans[1]
+subregion.gas.N2.upstream[1]
+subregion.gas.N2.mPhidot_boundaries[1, 1, 1]
+subregion.gas.N2.mPhidot_boundaries[1, 1, 2]
+subregion.gas.N2.mPhidot_boundaries[1, 2, 1]
+subregion.gas.N2.mPhidot_boundaries[1, 2, 2]
+subregion.gas.inclO2
+subregion.gas.common.k_Phi[1]
+subregion.gas.common.k_Phi[2]
+subregion.gas.common.k_Phi[3]
+subregion.gas.common.k_Q
+subregion.gas.H2O_N2.k_Phi[1]
+subregion.gas.H2O_N2.k_Phi[2]
+subregion.gas.H2O_N2.k_Phi[3]
+subregion.gas.H2O_N2.k_Q
+subregion.gas.N2_O2.k_Phi[1]
+subregion.gas.N2_O2.k_Phi[2]
+subregion.gas.N2_O2.k_Phi[3]
+subregion.gas.N2_O2.k_Q
+subregion.gas.dalton.V
+subregion.gas.dalton.p
+subregion.gas.inter[1].n_trans
+subregion.gas.inter[1].mPhidot[1]
+subregion.gas.inter[1].Qdot
+subregion.gas.inter[2].n_trans
+subregion.gas.inter[2].mPhidot[1]
+subregion.gas.inter[2].Qdot
+subregion.gas.p
+subregion.graphite.n_spec
+subregion.graphite.n_inter
+subregion.graphite.n_trans
+subregion.graphite.'inclC+'
+subregion.graphite.'incle-'
+subregion.graphite.'incle-Transfer'
+subregion.graphite.inclDL
+subregion.ionomer.n_spec
+subregion.ionomer.n_inter
+subregion.ionomer.n_trans
+subregion.ionomer.'inclSO3-'
+subregion.ionomer.'SO3-'.epsilon
+subregion.ionomer.'SO3-'.mu
+subregion.ionomer.'SO3-'.nu
+subregion.ionomer.'SO3-'.n_trans
+subregion.ionomer.'SO3-'.n_intra
+subregion.ionomer.'SO3-'.n_inter
+subregion.ionomer.'SO3-'.N_IC
+subregion.ionomer.'SO3-'.rho_IC
+subregion.ionomer.'SO3-'.V_IC
+subregion.ionomer.'SO3-'.p_IC
+subregion.ionomer.'SO3-'.T_IC
+subregion.ionomer.'SO3-'.h_IC
+subregion.ionomer.'SO3-'.g_IC
+subregion.ionomer.'SO3-'.k_intra_Phi[1, 1]
+subregion.ionomer.'SO3-'.k_intra_Phi[2, 1]
+subregion.ionomer.'SO3-'.k_intra_Phi[3, 1]
+subregion.ionomer.'SO3-'.k_intra_Q[1]
+subregion.ionomer.'SO3-'.k_intra_Q[2]
+subregion.ionomer.'SO3-'.k_intra_Q[3]
+subregion.ionomer.'SO3-'.N
+subregion.ionomer.'SO3-'.T
+subregion.ionomer.'SO3-'.phi[1]
+subregion.ionomer.'SO3-'.p
+subregion.ionomer.'SO3-'.g
+subregion.ionomer.'SO3-'.M
+subregion.ionomer.'SO3-'.v
+subregion.ionomer.'SO3-'.h
+subregion.ionomer.'SO3-'.s
+subregion.ionomer.'SO3-'.rho
+subregion.ionomer.'SO3-'.mrho
+subregion.ionomer.'SO3-'.S
+subregion.ionomer.'SO3-'.c_p
+subregion.ionomer.'SO3-'.c_v
+subregion.ionomer.'SO3-'.beta
+subregion.ionomer.'SO3-'.tau_PhiE_intra[1, 1]
+subregion.ionomer.'SO3-'.tau_PhiE_intra[2, 1]
+subregion.ionomer.'SO3-'.tau_PhiE_intra[3, 1]
+subregion.ionomer.'SO3-'.tau_PhiE_inter[1, 1]
+subregion.ionomer.'SO3-'.tau_QE_intra[1]
+subregion.ionomer.'SO3-'.tau_QE_intra[2]
+subregion.ionomer.'SO3-'.tau_QE_intra[3]
+subregion.ionomer.'SO3-'.tau_QE_inter[1]
+subregion.ionomer.'SO3-'.f_DE[1]
+subregion.ionomer.'SO3-'.Edot_DE
+subregion.ionomer.'SO3-'.intra[1].n_trans
+subregion.ionomer.'SO3-'.intra[1].mPhidot[1]
+subregion.ionomer.'SO3-'.intra[1].Qdot
+subregion.ionomer.'SO3-'.intra[2].n_trans
+subregion.ionomer.'SO3-'.intra[2].mPhidot[1]
+subregion.ionomer.'SO3-'.intra[2].Qdot
+subregion.ionomer.'SO3-'.intra[3].n_trans
+subregion.ionomer.'SO3-'.intra[3].mPhidot[1]
+subregion.ionomer.'SO3-'.intra[3].Qdot
+subregion.ionomer.'SO3-'.inter[1].n_trans
+subregion.ionomer.'SO3-'.kL[1]
+subregion.ionomer.'SO3-'.theta
+subregion.ionomer.'SO3-'.consEnergy
+subregion.ionomer.'SO3-'.tau_QT[1]
+subregion.ionomer.'SO3-'.DeltaT[1]
+subregion.ionomer.'inclH+'
+subregion.ionomer.inclH2O
+subregion.ionomer.H2O.initMaterial
+subregion.ionomer.H2O.initEnergy
+subregion.ionomer.H2O.mu
+subregion.ionomer.H2O.nu
+subregion.ionomer.H2O.n_trans
+subregion.ionomer.H2O.n_intra
+subregion.ionomer.H2O.n_inter
+subregion.ionomer.H2O.N_IC
+subregion.ionomer.H2O.rho_IC
+subregion.ionomer.H2O.V_IC
+subregion.ionomer.H2O.p_IC
+subregion.ionomer.H2O.T_IC
+subregion.ionomer.H2O.h_IC
+subregion.ionomer.H2O.g_IC
+subregion.ionomer.H2O.k_intra_Phi[1, 1]
+subregion.ionomer.H2O.k_intra_Phi[2, 1]
+subregion.ionomer.H2O.k_intra_Phi[3, 1]
+subregion.ionomer.H2O.k_intra_Q[1]
+subregion.ionomer.H2O.k_intra_Q[2]
+subregion.ionomer.H2O.k_intra_Q[3]
+subregion.ionomer.H2O.N
+subregion.ionomer.H2O.der(N)
+subregion.ionomer.H2O.T
+subregion.ionomer.H2O.der(T)
+subregion.ionomer.H2O.phi[1]
+subregion.ionomer.H2O.der(phi[1])
+subregion.ionomer.H2O.p
+subregion.ionomer.H2O.der(p)
+subregion.ionomer.H2O.M
+subregion.ionomer.H2O.der(M)
+subregion.ionomer.H2O.v
+subregion.ionomer.H2O.der(v)
+subregion.ionomer.H2O.h
+subregion.ionomer.H2O.s
+subregion.ionomer.H2O.der(s)
+subregion.ionomer.H2O.rho
+subregion.ionomer.H2O.mrho
+subregion.ionomer.H2O.S
+subregion.ionomer.H2O.c_p
+subregion.ionomer.H2O.c_v
+subregion.ionomer.H2O.beta
+subregion.ionomer.H2O.tau_PhiE_intra[1, 1]
+subregion.ionomer.H2O.tau_PhiE_intra[2, 1]
+subregion.ionomer.H2O.tau_PhiE_intra[3, 1]
+subregion.ionomer.H2O.tau_QE_intra[1]
+subregion.ionomer.H2O.tau_QE_intra[2]
+subregion.ionomer.H2O.tau_QE_intra[3]
+subregion.ionomer.H2O.f_DE[1]
+subregion.ionomer.H2O.Edot_DE
+subregion.ionomer.H2O.intra[1].n_trans
+subregion.ionomer.H2O.intra[2].n_trans
+subregion.ionomer.H2O.intra[2].mPhidot[1]
+subregion.ionomer.H2O.intra[2].Qdot
+subregion.ionomer.H2O.intra[3].n_trans
+subregion.ionomer.H2O.n_chem
+subregion.ionomer.H2O.zeta
+subregion.ionomer.H2O.eta
+subregion.ionomer.H2O.theta
+subregion.ionomer.H2O.tauprime[1]
+subregion.ionomer.H2O.consMaterial
+subregion.ionomer.H2O.consRot
+subregion.ionomer.H2O.consTransX
+subregion.ionomer.H2O.consTransY
+subregion.ionomer.H2O.consTransZ
+subregion.ionomer.H2O.consEnergy
+subregion.ionomer.H2O.upstreamX
+subregion.ionomer.H2O.upstreamY
+subregion.ionomer.H2O.upstreamZ
+subregion.ionomer.H2O.approxVelocity
+subregion.ionomer.H2O.Nu_Phi[1]
+subregion.ionomer.H2O.Nu_Phi[2]
+subregion.ionomer.H2O.Nu_Phi[3]
+subregion.ionomer.H2O.Nu_Q
+subregion.ionomer.H2O.N0
+subregion.ionomer.H2O.I[1]
+subregion.ionomer.H2O.phi_boundaries[1, 1]
+subregion.ionomer.H2O.phi_boundaries[1, 2]
+subregion.ionomer.H2O.f[1]
+subregion.ionomer.H2O.minusDeltaf[1]
+subregion.ionomer.H2O.rho_boundaries[1, 1]
+subregion.ionomer.H2O.rho_boundaries[1, 2]
+subregion.ionomer.H2O.Vdot_boundaries[1, 1]
+subregion.ionomer.H2O.Vdot_boundaries[1, 2]
+subregion.ionomer.H2O.q[1]
+subregion.ionomer.H2O.phi_chemical[1, 1]
+subregion.ionomer.H2O.sT_chemical[1]
+subregion.ionomer.H2O.DeltaT[1]
+subregion.ionomer.H2O.Deltap[1]
+subregion.ionomer.H2O.Hprimedot[1, 1]
+subregion.ionomer.H2O.Hprimedot[1, 2]
+subregion.ionomer.H2O.tau_NT[1]
+subregion.ionomer.H2O.tau_PhiT[1]
+subregion.ionomer.H2O.tau_QT[1]
+subregion.ionomer.H2O.Pe_N[1]
+subregion.ionomer.H2O.Pe_Phi[1]
+subregion.ionomer.H2O.Pe_Q[1]
+subregion.ionomer.H2O.mphiI[1, 1]
+subregion.ionomer.H2O.Vdot[1]
+subregion.ionomer.H2O.hI[1]
+subregion.ionomer.H2O.Ma[1]
+subregion.ionomer.H2O.f_thermo[1]
+subregion.ionomer.H2O.f_AE[1]
+subregion.ionomer.H2O.f_AT[1]
+subregion.ionomer.H2O.f_DT[1]
+subregion.ionomer.H2O.Ndere
+subregion.ionomer.H2O.Edot_AE
+subregion.ionomer.H2O.Edot_AT
+subregion.ionomer.H2O.Edot_DT
+subregion.ionomer.H2O.chemical[1].n_trans
+subregion.ionomer.H2O.consTrans[1]
+subregion.ionomer.H2O.upstream[1]
+subregion.ionomer.H2O.mPhidot_boundaries[1, 1, 1]
+subregion.ionomer.H2O.mPhidot_boundaries[1, 1, 2]
+subregion.ionomer.H2O.mPhidot_boundaries[1, 2, 1]
+subregion.ionomer.H2O.mPhidot_boundaries[1, 2, 2]
+subregion.ionomer.H2O.lambda_IC
+subregion.ionomer.H2O.lambda
+_GlobalScope.FCSys.Characteristics.'SO3-'.Ionomer.b_v[1, 1]
+subregion.ionomer.amagat.p
+subregion.ionomer.amagat.V
+subregion.ionomer.inter[1].n_trans
+subregion.ionomer.inter[1].mPhidot[1]
+subregion.ionomer.inter[1].Qdot
+subregion.ionomer.chemH2O[1].n_trans
+subregion.ionomer.chemH2O[1].g
+subregion.ionomer.chemH2O[1].Ndot
+subregion.ionomer.chemH2O[1].sT
+subregion.ionomer.common.k_Phi[1]
+subregion.ionomer.common.k_Phi[2]
+subregion.ionomer.common.k_Phi[3]
+subregion.ionomer.common.k_Q
+subregion.ionomer.'H+_SO3-'.k_Phi[1]
+subregion.ionomer.'H+_SO3-'.k_Phi[2]
+subregion.ionomer.'H+_SO3-'.k_Phi[3]
+subregion.ionomer.'H+_SO3-'.k_Q
+subregion.ionomer.'H+_H2O'.k_Phi[1]
+subregion.ionomer.'H+_H2O'.k_Phi[2]
+subregion.ionomer.'H+_H2O'.k_Phi[3]
+subregion.ionomer.'H+_H2O'.k_Q
+subregion.ionomer.'H2O_SO3-'.k_Phi[1]
+subregion.ionomer.'H2O_SO3-'.k_Phi[2]
+subregion.ionomer.'H2O_SO3-'.k_Phi[3]
+subregion.ionomer.'H2O_SO3-'.k_Q
+subregion.ionomer.amagatDalton.amagat.p
+subregion.ionomer.amagatDalton.dalton.p
+subregion.liquid.n_spec
+subregion.liquid.n_inter
+subregion.liquid.n_trans
+subregion.liquid.inclH2O
+subregion.liquid.p
+subregion.liquid.H2O.epsilon_IC
+subregion.liquid.H2O.initMaterial
+subregion.liquid.H2O.initEnergy
+subregion.liquid.H2O.mu
+subregion.liquid.H2O.nu
+subregion.liquid.H2O.n_trans
+subregion.liquid.H2O.n_intra
+subregion.liquid.H2O.n_inter
+subregion.liquid.H2O.N_IC
+subregion.liquid.H2O.rho_IC
+subregion.liquid.H2O.V_IC
+subregion.liquid.H2O.p_IC
+subregion.liquid.H2O.T_IC
+subregion.liquid.H2O.h_IC
+subregion.liquid.H2O.g_IC
+subregion.liquid.H2O.N
+subregion.liquid.H2O.der(N)
+subregion.liquid.H2O.T
+subregion.liquid.H2O.der(T)
+subregion.liquid.H2O.phi[1]
+subregion.liquid.H2O.der(phi[1])
+subregion.liquid.H2O.p
+subregion.liquid.H2O.g
+subregion.liquid.H2O.M
+subregion.liquid.H2O.v
+subregion.liquid.H2O.h
+subregion.liquid.H2O.s
+subregion.liquid.H2O.rho
+subregion.liquid.H2O.mrho
+subregion.liquid.H2O.S
+subregion.liquid.H2O.c_p
+subregion.liquid.H2O.c_v
+subregion.liquid.H2O.beta
+subregion.liquid.H2O.tau_PhiE_inter[1, 1]
+subregion.liquid.H2O.tau_PhiE_inter[2, 1]
+subregion.liquid.H2O.tau_QE_inter[1]
+subregion.liquid.H2O.tau_QE_inter[2]
+subregion.liquid.H2O.f_DE[1]
+subregion.liquid.H2O.Edot_DE
+subregion.liquid.H2O.inter[1].n_trans
+subregion.liquid.H2O.inter[2].n_trans
+subregion.liquid.H2O.dalton.p
+subregion.liquid.H2O.n_chem
+subregion.liquid.H2O.zeta
+subregion.liquid.H2O.eta
+subregion.liquid.H2O.theta
+subregion.liquid.H2O.tauprime[1]
+subregion.liquid.H2O.tauprime[2]
+subregion.liquid.H2O.tauprime[3]
+subregion.liquid.H2O.consMaterial
+subregion.liquid.H2O.consRot
+subregion.liquid.H2O.consTransX
+subregion.liquid.H2O.consTransY
+subregion.liquid.H2O.consTransZ
+subregion.liquid.H2O.consEnergy
+subregion.liquid.H2O.upstreamX
+subregion.liquid.H2O.upstreamY
+subregion.liquid.H2O.upstreamZ
+subregion.liquid.H2O.approxVelocity
+subregion.liquid.H2O.Nu_Phi[1]
+subregion.liquid.H2O.Nu_Phi[2]
+subregion.liquid.H2O.Nu_Phi[3]
+subregion.liquid.H2O.Nu_Q
+subregion.liquid.H2O.N0
+subregion.liquid.H2O.I[1]
+subregion.liquid.H2O.phi_boundaries[1, 1]
+subregion.liquid.H2O.phi_boundaries[1, 2]
+subregion.liquid.H2O.f[1]
+subregion.liquid.H2O.minusDeltaf[1]
+subregion.liquid.H2O.rho_boundaries[1, 1]
+subregion.liquid.H2O.rho_boundaries[1, 2]
+subregion.liquid.H2O.Vdot_boundaries[1, 1]
+subregion.liquid.H2O.Vdot_boundaries[1, 2]
+subregion.liquid.H2O.q[1]
+subregion.liquid.H2O.phi_chemical[3, 1]
+subregion.liquid.H2O.sT_chemical[1]
+subregion.liquid.H2O.sT_chemical[2]
+subregion.liquid.H2O.sT_chemical[3]
+subregion.liquid.H2O.DeltaT[1]
+subregion.liquid.H2O.Deltap[1]
+subregion.liquid.H2O.Hprimedot[1, 1]
+subregion.liquid.H2O.Hprimedot[1, 2]
+subregion.liquid.H2O.g_boundaries[1, 1]
+subregion.liquid.H2O.g_boundaries[1, 2]
+subregion.liquid.H2O.Deltag[1]
+subregion.liquid.H2O.tau_NT[1]
+subregion.liquid.H2O.tau_PhiT[1]
+subregion.liquid.H2O.tau_QT[1]
+subregion.liquid.H2O.Pe_N[1]
+subregion.liquid.H2O.Pe_Phi[1]
+subregion.liquid.H2O.Pe_Q[1]
+subregion.liquid.H2O.mphiI[1, 1]
+subregion.liquid.H2O.Vdot[1]
+subregion.liquid.H2O.hI[1]
+subregion.liquid.H2O.Ma[1]
+subregion.liquid.H2O.f_thermo[1]
+subregion.liquid.H2O.f_AE[1]
+subregion.liquid.H2O.f_AT[1]
+subregion.liquid.H2O.f_DT[1]
+subregion.liquid.H2O.Ndere
+subregion.liquid.H2O.Edot_AE
+subregion.liquid.H2O.Edot_AT
+subregion.liquid.H2O.Edot_DT
+subregion.liquid.H2O.chemical[1].n_trans
+subregion.liquid.H2O.chemical[1].g
+subregion.liquid.H2O.chemical[1].Ndot
+subregion.liquid.H2O.chemical[1].sT
+subregion.liquid.H2O.chemical[2].n_trans
+subregion.liquid.H2O.chemical[2].Ndot
+subregion.liquid.H2O.chemical[2].sT
+subregion.liquid.H2O.chemical[3].n_trans
+subregion.liquid.H2O.chemical[3].sT
+subregion.liquid.H2O.consTrans[1]
+subregion.liquid.H2O.upstream[1]
+subregion.liquid.H2O.mPhidot_boundaries[1, 1, 1]
+subregion.liquid.H2O.mPhidot_boundaries[1, 1, 2]
+subregion.liquid.H2O.mPhidot_boundaries[1, 2, 1]
+subregion.liquid.H2O.mPhidot_boundaries[1, 2, 2]
+subregion.liquid.inter[1].n_trans
+subregion.liquid.inter[1].mPhidot[1]
+subregion.liquid.inter[1].Qdot
+subregion.liquid.inter[2].n_trans
+subregion.liquid.amagat.p
+subregion.liquid.chemH2O[1].n_trans
+subregion.liquid.chemH2O[1].g
+subregion.liquid.chemH2O[1].Ndot
+subregion.liquid.chemH2O[1].sT
+subregion.liquid.chemH2O[2].n_trans
+subregion.liquid.chemH2O[2].g
+subregion.liquid.chemH2O[2].Ndot
+subregion.liquid.chemH2O[2].sT
+subregion.liquid.chemH2O[3].n_trans
+subregion.liquid.chemH2O[3].sT
+subregion.liquid.amagatDalton.amagat.p
+subregion.liquid.amagatDalton.dalton.p
+subregion.common.k_Phi[1]
+subregion.common.k_Phi[2]
+subregion.common.k_Phi[3]
+subregion.common.k_Q
+subregion.gasLiq.k_Phi[1]
+subregion.gasLiq.k_Phi[2]
+subregion.gasLiq.k_Phi[3]
+subregion.gasLiq.k_Q
+subregion.volume.V
+subregion.volume.inclCapillary
+subregion.volume.gamma
+subregion.volume.kappa
+subregion.volume.theta
+subregion.volume.inclGas
+subregion.volume.inclLiquid
+subregion.volume.inclSolid
+subregion.volume.V_pore
+subregion.volume.x
+subregion.volume.gas.p
+subregion.volume.liquid.p
+subregion.volume.solid.p
+subregion.volume.volume.V
+subregion.volume.volume.amagat.p
+subregion.volume.amagatDalton.amagat.p
+subregion.volume.amagatDalton.dalton.p
+subregion.inclHOR
+subregion.inclORR
+subregion.gas.k_inter_Phi[1, 1]
+subregion.gas.k_inter_Phi[2, 1]
+subregion.gas.k_inter_Q[1]
+subregion.gas.k_inter_Q[2]
+subregion.gas.Aprime[1]
+subregion.gas.k[1]
+subregion.gas.k[2]
+subregion.gas.k[3]
+subregion.gas.epsilon
+subregion.gas.kL[1]
+subregion.gas.N2.boundaries[1, 1].Ndot
+subregion.gas.N2.boundaries[1, 1].der(Ndot)
+subregion.gas.N2.boundaries[1, 1].mPhidot[1]
+subregion.gas.N2.boundaries[1, 1].mPhidot[2]
+subregion.gas.N2.boundaries[1, 1].Qdot
+subregion.gas.N2.boundaries[1, 2].Ndot
+subregion.gas.N2.boundaries[1, 2].der(Ndot)
+subregion.gas.N2.boundaries[1, 2].mPhidot[1]
+subregion.gas.N2.boundaries[1, 2].mPhidot[2]
+subregion.gas.N2.boundaries[1, 2].Qdot
+subregion.ionomer.k_inter_Phi[1, 1]
+subregion.ionomer.k_inter_Q[1]
+subregion.ionomer.Aprime[1]
+subregion.ionomer.k[1]
+subregion.ionomer.k[2]
+subregion.ionomer.k[3]
+subregion.ionomer.epsilon
+subregion.ionomer.kL[1]
+subregion.ionomer.'SO3-'.boundaries[1, 1].Qdot
+subregion.ionomer.'SO3-'.boundaries[1, 2].Qdot
+subregion.ionomer.H2O.boundaries[1, 1].Ndot
+subregion.ionomer.H2O.boundaries[1, 1].der(Ndot)
+subregion.ionomer.H2O.boundaries[1, 1].mPhidot[1]
+subregion.ionomer.H2O.boundaries[1, 1].mPhidot[2]
+subregion.ionomer.H2O.boundaries[1, 1].Qdot
+subregion.ionomer.H2O.boundaries[1, 2].Ndot
+subregion.ionomer.H2O.boundaries[1, 2].der(Ndot)
+subregion.ionomer.H2O.boundaries[1, 2].mPhidot[1]
+subregion.ionomer.H2O.boundaries[1, 2].mPhidot[2]
+subregion.ionomer.H2O.boundaries[1, 2].Qdot
+subregion.liquid.k_inter_Phi[1, 1]
+subregion.liquid.k_inter_Phi[2, 1]
+subregion.liquid.k_inter_Q[1]
+subregion.liquid.k_inter_Q[2]
+subregion.liquid.Aprime[1]
+subregion.liquid.k[1]
+subregion.liquid.k[2]
+subregion.liquid.k[3]
+subregion.liquid.epsilon
+subregion.liquid.kL[1]
+subregion.liquid.H2O.boundaries[1, 1].Ndot
+subregion.liquid.H2O.boundaries[1, 1].der(Ndot)
+subregion.liquid.H2O.boundaries[1, 1].mPhidot[1]
+subregion.liquid.H2O.boundaries[1, 1].mPhidot[2]
+subregion.liquid.H2O.boundaries[1, 1].Qdot
+subregion.liquid.H2O.boundaries[1, 2].Ndot
+subregion.liquid.H2O.boundaries[1, 2].der(Ndot)
+subregion.liquid.H2O.boundaries[1, 2].mPhidot[1]
+subregion.liquid.H2O.boundaries[1, 2].mPhidot[2]
+subregion.liquid.H2O.boundaries[1, 2].Qdot
+subregion.gas.exchCommon.node.Qdot
+subregion.gas.exchCommon.node.T
+subregion.gas.exchCommon.node.mPhidot[1]
+subregion.gas.exchCommon.node.n_trans
+subregion.gas.exchCommon.node.phi[1]
+subregion.gas.exchH2O_N2.node.Qdot
+subregion.gas.exchH2O_N2.node.T
+subregion.gas.exchH2O_N2.node.mPhidot[1]
+subregion.gas.exchH2O_N2.node.n_trans
+subregion.gas.exchH2O_N2.node.phi[1]
+subregion.gas.exchN2_O2.node.Qdot
+subregion.gas.exchN2_O2.node.T
+subregion.gas.exchN2_O2.node.mPhidot[1]
+subregion.gas.exchN2_O2.node.n_trans
+subregion.gas.exchN2_O2.node.phi[1]
+subregion.gas.xNegative.N2.Ndot
+subregion.gas.xNegative.N2.Qdot
+subregion.gas.xNegative.N2.mPhidot[1]
+subregion.gas.xNegative.N2.mPhidot[2]
+subregion.gas.xPositive.N2.Ndot
+subregion.gas.xPositive.N2.Qdot
+subregion.gas.xPositive.N2.mPhidot[1]
+subregion.gas.xPositive.N2.mPhidot[2]
+subregion.ionomer.exchCommon.node.Qdot
+subregion.ionomer.exchCommon.node.T
+subregion.ionomer.exchCommon.node.mPhidot[1]
+subregion.ionomer.exchCommon.node.n_trans
+subregion.ionomer.exchCommon.node.phi[1]
+subregion.ionomer.'exchH+_SO3-'.node.Qdot
+subregion.ionomer.'exchH+_SO3-'.node.T
+subregion.ionomer.'exchH+_SO3-'.node.mPhidot[1]
+subregion.ionomer.'exchH+_SO3-'.node.n_trans
+subregion.ionomer.'exchH+_SO3-'.node.phi[1]
+subregion.ionomer.'exchH2O_SO3-'.node.Qdot
+subregion.ionomer.'exchH2O_SO3-'.node.T
+subregion.ionomer.'exchH2O_SO3-'.node.mPhidot[1]
+subregion.ionomer.'exchH2O_SO3-'.node.n_trans
+subregion.ionomer.'exchH2O_SO3-'.node.phi[1]
+subregion.ionomer.'exchH+_H2O'.node.Qdot
+subregion.ionomer.'exchH+_H2O'.node.T
+subregion.ionomer.'exchH+_H2O'.node.mPhidot[1]
+subregion.ionomer.'exchH+_H2O'.node.n_trans
+subregion.ionomer.'exchH+_H2O'.node.phi[1]
+subregion.ionomer.xNegative.'SO3-'.Qdot
+subregion.ionomer.xPositive.'SO3-'.Qdot
+subregion.ionomer.xNegative.H2O.Ndot
+subregion.ionomer.xNegative.H2O.Qdot
+subregion.ionomer.xNegative.H2O.mPhidot[1]
+subregion.ionomer.xNegative.H2O.mPhidot[2]
+subregion.ionomer.xPositive.H2O.Ndot
+subregion.ionomer.xPositive.H2O.Qdot
+subregion.ionomer.xPositive.H2O.mPhidot[1]
+subregion.ionomer.xPositive.H2O.mPhidot[2]
+subregion.liquid.xNegative.H2O.Ndot
+subregion.liquid.xNegative.H2O.Qdot
+subregion.liquid.xNegative.H2O.mPhidot[1]
+subregion.liquid.xNegative.H2O.mPhidot[2]
+subregion.liquid.xPositive.H2O.Ndot
+subregion.liquid.xPositive.H2O.Qdot
+subregion.liquid.xPositive.H2O.mPhidot[1]
+subregion.liquid.xPositive.H2O.mPhidot[2]
+subregion.xNegative.gas.N2.Ndot
+subregion.xNegative.gas.N2.Qdot
+subregion.xNegative.gas.N2.T
+subregion.xNegative.gas.N2.mPhidot[1]
+subregion.xNegative.gas.N2.mPhidot[2]
+subregion.xNegative.gas.N2.p
+subregion.xNegative.gas.N2.phi[1]
+subregion.xNegative.gas.N2.phi[2]
+subregion.xPositive.gas.N2.Ndot
+subregion.xPositive.gas.N2.Qdot
+subregion.xPositive.gas.N2.T
+subregion.xPositive.gas.N2.mPhidot[1]
+subregion.xPositive.gas.N2.mPhidot[2]
+subregion.xPositive.gas.N2.p
+subregion.xPositive.gas.N2.phi[1]
+subregion.xPositive.gas.N2.phi[2]
+subregion.xNegative.ionomer.'SO3-'.Qdot
+subregion.xNegative.ionomer.'SO3-'.T
+subregion.xNegative.ionomer.H2O.Ndot
+subregion.xNegative.ionomer.H2O.Qdot
+subregion.xNegative.ionomer.H2O.T
+subregion.xNegative.ionomer.H2O.mPhidot[1]
+subregion.xNegative.ionomer.H2O.mPhidot[2]
+subregion.xNegative.ionomer.H2O.p
+subregion.xNegative.ionomer.H2O.phi[1]
+subregion.xNegative.ionomer.H2O.phi[2]
+subregion.xPositive.ionomer.'SO3-'.Qdot
+subregion.xPositive.ionomer.'SO3-'.T
+subregion.xPositive.ionomer.H2O.Ndot
+subregion.xPositive.ionomer.H2O.Qdot
+subregion.xPositive.ionomer.H2O.T
+subregion.xPositive.ionomer.H2O.mPhidot[1]
+subregion.xPositive.ionomer.H2O.mPhidot[2]
+subregion.xPositive.ionomer.H2O.p
+subregion.xPositive.ionomer.H2O.phi[1]
+subregion.xPositive.ionomer.H2O.phi[2]
+subregion.xNegative.liquid.H2O.Ndot
+subregion.xNegative.liquid.H2O.Qdot
+subregion.xNegative.liquid.H2O.T
+subregion.xNegative.liquid.H2O.mPhidot[1]
+subregion.xNegative.liquid.H2O.mPhidot[2]
+subregion.xNegative.liquid.H2O.p
+subregion.xNegative.liquid.H2O.phi[1]
+subregion.xNegative.liquid.H2O.phi[2]
+subregion.xPositive.liquid.H2O.Ndot
+subregion.xPositive.liquid.H2O.Qdot
+subregion.xPositive.liquid.H2O.T
+subregion.xPositive.liquid.H2O.mPhidot[1]
+subregion.xPositive.liquid.H2O.mPhidot[2]
+subregion.xPositive.liquid.H2O.p
+subregion.xPositive.liquid.H2O.phi[1]
+subregion.xPositive.liquid.H2O.phi[2]
+subregion.exchCommon.node.Qdot
+subregion.exchCommon.node.T
+subregion.exchCommon.node.mPhidot[1]
+subregion.exchCommon.node.n_trans
+subregion.exchCommon.node.phi[1]
+subregion.exchGasLiq.node.Qdot
+subregion.exchGasLiq.node.T
+subregion.exchGasLiq.node.mPhidot[1]
+subregion.exchGasLiq.node.n_trans
+subregion.exchGasLiq.node.phi[1]
+
+double initialValue(777,6)
+  0       1                       0                       0                
+  6   256   # environment.baseUnits.rad
+  0       1                       0                       0                
+  6   256   # environment.baseUnits.R_inf
+  0       1                       0                       0                
+  6   256   # environment.baseUnits.c
+  0       1                       0                       0                
+  6   256   # environment.baseUnits.k_J
+  0 6.8517999537139460E+001       0                 1.0000000000000000E+100
+  6   256   # environment.baseUnits.R_K
+  0       1                       0                       0                
+  6   256   # environment.baseUnits.'cd'
+  0       1                       0                       0                
+  6   256   # environment.baseUnits.k_F
+  0       1                       0                       0                
+  6   256   # environment.baseUnits.R
+  0       1                       0                       0                
+  6  1280   # _GlobalScope.FCSys.Units.base.rad
+  0       1                       0                       0                
+  6  1280   # _GlobalScope.FCSys.Units.base.R_inf
+  0       1                       0                       0                
+  6  1280   # _GlobalScope.FCSys.Units.base.c
+  0       1                       0                       0                
+  6  1280   # _GlobalScope.FCSys.Units.base.k_J
+  0 6.8517999537139460E+001       0                 1.0000000000000000E+100
+  6  1280   # _GlobalScope.FCSys.Units.base.R_K
+  0       1                       0                       0                
+  6  1280   # _GlobalScope.FCSys.Units.base.'cd'
+  0       1                       0                       0                
+  6  1280   # _GlobalScope.FCSys.Units.base.k_F
+  0       1                       0                       0                
+  6  1280   # _GlobalScope.FCSys.Units.base.R
+  0       1                       0                       0                
+  6   257   # environment.analysis
+  0 4.2200928232356662E-003       0                 1.0000000000000000E+100
+  6   256   # environment.T
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   256   # environment.p
+  0       1                       0                       1                
+  6   256   # environment.RH
+  0 2.0946000000000001E-001       0                       1                
+  6   256   # environment.psi_O2_dry
+  0 4.0424737489175122E-001       0                 1.0000000000000000E+100
+  6   256   # environment.p_sat
+  0 4.0424737489175122E-001       0                 1.0000000000000000E+100
+  6   256   # environment.p_H2O
+  0 1.6491731787350465E+000       0                 1.0000000000000000E+100
+  6   256   # environment.p_dry
+  0 3.4543581401784285E-001       0                 1.0000000000000000E+100
+  6   256   # environment.p_O2
+  0 1.9686535920650078E-001       0                 1.0000000000000000E+100
+  6   256   # environment.psi_H2O
+  0 8.0313464079349917E-001       0                 1.0000000000000000E+100
+  6   256   # environment.psi_dry
+ -1       0                       0                       0                
+  1   280   # environment.a[1]
+ -1 9.9431716586547722E-024       0                       0                
+  1   280   # environment.a[2]
+ -1       0                       0                       0                
+  1   280   # environment.a[3]
+ -1       0                       0                       0                
+  1   280   # environment.E[1]
+ -1       0                       0                       0                
+  1   280   # environment.E[2]
+ -1       0                       0                       0                
+  1   280   # environment.E[3]
+  0       0                       0                       0                
+  6   257   # 'inclC+'
+  0       1                       0                       0                
+  6   257   # 'inclSO3-'
+  0       0                       0                       0                
+  6   257   # 'incle-'
+  0       0                       0                       0                
+  6   257   # 'inclH+'
+  0       0                       0                       0                
+  6   257   # inclH2
+  0       0                       0                       0                
+  6   257   # inclH2O
+  0       1                       0                       0                
+  6   257   # inclN2
+  0       0                       0                       0                
+  6   257   # inclO2
+ -1 1.0973731568539000E+005 9.9999999999999997E-061 1.0000000000000000E+100
+  1   280   # subregion.L[1]
+ -1 1.0973731568539000E+005 9.9999999999999997E-061 1.0000000000000000E+100
+  1   280   # subregion.L[2]
+ -1 1.0973731568539000E+005 9.9999999999999997E-061 1.0000000000000000E+100
+  1   280   # subregion.L[3]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.V
+  0       1                       0                       0                
+  6  1281   # subregion.inclTrans[1]
+  0       0                       0                       0                
+  6  1281   # subregion.inclTrans[2]
+  0       0                       0                       0                
+  6  1281   # subregion.inclTrans[3]
+  0       0                       0                       0                
+  6  1281   # subregion.inclRot[1]
+  0       0                       0                       0                
+  6  1281   # subregion.inclRot[2]
+  0       0                       0                       0                
+  6  1281   # subregion.inclRot[3]
+  0       1                       0                       0                
+  6  1282   # subregion.cartTrans[1]
+  0       1                       0                       0                
+  6  1282   # subregion.transCart[1]
+  0       0                       0                       0                
+  6  1282   # subregion.transCart[2]
+  0       0                       0                       0                
+  6  1282   # subregion.transCart[3]
+  0       1                       0                       0                
+  6   769   # subregion.inclTransX
+  0       0                       0                       0                
+  6   769   # subregion.inclTransY
+  0       0                       0                       0                
+  6   769   # subregion.inclTransZ
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.A[1]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.A[2]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.A[3]
+  0       4                       0                       0                
+  6   770   # subregion.n_spec
+  0       1                       0                       0                
+  6  1282   # subregion.n_trans
+  0       1                       0                       0                
+  6   770   # subregion.gas.n_spec
+  0       2                       0                       0                
+  6   770   # subregion.gas.n_inter
+  0       1                       0                       0                
+  6   770   # subregion.gas.n_trans
+  0       0                       0                       0                
+  6   769   # subregion.gas.inclH2
+  0       0                       0                       0                
+  6   769   # subregion.gas.inclH2O
+  0       1                       0                       0                
+  6   769   # subregion.gas.inclN2
+  0       8                       1                      15                
+  6   258   # subregion.gas.N2.initMaterial
+  0      10                       1                      15                
+  6   258   # subregion.gas.N2.initEnergy
+ -1 6.8574975347537054E-005       0                 1.0000000000000000E+100
+  1   280   # subregion.gas.N2.mu
+ -1 7.4996072890012889E+004       0                 1.0000000000000000E+100
+  1   280   # subregion.gas.N2.nu
+  0       1                       0                       0                
+  6   770   # subregion.gas.N2.n_trans
+  0       3                       0                       0                
+  6   770   # subregion.gas.N2.n_intra
+  0       2                       0                       0                
+  6   770   # subregion.gas.N2.n_inter
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.N_IC
+  0 4.8658184538518782E+002       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.rho_IC
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.V_IC
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.p_IC
+  0 4.2200928232356662E-003       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.T_IC
+  0 1.5550079883777674E-003       0                       0                
+  6   256   # subregion.gas.N2.h_IC
+  0 -9.7286020985536861E-002       0                       0                
+  6   256   # subregion.gas.N2.g_IC
+  0 9.9999999999999995E+059       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.k_intra_Phi[1, 1]
+  0 1.0113721467962817E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.k_intra_Phi[2, 1]
+  0 2.1690226940975039E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.k_intra_Phi[3, 1]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.k_intra_Q[1]
+  0 9.9999999999999995E+059       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.k_intra_Q[2]
+  0 9.9999999999999995E+059       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.k_intra_Q[3]
+  0 7.2874390861817843E+017 9.9999999999999997E-061 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.N
+  0 4.2200928232356662E-003       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.T
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.der(T)
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.phi[1]
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.der(phi[1])
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.p
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.der(p)
+  0 -9.7286020985536861E-002       0                       0                
+  6   256   # subregion.gas.N2.g
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.M
+  0 2.0551527137400291E-003       0                       0                
+  6   256   # subregion.gas.N2.v
+  0 1.5550079883777674E-003       0                       0                
+  6   256   # subregion.gas.N2.h
+  0 2.3421529599941447E+001       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.s
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.rho
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.mrho
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.S
+  0 3.5073765505528014E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.c_p
+  0 2.5073765505528014E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.c_v
+  0 4.8699230083860678E-001       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.beta
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.tau_PhiE_intra[1, 1]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.tau_PhiE_intra[2, 1]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.tau_PhiE_intra[3, 1]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.tau_PhiE_inter[1, 1]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.tau_PhiE_inter[2, 1]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.tau_QE_intra[1]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.tau_QE_intra[2]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.tau_QE_intra[3]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.tau_QE_inter[1]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.tau_QE_inter[2]
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.f_DE[1]
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.Edot_DE
+  0       1                       1                       3                
+  6   774   # subregion.gas.N2.intra[1].n_trans
+  0       0                       0                       0                
+  6   388   # subregion.gas.N2.intra[1].mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.gas.N2.intra[1].Qdot
+  0       1                       1                       3                
+  6   774   # subregion.gas.N2.intra[2].n_trans
+  0       0                       0                       0                
+  6   388   # subregion.gas.N2.intra[2].mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.gas.N2.intra[2].Qdot
+  0       1                       1                       3                
+  6   774   # subregion.gas.N2.intra[3].n_trans
+  0       0                       0                       0                
+  6   388   # subregion.gas.N2.intra[3].mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.gas.N2.intra[3].Qdot
+  0       1                       1                       3                
+  6   774   # subregion.gas.N2.inter[1].n_trans
+  0       1                       1                       3                
+  6   774   # subregion.gas.N2.inter[2].n_trans
+  0 2.0534205536267978E+000       0                       0                
+  6   388   # subregion.gas.N2.dalton.p
+  0       0                       0                       0                
+  6   770   # subregion.gas.N2.n_chem
+ -1 3.8061520004823469E+003       0                 1.0000000000000000E+100
+  1   280   # subregion.gas.N2.zeta
+ -1 8.4169737439279631E-007       0                 1.0000000000000000E+100
+  1   280   # subregion.gas.N2.eta
+ -1 6.5930671633999566E+002       0                 1.0000000000000000E+100
+  1   280   # subregion.gas.N2.theta
+  0       1                       1                       3                
+  6   258   # subregion.gas.N2.consMaterial
+  0       0                       0                       0                
+  6   257   # subregion.gas.N2.consRot
+  0       2                       1                       2                
+  6   258   # subregion.gas.N2.consTransX
+  0       2                       1                       2                
+  6   258   # subregion.gas.N2.consTransY
+  0       2                       1                       2                
+  6   258   # subregion.gas.N2.consTransZ
+  0       1                       1                       3                
+  6   258   # subregion.gas.N2.consEnergy
+  0       1                       0                       0                
+  6   257   # subregion.gas.N2.upstreamX
+  0       1                       0                       0                
+  6   257   # subregion.gas.N2.upstreamY
+  0       1                       0                       0                
+  6   257   # subregion.gas.N2.upstreamZ
+  0       1                       0                       0                
+  6   257   # subregion.gas.N2.approxVelocity
+ -1       4                       0                 1.0000000000000000E+100
+  1   280   # subregion.gas.N2.Nu_Phi[1]
+ -1       4                       0                 1.0000000000000000E+100
+  1   280   # subregion.gas.N2.Nu_Phi[2]
+ -1       4                       0                 1.0000000000000000E+100
+  1   280   # subregion.gas.N2.Nu_Phi[3]
+ -1       1                       0                 1.0000000000000000E+100
+  1   280   # subregion.gas.N2.Nu_Q
+ -1       0                       0                 1.0000000000000000E+100
+  1   280   # subregion.gas.N2.N0
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.I[1]
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.phi_boundaries[1, 1]
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.phi_boundaries[1, 2]
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.f[1]
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.minusDeltaf[1]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.rho_boundaries[1, 1]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.rho_boundaries[1, 2]
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.Vdot_boundaries[1, 1]
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.Vdot_boundaries[1, 2]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.q[1]
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.DeltaT[1]
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.Deltap[1]
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.Hprimedot[1, 1]
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.Hprimedot[1, 2]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.tau_NT[1]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.tau_PhiT[1]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2.tau_QT[1]
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.Pe_N[1]
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.Pe_Phi[1]
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.Pe_Q[1]
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.mphiI[1, 1]
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.Vdot[1]
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.hI[1]
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.Ma[1]
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.f_thermo[1]
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.f_AE[1]
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.f_AT[1]
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.f_DT[1]
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.Ndere
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.Edot_AE
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.Edot_AT
+  0       0                       0                       0                
+  6   256   # subregion.gas.N2.Edot_DT
+  0       2                       1                       2                
+  6   770   # subregion.gas.N2.consTrans[1]
+  0       1                       0                       0                
+  6   769   # subregion.gas.N2.upstream[1]
+  0       0                       0                       0                
+  6  1280   # subregion.gas.N2.mPhidot_boundaries[1, 1, 1]
+  0       0                       0                       0                
+  6  1280   # subregion.gas.N2.mPhidot_boundaries[1, 1, 2]
+  0       0                       0                       0                
+  6  1280   # subregion.gas.N2.mPhidot_boundaries[1, 2, 1]
+  0       0                       0                       0                
+  6  1280   # subregion.gas.N2.mPhidot_boundaries[1, 2, 2]
+  0       0                       0                       0                
+  6   769   # subregion.gas.inclO2
+  0 9.9999999999999995E+059       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.common.k_Phi[1]
+  0 9.9999999999999995E+059       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.common.k_Phi[2]
+  0 9.9999999999999995E+059       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.common.k_Phi[3]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.common.k_Q
+  0 1.0113721467962817E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.H2O_N2.k_Phi[1]
+  0 1.0113721467962817E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.H2O_N2.k_Phi[2]
+  0 1.0113721467962817E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.H2O_N2.k_Phi[3]
+  0 9.9999999999999995E+059       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.H2O_N2.k_Q
+  0 2.1690226940975039E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2_O2.k_Phi[1]
+  0 2.1690226940975039E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2_O2.k_Phi[2]
+  0 2.1690226940975039E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2_O2.k_Phi[3]
+  0 9.9999999999999995E+059       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.N2_O2.k_Q
+  0       0                       0                 9.9999999999999995E+059
+  6   260   # subregion.gas.dalton.V
+  0 2.0534205536267978E+000       0                       0                
+  6   388   # subregion.gas.dalton.p
+  0       1                       1                       3                
+  6   774   # subregion.gas.inter[1].n_trans
+  0       0                       0                       0                
+  6   388   # subregion.gas.inter[1].mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.gas.inter[1].Qdot
+  0       1                       1                       3                
+  6   774   # subregion.gas.inter[2].n_trans
+  0       0                       0                       0                
+  6   388   # subregion.gas.inter[2].mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.gas.inter[2].Qdot
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.p
+  0       0                       0                       0                
+  6   770   # subregion.graphite.n_spec
+ -1       1                       0                       0                
+  1   794   # subregion.graphite.n_inter
+  0       1                       0                       0                
+  6   770   # subregion.graphite.n_trans
+  0       0                       0                       0                
+  6   769   # subregion.graphite.'inclC+'
+  0       0                       0                       0                
+  6   769   # subregion.graphite.'incle-'
+  0       0                       0                       0                
+  6   769   # subregion.graphite.'incle-Transfer'
+  0       0                       0                       0                
+  6   769   # subregion.graphite.inclDL
+  0       2                       0                       0                
+  6   770   # subregion.ionomer.n_spec
+  0       1                       0                       0                
+  6   770   # subregion.ionomer.n_inter
+  0       1                       0                       0                
+  6   770   # subregion.ionomer.n_trans
+  0       1                       0                       0                
+  6   769   # subregion.ionomer.'inclSO3-'
+ -1 2.9999999999999999E-001       0                 1.0000000000000000E+100
+  1   280   # subregion.ionomer.'SO3-'.epsilon
+ -1 2.4901429888090567E-058       0                 1.0000000000000000E+100
+  1   280   # subregion.ionomer.'SO3-'.mu
+ -1 9.5784327536695670E+001       0                 1.0000000000000000E+100
+  1   280   # subregion.ionomer.'SO3-'.nu
+  0       1                       0                       0                
+  6   770   # subregion.ionomer.'SO3-'.n_trans
+  0       3                       0                       0                
+  6   770   # subregion.ionomer.'SO3-'.n_intra
+  0       1                       0                       0                
+  6   770   # subregion.ionomer.'SO3-'.n_inter
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.N_IC
+  0 2.5501923016787332E+004       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.rho_IC
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.V_IC
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.p_IC
+  0 4.2200928232356662E-003       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.T_IC
+  0 2.3296628538376751E-001       0                       0                
+  6   256   # subregion.ionomer.'SO3-'.h_IC
+  0 1.2358064497808705E+001       0                       0                
+  6   256   # subregion.ionomer.'SO3-'.g_IC
+  0 9.9999999999999995E+059       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.k_intra_Phi[1, 1]
+  0       1                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.k_intra_Phi[2, 1]
+  0       1                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.k_intra_Phi[3, 1]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.k_intra_Q[1]
+  0 9.9999999999999995E+059       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.k_intra_Q[2]
+  0 9.9999999999999995E+059       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.k_intra_Q[3]
+  0 7.2874390861817843E+017 9.9999999999999997E-061 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.N
+  0 4.2200928232356662E-003       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.T
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.'SO3-'.phi[1]
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.p
+  0 1.2358064497808705E+001       0                       0                
+  6   256   # subregion.ionomer.'SO3-'.g
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.M
+  0 3.9212729147591064E-005       0                       0                
+  6   256   # subregion.ionomer.'SO3-'.v
+  0 2.3296628538376751E-001       0                       0                
+  6   256   # subregion.ionomer.'SO3-'.h
+  0 -2.8731828232935118E+003       0                       0                
+  6   256   # subregion.ionomer.'SO3-'.s
+  0 2.5501923016787332E+004       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.rho
+  0 3.6427779061370990E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.mrho
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.S
+  0 5.2546385133162130E+002       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.c_p
+  0 5.2546385133162130E+002       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.c_v
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.beta
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.tau_PhiE_intra[1, 1]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.tau_PhiE_intra[2, 1]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.tau_PhiE_intra[3, 1]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.tau_PhiE_inter[1, 1]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.tau_QE_intra[1]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.tau_QE_intra[2]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.tau_QE_intra[3]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.tau_QE_inter[1]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.'SO3-'.f_DE[1]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.'SO3-'.Edot_DE
+  0       1                       1                       3                
+  6   774   # subregion.ionomer.'SO3-'.intra[1].n_trans
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.'SO3-'.intra[1].mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.'SO3-'.intra[1].Qdot
+  0       1                       1                       3                
+  6   774   # subregion.ionomer.'SO3-'.intra[2].n_trans
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.'SO3-'.intra[2].mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.'SO3-'.intra[2].Qdot
+  0       1                       1                       3                
+  6   774   # subregion.ionomer.'SO3-'.intra[3].n_trans
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.'SO3-'.intra[3].mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.'SO3-'.intra[3].Qdot
+  0       1                       1                       3                
+  6   774   # subregion.ionomer.'SO3-'.inter[1].n_trans
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.kL[1]
+ -1 1.0672527470753680E+002       0                 1.0000000000000000E+100
+  1   280   # subregion.ionomer.'SO3-'.theta
+  0       1                       1                       3                
+  6   258   # subregion.ionomer.'SO3-'.consEnergy
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'SO3-'.tau_QT[1]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.'SO3-'.DeltaT[1]
+  0       0                       0                       0                
+  6   769   # subregion.ionomer.'inclH+'
+  0       1                       0                       0                
+  6   769   # subregion.ionomer.inclH2O
+  0       1                       1                      15                
+  6   258   # subregion.ionomer.H2O.initMaterial
+  0       1                       1                      15                
+  6   258   # subregion.ionomer.H2O.initEnergy
+ -1 2.2280983310358780E-004       0                 1.0000000000000000E+100
+  1   280   # subregion.ionomer.H2O.mu
+ -1 1.5334776542221193E+005       0                 1.0000000000000000E+100
+  1   280   # subregion.ionomer.H2O.nu
+  0       1                       0                       0                
+  6   770   # subregion.ionomer.H2O.n_trans
+  0       3                       0                       0                
+  6   770   # subregion.ionomer.H2O.n_intra
+  0       0                       0                       0                
+  6   770   # subregion.ionomer.H2O.n_inter
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.N_IC
+  0 4.8658184538518782E+002       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.rho_IC
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.V_IC
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.p_IC
+  0 4.2200928232356662E-003       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.T_IC
+  0 -4.2738249586750954E-001       0                       0                
+  6   256   # subregion.ionomer.H2O.h_IC
+  0 -4.9902680790917442E-001       0                       0                
+  6   256   # subregion.ionomer.H2O.g_IC
+  0 9.9999999999999995E+059       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.k_intra_Phi[1, 1]
+  0 2.0000000000000000E-002       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.k_intra_Phi[2, 1]
+  0       1                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.k_intra_Phi[3, 1]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.k_intra_Q[1]
+  0 9.9999999999999995E+059       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.k_intra_Q[2]
+  0 9.9999999999999995E+059       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.k_intra_Q[3]
+ -1 7.2874390861817843E+017 9.9999999999999997E-061 1.0000000000000000E+100
+  2   272   # subregion.ionomer.H2O.N
+  0       0                       0                       0                
+  3   256   # subregion.ionomer.H2O.der(N)
+  0 4.2200928232356662E-003       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.T
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.der(T)
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.phi[1]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.der(phi[1])
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.p
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.der(p)
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.M
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.der(M)
+  0 2.0551527137400291E-003       0                       0                
+  6   256   # subregion.ionomer.H2O.v
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.der(v)
+  0 -4.2738249586750954E-001       0                       0                
+  6   256   # subregion.ionomer.H2O.h
+  0 1.6976951702861630E+001       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.s
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.der(s)
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.rho
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.mrho
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.S
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.c_p
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.c_v
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.beta
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.tau_PhiE_intra[1, 1]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.tau_PhiE_intra[2, 1]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.tau_PhiE_intra[3, 1]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.tau_QE_intra[1]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.tau_QE_intra[2]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.tau_QE_intra[3]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.f_DE[1]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.Edot_DE
+  0       1                       1                       3                
+  6   774   # subregion.ionomer.H2O.intra[1].n_trans
+  0       1                       1                       3                
+  6   774   # subregion.ionomer.H2O.intra[2].n_trans
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.H2O.intra[2].mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.H2O.intra[2].Qdot
+  0       1                       1                       3                
+  6   774   # subregion.ionomer.H2O.intra[3].n_trans
+  0       1                       0                       0                
+  6   770   # subregion.ionomer.H2O.n_chem
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.zeta
+ -1 1.5271355185816127E-006       0                 1.0000000000000000E+100
+  1   280   # subregion.ionomer.H2O.eta
+ -1 8.2329394899654812E+002       0                 1.0000000000000000E+100
+  1   280   # subregion.ionomer.H2O.theta
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.tauprime[1]
+  0       3                       1                       3                
+  6   258   # subregion.ionomer.H2O.consMaterial
+  0       0                       0                       0                
+  6   257   # subregion.ionomer.H2O.consRot
+  0       2                       1                       2                
+  6   258   # subregion.ionomer.H2O.consTransX
+  0       2                       1                       2                
+  6   258   # subregion.ionomer.H2O.consTransY
+  0       2                       1                       2                
+  6   258   # subregion.ionomer.H2O.consTransZ
+  0       3                       1                       3                
+  6   258   # subregion.ionomer.H2O.consEnergy
+  0       1                       0                       0                
+  6   257   # subregion.ionomer.H2O.upstreamX
+  0       1                       0                       0                
+  6   257   # subregion.ionomer.H2O.upstreamY
+  0       1                       0                       0                
+  6   257   # subregion.ionomer.H2O.upstreamZ
+  0       1                       0                       0                
+  6   257   # subregion.ionomer.H2O.approxVelocity
+ -1       4                       0                 1.0000000000000000E+100
+  1   280   # subregion.ionomer.H2O.Nu_Phi[1]
+ -1       4                       0                 1.0000000000000000E+100
+  1   280   # subregion.ionomer.H2O.Nu_Phi[2]
+ -1       4                       0                 1.0000000000000000E+100
+  1   280   # subregion.ionomer.H2O.Nu_Phi[3]
+ -1       1                       0                 1.0000000000000000E+100
+  1   280   # subregion.ionomer.H2O.Nu_Q
+ -1       0                       0                 1.0000000000000000E+100
+  1   280   # subregion.ionomer.H2O.N0
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.I[1]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.phi_boundaries[1, 1]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.phi_boundaries[1, 2]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.f[1]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.minusDeltaf[1]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.rho_boundaries[1, 1]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.rho_boundaries[1, 2]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.Vdot_boundaries[1, 1]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.Vdot_boundaries[1, 2]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.q[1]
+  0       0                       0                       0                
+  6   320   # subregion.ionomer.H2O.phi_chemical[1, 1]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.sT_chemical[1]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.DeltaT[1]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.Deltap[1]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.Hprimedot[1, 1]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.Hprimedot[1, 2]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.tau_NT[1]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.tau_PhiT[1]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.tau_QT[1]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.Pe_N[1]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.Pe_Phi[1]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.Pe_Q[1]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.mphiI[1, 1]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.Vdot[1]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.hI[1]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.Ma[1]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.f_thermo[1]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.f_AE[1]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.f_AT[1]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.f_DT[1]
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.Ndere
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.Edot_AE
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.Edot_AT
+  0       0                       0                       0                
+  6   256   # subregion.ionomer.H2O.Edot_DT
+  0       1                       1                       3                
+  6   262   # subregion.ionomer.H2O.chemical[1].n_trans
+  0       2                       1                       2                
+  6   770   # subregion.ionomer.H2O.consTrans[1]
+  0       1                       0                       0                
+  6   769   # subregion.ionomer.H2O.upstream[1]
+  0       0                       0                       0                
+  6  1280   # subregion.ionomer.H2O.mPhidot_boundaries[1, 1, 1]
+  0       0                       0                       0                
+  6  1280   # subregion.ionomer.H2O.mPhidot_boundaries[1, 1, 2]
+  0       0                       0                       0                
+  6  1280   # subregion.ionomer.H2O.mPhidot_boundaries[1, 2, 1]
+  0       0                       0                       0                
+  6  1280   # subregion.ionomer.H2O.mPhidot_boundaries[1, 2, 2]
+ -1       8                       0                 1.0000000000000000E+100
+  1   280   # subregion.ionomer.H2O.lambda_IC
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.H2O.lambda
+  0 3.9212729147591064E-005       0                       0                
+  6  1280   # _GlobalScope.FCSys.Characteristics.'SO3-'.Ionomer.b_v[1, 1]
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   260   # subregion.ionomer.amagat.p
+  0       0                 -9.9999999999999995E+059       0                
+  6   388   # subregion.ionomer.amagat.V
+  0       1                       1                       3                
+  6   774   # subregion.ionomer.inter[1].n_trans
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.inter[1].mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.inter[1].Qdot
+  0       1                       1                       3                
+  6   262   # subregion.ionomer.chemH2O[1].n_trans
+  0 -4.9902680790917442E-001       0                       0                
+  6   260   # subregion.ionomer.chemH2O[1].g
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.chemH2O[1].Ndot
+  0 7.1644312041664882E-002       0                 1.0000000000000000E+100
+  6   260   # subregion.ionomer.chemH2O[1].sT
+  0 9.9999999999999995E+059       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.common.k_Phi[1]
+  0 9.9999999999999995E+059       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.common.k_Phi[2]
+  0 9.9999999999999995E+059       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.common.k_Phi[3]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.common.k_Q
+  0       1                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'H+_SO3-'.k_Phi[1]
+  0       1                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'H+_SO3-'.k_Phi[2]
+  0       1                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'H+_SO3-'.k_Phi[3]
+  0 9.9999999999999995E+059       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'H+_SO3-'.k_Q
+  0 2.0000000000000000E-002       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'H+_H2O'.k_Phi[1]
+  0 2.0000000000000000E-002       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'H+_H2O'.k_Phi[2]
+  0 2.0000000000000000E-002       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'H+_H2O'.k_Phi[3]
+  0 9.9999999999999995E+059       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'H+_H2O'.k_Q
+  0       1                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'H2O_SO3-'.k_Phi[1]
+  0       1                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'H2O_SO3-'.k_Phi[2]
+  0       1                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'H2O_SO3-'.k_Phi[3]
+  0 9.9999999999999995E+059       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.'H2O_SO3-'.k_Q
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6  1284   # subregion.ionomer.amagatDalton.amagat.p
+  0 -2.0534205536267978E+000       0                       0                
+  6  1412   # subregion.ionomer.amagatDalton.dalton.p
+  0       1                       0                       0                
+  6   770   # subregion.liquid.n_spec
+  0       2                       0                       0                
+  6   770   # subregion.liquid.n_inter
+  0       1                       0                       0                
+  6   770   # subregion.liquid.n_trans
+  0       1                       0                       0                
+  6   769   # subregion.liquid.inclH2O
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.p
+ -1 2.9999999999999999E-001       0                       0                
+  1   280   # subregion.liquid.H2O.epsilon_IC
+  0       6                       1                      15                
+  6   258   # subregion.liquid.H2O.initMaterial
+  0      10                       1                      15                
+  6   258   # subregion.liquid.H2O.initEnergy
+ -1 2.1989620834304249E-004       0                 1.0000000000000000E+100
+  1   280   # subregion.liquid.H2O.mu
+ -1 5.9854375885018388E+004       0                 1.0000000000000000E+100
+  1   280   # subregion.liquid.H2O.nu
+  0       1                       0                       0                
+  6   770   # subregion.liquid.H2O.n_trans
+  0       0                       0                       0                
+  6   770   # subregion.liquid.H2O.n_intra
+  0       2                       0                       0                
+  6   770   # subregion.liquid.H2O.n_inter
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.N_IC
+  0 7.3582696573179692E+005       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.rho_IC
+  0       0                       0                 9.9999999999999995E+059
+  6   256   # subregion.liquid.H2O.V_IC
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.p_IC
+  0 4.2200928232356662E-003       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.T_IC
+  0 -4.3144810071635220E-001       0                       0                
+  6   256   # subregion.liquid.H2O.h_IC
+  0 -4.7119197506309868E-001       0                       0                
+  6   256   # subregion.liquid.H2O.g_IC
+  0 7.2874390861817843E+017 9.9999999999999997E-061 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.N
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.der(N)
+  0 4.2200928232356662E-003       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.T
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.der(T)
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.phi[1]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.der(phi[1])
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.p
+  0 -4.7119197506309868E-001       0                       0                
+  6   256   # subregion.liquid.H2O.g
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.M
+  0 1.3590151578713575E-006       0                       0                
+  6   256   # subregion.liquid.H2O.v
+  0 -4.3144810071635220E-001       0                       0                
+  6   256   # subregion.liquid.H2O.h
+  0 9.4177725494373590E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.s
+  0 7.3582696573179692E+005       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.rho
+  0 1.8151233750699935E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.mrho
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.S
+  0 9.0626116022176575E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.c_p
+  0 9.0626116022176575E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.c_v
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.beta
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.tau_PhiE_inter[1, 1]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.tau_PhiE_inter[2, 1]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.tau_QE_inter[1]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.tau_QE_inter[2]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.f_DE[1]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.Edot_DE
+  0       1                       1                       3                
+  6   774   # subregion.liquid.H2O.inter[1].n_trans
+  0       1                       1                       3                
+  6   774   # subregion.liquid.H2O.inter[2].n_trans
+  0 2.0534205536267978E+000       0                       0                
+  6   388   # subregion.liquid.H2O.dalton.p
+  0       3                       0                       0                
+  6   770   # subregion.liquid.H2O.n_chem
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.zeta
+ -1 1.7542745276818280E-008       0                 1.0000000000000000E+100
+  1   280   # subregion.liquid.H2O.eta
+ -1 2.7856515421216780E+001       0                 1.0000000000000000E+100
+  1   280   # subregion.liquid.H2O.theta
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.tauprime[1]
+  0 5.4243560842563711E+013       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.tauprime[2]
+  0 1.0848712168512742E+017       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.tauprime[3]
+  0       1                       1                       3                
+  6   258   # subregion.liquid.H2O.consMaterial
+  0       0                       0                       0                
+  6   257   # subregion.liquid.H2O.consRot
+  0       2                       1                       2                
+  6   258   # subregion.liquid.H2O.consTransX
+  0       2                       1                       2                
+  6   258   # subregion.liquid.H2O.consTransY
+  0       2                       1                       2                
+  6   258   # subregion.liquid.H2O.consTransZ
+  0       1                       1                       3                
+  6   258   # subregion.liquid.H2O.consEnergy
+  0       1                       0                       0                
+  6   257   # subregion.liquid.H2O.upstreamX
+  0       1                       0                       0                
+  6   257   # subregion.liquid.H2O.upstreamY
+  0       1                       0                       0                
+  6   257   # subregion.liquid.H2O.upstreamZ
+  0       1                       0                       0                
+  6   257   # subregion.liquid.H2O.approxVelocity
+ -1       4                       0                 1.0000000000000000E+100
+  1   280   # subregion.liquid.H2O.Nu_Phi[1]
+ -1       4                       0                 1.0000000000000000E+100
+  1   280   # subregion.liquid.H2O.Nu_Phi[2]
+ -1       4                       0                 1.0000000000000000E+100
+  1   280   # subregion.liquid.H2O.Nu_Phi[3]
+ -1       1                       0                 1.0000000000000000E+100
+  1   280   # subregion.liquid.H2O.Nu_Q
+ -1       0                       0                 1.0000000000000000E+100
+  1   280   # subregion.liquid.H2O.N0
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.I[1]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.phi_boundaries[1, 1]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.phi_boundaries[1, 2]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.f[1]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.minusDeltaf[1]
+  0 7.3582696573179692E+005       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.rho_boundaries[1, 1]
+  0 7.3582696573179692E+005       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.rho_boundaries[1, 2]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.Vdot_boundaries[1, 1]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.Vdot_boundaries[1, 2]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.q[1]
+  0       0                       0                       0                
+  6   320   # subregion.liquid.H2O.phi_chemical[3, 1]
+  0 3.9743874346746477E-002       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.sT_chemical[1]
+  0 3.9743874346746477E-002       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.sT_chemical[2]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.sT_chemical[3]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.DeltaT[1]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.Deltap[1]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.Hprimedot[1, 1]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.Hprimedot[1, 2]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.g_boundaries[1, 1]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.g_boundaries[1, 2]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.Deltag[1]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.tau_NT[1]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.tau_PhiT[1]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.H2O.tau_QT[1]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.Pe_N[1]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.Pe_Phi[1]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.Pe_Q[1]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.mphiI[1, 1]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.Vdot[1]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.hI[1]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.Ma[1]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.f_thermo[1]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.f_AE[1]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.f_AT[1]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.f_DT[1]
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.Ndere
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.Edot_AE
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.Edot_AT
+  0       0                       0                       0                
+  6   256   # subregion.liquid.H2O.Edot_DT
+  0       1                       1                       3                
+  6   262   # subregion.liquid.H2O.chemical[1].n_trans
+  0 -4.7119197506309868E-001       0                       0                
+  6   260   # subregion.liquid.H2O.chemical[1].g
+  0       0                       0                       0                
+  6   388   # subregion.liquid.H2O.chemical[1].Ndot
+  0 3.9743874346746477E-002       0                 1.0000000000000000E+100
+  6   260   # subregion.liquid.H2O.chemical[1].sT
+  0       1                       1                       3                
+  6   262   # subregion.liquid.H2O.chemical[2].n_trans
+  0       0                       0                       0                
+  6   388   # subregion.liquid.H2O.chemical[2].Ndot
+  0 3.9743874346746477E-002       0                 1.0000000000000000E+100
+  6   260   # subregion.liquid.H2O.chemical[2].sT
+  0       1                       1                       3                
+  6   262   # subregion.liquid.H2O.chemical[3].n_trans
+  0 3.9743874346746477E-002       0                 1.0000000000000000E+100
+  6   260   # subregion.liquid.H2O.chemical[3].sT
+  0       2                       1                       2                
+  6   770   # subregion.liquid.H2O.consTrans[1]
+  0       1                       0                       0                
+  6   769   # subregion.liquid.H2O.upstream[1]
+  0       0                       0                       0                
+  6  1280   # subregion.liquid.H2O.mPhidot_boundaries[1, 1, 1]
+  0       0                       0                       0                
+  6  1280   # subregion.liquid.H2O.mPhidot_boundaries[1, 1, 2]
+  0       0                       0                       0                
+  6  1280   # subregion.liquid.H2O.mPhidot_boundaries[1, 2, 1]
+  0       0                       0                       0                
+  6  1280   # subregion.liquid.H2O.mPhidot_boundaries[1, 2, 2]
+  0       1                       1                       3                
+  6   774   # subregion.liquid.inter[1].n_trans
+  0       0                       0                       0                
+  6   388   # subregion.liquid.inter[1].mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.liquid.inter[1].Qdot
+  0       1                       1                       3                
+  6   774   # subregion.liquid.inter[2].n_trans
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   260   # subregion.liquid.amagat.p
+  0       1                       1                       3                
+  6   262   # subregion.liquid.chemH2O[1].n_trans
+  0 -4.7119197506309868E-001       0                       0                
+  6   260   # subregion.liquid.chemH2O[1].g
+  0       0                       0                       0                
+  6   388   # subregion.liquid.chemH2O[1].Ndot
+  0 3.9743874346746477E-002       0                 1.0000000000000000E+100
+  6   260   # subregion.liquid.chemH2O[1].sT
+  0       1                       1                       3                
+  6   262   # subregion.liquid.chemH2O[2].n_trans
+  0 -4.7119197506309868E-001       0                       0                
+  6   260   # subregion.liquid.chemH2O[2].g
+  0       0                       0                       0                
+  6   388   # subregion.liquid.chemH2O[2].Ndot
+  0 3.9743874346746477E-002       0                 1.0000000000000000E+100
+  6   260   # subregion.liquid.chemH2O[2].sT
+  0       1                       1                       3                
+  6   262   # subregion.liquid.chemH2O[3].n_trans
+  0 3.9743874346746477E-002       0                 1.0000000000000000E+100
+  6   260   # subregion.liquid.chemH2O[3].sT
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6  1284   # subregion.liquid.amagatDalton.amagat.p
+  0 -2.0534205536267978E+000       0                       0                
+  6  1412   # subregion.liquid.amagatDalton.dalton.p
+  0       3                       0                 1.0000000000000000E+100
+  6   256   # subregion.common.k_Phi[1]
+  0       3                       0                 1.0000000000000000E+100
+  6   256   # subregion.common.k_Phi[2]
+  0       3                       0                 1.0000000000000000E+100
+  6   256   # subregion.common.k_Phi[3]
+  0       1                       0                 1.0000000000000000E+100
+  6   256   # subregion.common.k_Q
+  0      10                       0                 1.0000000000000000E+100
+  6   256   # subregion.gasLiq.k_Phi[1]
+  0      10                       0                 1.0000000000000000E+100
+  6   256   # subregion.gasLiq.k_Phi[2]
+  0      10                       0                 1.0000000000000000E+100
+  6   256   # subregion.gasLiq.k_Phi[3]
+  0       1                       0                 1.0000000000000000E+100
+  6   256   # subregion.gasLiq.k_Q
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.volume.V
+  0       0                       0                       0                
+  6   769   # subregion.volume.inclCapillary
+ -1 1.4744469564984424E+001       0                       0                
+  1   280   # subregion.volume.gamma
+ -1 7.7793118811773702E+003       0                 1.0000000000000000E+100
+  1   280   # subregion.volume.kappa
+ -1 2.4434609527920612E+000       0                       0                
+  1   280   # subregion.volume.theta
+  0       1                       0                       0                
+  6   769   # subregion.volume.inclGas
+  0       1                       0                       0                
+  6   769   # subregion.volume.inclLiquid
+  0       1                       0                       0                
+  6   769   # subregion.volume.inclSolid
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.volume.V_pore
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.volume.x
+  0 -2.0534205536267978E+000       0                       0                
+  6   388   # subregion.volume.gas.p
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   260   # subregion.volume.liquid.p
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   260   # subregion.volume.solid.p
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.volume.volume.V
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   260   # subregion.volume.volume.amagat.p
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6  1284   # subregion.volume.amagatDalton.amagat.p
+  0 -2.0534205536267978E+000       0                       0                
+  6  1412   # subregion.volume.amagatDalton.dalton.p
+  0       0                       0                       0                
+  6  1281   # subregion.inclHOR
+  0       0                       0                       0                
+  6  1281   # subregion.inclORR
+  0       3                       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.k_inter_Phi[1, 1]
+  0      10                       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.k_inter_Phi[2, 1]
+  0       1                       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.k_inter_Q[1]
+  0       1                       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.k_inter_Q[2]
+  0       0                       0                 1.0000000000000000E+100
+  6  1280   # subregion.gas.Aprime[1]
+ -1       1                 9.9999999999999997E-061 1.0000000000000000E+100
+  1   280   # subregion.gas.k[1]
+ -1       1                 9.9999999999999997E-061 1.0000000000000000E+100
+  1   280   # subregion.gas.k[2]
+ -1       1                 9.9999999999999997E-061 1.0000000000000000E+100
+  1   280   # subregion.gas.k[3]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.gas.epsilon
+  0       0                       0                 1.0000000000000000E+100
+  6  1280   # subregion.gas.kL[1]
+  0       0                       0                       0                
+  6   388   # subregion.gas.N2.boundaries[1, 1].Ndot
+  0       0                       0                       0                
+  6   260   # subregion.gas.N2.boundaries[1, 1].der(Ndot)
+  0       0                       0                       0                
+  6   388   # subregion.gas.N2.boundaries[1, 1].mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.gas.N2.boundaries[1, 1].mPhidot[2]
+  0       0                       0                       0                
+  6   388   # subregion.gas.N2.boundaries[1, 1].Qdot
+  0       0                       0                       0                
+  6   388   # subregion.gas.N2.boundaries[1, 2].Ndot
+  0       0                       0                       0                
+  6   260   # subregion.gas.N2.boundaries[1, 2].der(Ndot)
+  0       0                       0                       0                
+  6   388   # subregion.gas.N2.boundaries[1, 2].mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.gas.N2.boundaries[1, 2].mPhidot[2]
+  0       0                       0                       0                
+  6   388   # subregion.gas.N2.boundaries[1, 2].Qdot
+  0       3                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.k_inter_Phi[1, 1]
+  0       1                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.k_inter_Q[1]
+  0       0                       0                 1.0000000000000000E+100
+  6  1280   # subregion.ionomer.Aprime[1]
+ -1       1                 9.9999999999999997E-061 1.0000000000000000E+100
+  1   280   # subregion.ionomer.k[1]
+ -1       1                 9.9999999999999997E-061 1.0000000000000000E+100
+  1   280   # subregion.ionomer.k[2]
+ -1       1                 9.9999999999999997E-061 1.0000000000000000E+100
+  1   280   # subregion.ionomer.k[3]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.ionomer.epsilon
+  0       0                       0                 1.0000000000000000E+100
+  6  1280   # subregion.ionomer.kL[1]
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.'SO3-'.boundaries[1, 1].Qdot
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.'SO3-'.boundaries[1, 2].Qdot
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.H2O.boundaries[1, 1].Ndot
+  0       0                       0                       0                
+  6   260   # subregion.ionomer.H2O.boundaries[1, 1].der(Ndot)
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.H2O.boundaries[1, 1].mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.H2O.boundaries[1, 1].mPhidot[2]
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.H2O.boundaries[1, 1].Qdot
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.H2O.boundaries[1, 2].Ndot
+  0       0                       0                       0                
+  6   260   # subregion.ionomer.H2O.boundaries[1, 2].der(Ndot)
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.H2O.boundaries[1, 2].mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.H2O.boundaries[1, 2].mPhidot[2]
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.H2O.boundaries[1, 2].Qdot
+  0       3                       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.k_inter_Phi[1, 1]
+  0      10                       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.k_inter_Phi[2, 1]
+  0       1                       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.k_inter_Q[1]
+  0       1                       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.k_inter_Q[2]
+  0       0                       0                 1.0000000000000000E+100
+  6  1280   # subregion.liquid.Aprime[1]
+ -1       1                 9.9999999999999997E-061 1.0000000000000000E+100
+  1   280   # subregion.liquid.k[1]
+ -1       1                 9.9999999999999997E-061 1.0000000000000000E+100
+  1   280   # subregion.liquid.k[2]
+ -1       1                 9.9999999999999997E-061 1.0000000000000000E+100
+  1   280   # subregion.liquid.k[3]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.liquid.epsilon
+  0       0                       0                 1.0000000000000000E+100
+  6  1280   # subregion.liquid.kL[1]
+  0       0                       0                       0                
+  6   388   # subregion.liquid.H2O.boundaries[1, 1].Ndot
+  0       0                       0                       0                
+  6   260   # subregion.liquid.H2O.boundaries[1, 1].der(Ndot)
+  0       0                       0                       0                
+  6   388   # subregion.liquid.H2O.boundaries[1, 1].mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.liquid.H2O.boundaries[1, 1].mPhidot[2]
+  0       0                       0                       0                
+  6   388   # subregion.liquid.H2O.boundaries[1, 1].Qdot
+  0       0                       0                       0                
+  6   388   # subregion.liquid.H2O.boundaries[1, 2].Ndot
+  0       0                       0                       0                
+  6   260   # subregion.liquid.H2O.boundaries[1, 2].der(Ndot)
+  0       0                       0                       0                
+  6   388   # subregion.liquid.H2O.boundaries[1, 2].mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.liquid.H2O.boundaries[1, 2].mPhidot[2]
+  0       0                       0                       0                
+  6   388   # subregion.liquid.H2O.boundaries[1, 2].Qdot
+  0       0                       0                       0                
+  6   388   # subregion.gas.exchCommon.node.Qdot
+  0 4.2200928232356662E-003       0                 1.0000000000000000E+100
+  6   260   # subregion.gas.exchCommon.node.T
+  0       0                       0                       0                
+  6   388   # subregion.gas.exchCommon.node.mPhidot[1]
+  0       1                       1                       3                
+  6   262   # subregion.gas.exchCommon.node.n_trans
+  0       0                       0                       0                
+  6   260   # subregion.gas.exchCommon.node.phi[1]
+  0       0                       0                       0                
+  6   388   # subregion.gas.exchH2O_N2.node.Qdot
+  0 4.2200928232356662E-003       0                 1.0000000000000000E+100
+  6   260   # subregion.gas.exchH2O_N2.node.T
+  0       0                       0                       0                
+  6   388   # subregion.gas.exchH2O_N2.node.mPhidot[1]
+  0       1                       1                       3                
+  6   262   # subregion.gas.exchH2O_N2.node.n_trans
+  0       0                       0                       0                
+  6   260   # subregion.gas.exchH2O_N2.node.phi[1]
+  0       0                       0                       0                
+  6   388   # subregion.gas.exchN2_O2.node.Qdot
+  0 4.2200928232356662E-003       0                 1.0000000000000000E+100
+  6   260   # subregion.gas.exchN2_O2.node.T
+  0       0                       0                       0                
+  6   388   # subregion.gas.exchN2_O2.node.mPhidot[1]
+  0       1                       1                       3                
+  6   262   # subregion.gas.exchN2_O2.node.n_trans
+  0       0                       0                       0                
+  6   260   # subregion.gas.exchN2_O2.node.phi[1]
+  0       0                       0                       0                
+  6   388   # subregion.gas.xNegative.N2.Ndot
+  0       0                       0                       0                
+  6   388   # subregion.gas.xNegative.N2.Qdot
+  0       0                       0                       0                
+  6   388   # subregion.gas.xNegative.N2.mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.gas.xNegative.N2.mPhidot[2]
+  0       0                       0                       0                
+  6   388   # subregion.gas.xPositive.N2.Ndot
+  0       0                       0                       0                
+  6   388   # subregion.gas.xPositive.N2.Qdot
+  0       0                       0                       0                
+  6   388   # subregion.gas.xPositive.N2.mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.gas.xPositive.N2.mPhidot[2]
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.exchCommon.node.Qdot
+  0 4.2200928232356662E-003       0                 1.0000000000000000E+100
+  6   260   # subregion.ionomer.exchCommon.node.T
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.exchCommon.node.mPhidot[1]
+  0       1                       1                       3                
+  6   262   # subregion.ionomer.exchCommon.node.n_trans
+  0       0                       0                       0                
+  6   260   # subregion.ionomer.exchCommon.node.phi[1]
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.'exchH+_SO3-'.node.Qdot
+  0 4.2200928232356662E-003       0                 1.0000000000000000E+100
+  6   260   # subregion.ionomer.'exchH+_SO3-'.node.T
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.'exchH+_SO3-'.node.mPhidot[1]
+  0       1                       1                       3                
+  6   262   # subregion.ionomer.'exchH+_SO3-'.node.n_trans
+  0       0                       0                       0                
+  6   260   # subregion.ionomer.'exchH+_SO3-'.node.phi[1]
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.'exchH2O_SO3-'.node.Qdot
+  0 4.2200928232356662E-003       0                 1.0000000000000000E+100
+  6   260   # subregion.ionomer.'exchH2O_SO3-'.node.T
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.'exchH2O_SO3-'.node.mPhidot[1]
+  0       1                       1                       3                
+  6   262   # subregion.ionomer.'exchH2O_SO3-'.node.n_trans
+  0       0                       0                       0                
+  6   260   # subregion.ionomer.'exchH2O_SO3-'.node.phi[1]
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.'exchH+_H2O'.node.Qdot
+  0 4.2200928232356662E-003       0                 1.0000000000000000E+100
+  6   260   # subregion.ionomer.'exchH+_H2O'.node.T
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.'exchH+_H2O'.node.mPhidot[1]
+  0       1                       1                       3                
+  6   262   # subregion.ionomer.'exchH+_H2O'.node.n_trans
+  0       0                       0                       0                
+  6   260   # subregion.ionomer.'exchH+_H2O'.node.phi[1]
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.xNegative.'SO3-'.Qdot
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.xPositive.'SO3-'.Qdot
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.xNegative.H2O.Ndot
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.xNegative.H2O.Qdot
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.xNegative.H2O.mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.xNegative.H2O.mPhidot[2]
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.xPositive.H2O.Ndot
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.xPositive.H2O.Qdot
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.xPositive.H2O.mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.ionomer.xPositive.H2O.mPhidot[2]
+  0       0                       0                       0                
+  6   388   # subregion.liquid.xNegative.H2O.Ndot
+  0       0                       0                       0                
+  6   388   # subregion.liquid.xNegative.H2O.Qdot
+  0       0                       0                       0                
+  6   388   # subregion.liquid.xNegative.H2O.mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.liquid.xNegative.H2O.mPhidot[2]
+  0       0                       0                       0                
+  6   388   # subregion.liquid.xPositive.H2O.Ndot
+  0       0                       0                       0                
+  6   388   # subregion.liquid.xPositive.H2O.Qdot
+  0       0                       0                       0                
+  6   388   # subregion.liquid.xPositive.H2O.mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.liquid.xPositive.H2O.mPhidot[2]
+  0       0                       0                       0                
+  6   388   # subregion.xNegative.gas.N2.Ndot
+  0       0                       0                       0                
+  6   388   # subregion.xNegative.gas.N2.Qdot
+  0 4.2200928232356662E-003       0                 1.0000000000000000E+100
+  6   260   # subregion.xNegative.gas.N2.T
+  0       0                       0                       0                
+  6   388   # subregion.xNegative.gas.N2.mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.xNegative.gas.N2.mPhidot[2]
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   260   # subregion.xNegative.gas.N2.p
+  0       0                       0                       0                
+  6   260   # subregion.xNegative.gas.N2.phi[1]
+  0       0                       0                       0                
+  6   260   # subregion.xNegative.gas.N2.phi[2]
+  0       0                       0                       0                
+  6   388   # subregion.xPositive.gas.N2.Ndot
+  0       0                       0                       0                
+  6   388   # subregion.xPositive.gas.N2.Qdot
+  0 4.2200928232356662E-003       0                 1.0000000000000000E+100
+  6   260   # subregion.xPositive.gas.N2.T
+  0       0                       0                       0                
+  6   388   # subregion.xPositive.gas.N2.mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.xPositive.gas.N2.mPhidot[2]
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   260   # subregion.xPositive.gas.N2.p
+  0       0                       0                       0                
+  6   260   # subregion.xPositive.gas.N2.phi[1]
+  0       0                       0                       0                
+  6   260   # subregion.xPositive.gas.N2.phi[2]
+  0       0                       0                       0                
+  6   388   # subregion.xNegative.ionomer.'SO3-'.Qdot
+  0 4.2200928232356662E-003       0                 1.0000000000000000E+100
+  6   260   # subregion.xNegative.ionomer.'SO3-'.T
+  0       0                       0                       0                
+  6   388   # subregion.xNegative.ionomer.H2O.Ndot
+  0       0                       0                       0                
+  6   388   # subregion.xNegative.ionomer.H2O.Qdot
+  0 4.2200928232356662E-003       0                 1.0000000000000000E+100
+  6   260   # subregion.xNegative.ionomer.H2O.T
+  0       0                       0                       0                
+  6   388   # subregion.xNegative.ionomer.H2O.mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.xNegative.ionomer.H2O.mPhidot[2]
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   260   # subregion.xNegative.ionomer.H2O.p
+  0       0                       0                       0                
+  6   260   # subregion.xNegative.ionomer.H2O.phi[1]
+  0       0                       0                       0                
+  6   260   # subregion.xNegative.ionomer.H2O.phi[2]
+  0       0                       0                       0                
+  6   388   # subregion.xPositive.ionomer.'SO3-'.Qdot
+  0 4.2200928232356662E-003       0                 1.0000000000000000E+100
+  6   260   # subregion.xPositive.ionomer.'SO3-'.T
+  0       0                       0                       0                
+  6   388   # subregion.xPositive.ionomer.H2O.Ndot
+  0       0                       0                       0                
+  6   388   # subregion.xPositive.ionomer.H2O.Qdot
+  0 4.2200928232356662E-003       0                 1.0000000000000000E+100
+  6   260   # subregion.xPositive.ionomer.H2O.T
+  0       0                       0                       0                
+  6   388   # subregion.xPositive.ionomer.H2O.mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.xPositive.ionomer.H2O.mPhidot[2]
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   260   # subregion.xPositive.ionomer.H2O.p
+  0       0                       0                       0                
+  6   260   # subregion.xPositive.ionomer.H2O.phi[1]
+  0       0                       0                       0                
+  6   260   # subregion.xPositive.ionomer.H2O.phi[2]
+  0       0                       0                       0                
+  6   388   # subregion.xNegative.liquid.H2O.Ndot
+  0       0                       0                       0                
+  6   388   # subregion.xNegative.liquid.H2O.Qdot
+  0 4.2200928232356662E-003       0                 1.0000000000000000E+100
+  6   260   # subregion.xNegative.liquid.H2O.T
+  0       0                       0                       0                
+  6   388   # subregion.xNegative.liquid.H2O.mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.xNegative.liquid.H2O.mPhidot[2]
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   260   # subregion.xNegative.liquid.H2O.p
+  0       0                       0                       0                
+  6   260   # subregion.xNegative.liquid.H2O.phi[1]
+  0       0                       0                       0                
+  6   260   # subregion.xNegative.liquid.H2O.phi[2]
+  0       0                       0                       0                
+  6   388   # subregion.xPositive.liquid.H2O.Ndot
+  0       0                       0                       0                
+  6   388   # subregion.xPositive.liquid.H2O.Qdot
+  0 4.2200928232356662E-003       0                 1.0000000000000000E+100
+  6   260   # subregion.xPositive.liquid.H2O.T
+  0       0                       0                       0                
+  6   388   # subregion.xPositive.liquid.H2O.mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.xPositive.liquid.H2O.mPhidot[2]
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   260   # subregion.xPositive.liquid.H2O.p
+  0       0                       0                       0                
+  6   260   # subregion.xPositive.liquid.H2O.phi[1]
+  0       0                       0                       0                
+  6   260   # subregion.xPositive.liquid.H2O.phi[2]
+  0       0                       0                       0                
+  6   388   # subregion.exchCommon.node.Qdot
+  0 4.2200928232356662E-003       0                 1.0000000000000000E+100
+  6   260   # subregion.exchCommon.node.T
+  0       0                       0                       0                
+  6   388   # subregion.exchCommon.node.mPhidot[1]
+  0       1                       1                       3                
+  6   262   # subregion.exchCommon.node.n_trans
+  0       0                       0                       0                
+  6   260   # subregion.exchCommon.node.phi[1]
+  0       0                       0                       0                
+  6   388   # subregion.exchGasLiq.node.Qdot
+  0 4.2200928232356662E-003       0                 1.0000000000000000E+100
+  6   260   # subregion.exchGasLiq.node.T
+  0       0                       0                       0                
+  6   388   # subregion.exchGasLiq.node.mPhidot[1]
+  0       1                       1                       3                
+  6   262   # subregion.exchGasLiq.node.n_trans
+  0       0                       0                       0                
+  6   260   # subregion.exchGasLiq.node.phi[1]
+
+
+# Matrix with 6 columns defining the initial value calculation
+# (columns 5 and 6 are not utilized for the calculation but are
+#  reported by dymosim via dymosim -i for user convenience):
+#
+# column 1: Type of initial value
+#           = -2: special case: for continuing simulation (column 2 = value)
+#           = -1: fixed value (column 2 = fixed value)
+#           =  0: free value, i.e., no restriction (column 2 = initial value)
+#           >  0: desired value (column 1 = weight for optimization
+#                                column 2 = desired value)
+#                 use weight=1, since automatic scaling usually
+#                 leads to equally weighted terms
+# column 2: fixed, free or desired value according to column 1.
+# column 3: Minimum value (ignored, if Minimum >= Maximum).
+# column 4: Maximum value (ignored, if Minimum >= Maximum).
+#           Minimum and maximum restrict the search range in initial
+#           value calculation. They might also be used for scaling.
+# column 5: Category of variable.
+#           = 1: parameter.
+#           = 2: state.
+#           = 3: state derivative.
+#           = 4: output.
+#           = 5: input.
+#           = 6: auxiliary variable.
+# column 6: Data type of variable.
+#           = 0: real.
+#           = 1: boolean.
+#           = 2: integer.
+#
+# Initial values are calculated according to the following procedure:
+#
+# - If parameters, states and inputs are FIXED, and other variables
+#   are FREE, no special action takes place (default setting).
+#
+# - If there are only FIXED and FREE variables and the number of
+#   FREE parameters, states and inputs is IDENTICAL to the number of
+#   FIXED state derivatives, outputs and auxiliary variables, a non-linear
+#   equation is solved to determine a consistent set of initial conditions.
+#
+# - In all other cases the following optimization problem is solved:
+#      min( sum( weight(i)*( (value(i) - DESIRED(i))/scale(i) )^2 ) )
+#   under the constraint that the differential equation is fulfilled
+#   at the initial time. In most cases weight(i)=1 is sufficient, due
+#   to the automatic scaling (if DESIRED(i) is not close to zero,
+#   scale(i) = DESIRED(i). Otherwise, the scaling is based on the
+#   nominal value (and maybe minimum and maximum values given in 
+#   column 3 and 4). If these values are zero, scale(i)=1 is used).
+#
+char initialDescription(777,149)
+radian [A]
+<html>Rydberg constant (R<sub>&infin;</sub>)</html> [A/L]
+<html>speed of light in vacuum (c)</html> [L/T]
+<html>Josephson constant (k<sub>J</sub>)</html> [A.N.T/(L2.M)]
+<html>von Klitzing constant (R<sub>K</sub>)</html> [L2.M/(N2.T)]
+candela [L2.M/(A2.T3)]
+<html>Faraday constant (k<sub>F</sub>)</html> [1]
+gas constant [1]
+radian [A]
+<html>Rydberg constant (R<sub>&infin;</sub>)</html> [A/L]
+<html>speed of light in vacuum (c)</html> [L/T]
+<html>Josephson constant (k<sub>J</sub>)</html> [A.N.T/(L2.M)]
+<html>von Klitzing constant (R<sub>K</sub>)</html> [L2.M/(N2.T)]
+candela [L2.M/(A2.T3)]
+<html>Faraday constant (k<sub>F</sub>)</html> [1]
+gas constant [1]
+Include optional variables for analysis [:#(type=Boolean)]
+Temperature [L2.M/(N.T2)|degC]
+Pressure [M/(L.T2)]
+Relative humidity [1|%]
+<html>Mole fraction of O<sub>2</sub> in the dry gas</html> [1|%]
+Saturation pressure of H2O vapor [M/(L.T2)]
+Pressure of H2O vapor [M/(L.T2)]
+Pressure of dry gases [M/(L.T2)]
+Pressure of O2 [M/(L.T2)]
+Mole fraction of H2O [1]
+Mole fraction of dry gases [1]
+Acceleration due to body forces [L/T2]
+Acceleration due to body forces [L/T2]
+Acceleration due to body forces [L/T2]
+Electric field [L.M/(N.T2)]
+Electric field [L.M/(N.T2)]
+Electric field [L.M/(N.T2)]
+<html>Carbon plus (C<sup>+</sup>)</html> [:#(type=Boolean)]
+<html>Nafion sulfonate (C<sub>19</sub>HF<sub>37</sub>O<sub>5</sub>S<sup>-</sup>, abbreviated as SO<sub>3</sub><sup>-</sup>)</html> [:#(type=Boolean)]
+<html>Electrons (e<sup>-</sup>)</html> [:#(type=Boolean)]
+<html>Protons (H<sup>+</sup>)</html> [:#(type=Boolean)]
+<html>Hydrogen (H<sub>2</sub>)</html> [:#(type=Boolean)]
+<html>Water vapor (H<sub>2</sub>O)</html> [:#(type=Boolean)]
+<html>Nitrogen (N<sub>2</sub>)</html> [:#(type=Boolean)]
+<html>Oxygen (O<sub>2</sub>)</html> [:#(type=Boolean)]
+Lengths [L]
+Lengths [L]
+Lengths [L]
+Volume [L3]
+true, if each pair of boundaries is included [:#(type=Boolean)]
+true, if each pair of boundaries is included [:#(type=Boolean)]
+true, if each pair of boundaries is included [:#(type=Boolean)]
+true, if each axis of rotation has all its tangential boundaries included [:#(type=Boolean)]
+true, if each axis of rotation has all its tangential boundaries included [:#(type=Boolean)]
+true, if each axis of rotation has all its tangential boundaries included [:#(type=Boolean)]
+Cartesian-axis indices of the transport axes [:#(type=Integer)]
+Transport-axis indices of the Cartesian axes [:#(type=Integer)]
+Transport-axis indices of the Cartesian axes [:#(type=Integer)]
+Transport-axis indices of the Cartesian axes [:#(type=Integer)]
+X [:#(type=Boolean)]
+Y [:#(type=Boolean)]
+Z [:#(type=Boolean)]
+Cross-sectional areas [L2]
+Cross-sectional areas [L2]
+Cross-sectional areas [L2]
+Number of species [:#(type=Integer)]
+Number of transport axes [:#(type=Integer)]
+Number of species [:#(type=Integer)]
+Number of exchange connections with other phases [:#(type=Integer)]
+Number of transport axes [:#(type=Integer)]
+Include H2 [:#(type=Boolean)]
+Include H2O [:#(type=Boolean)]
+Include N2 [:#(type=Boolean)]
+Method of initializing the material state [:#(type=FCSys.Species.Enumerations.Init)]
+Method of initializing the thermal state [:#(type=FCSys.Species.Enumerations.Init)]
+[N.T/M]
+[T]
+Number of transport axes [:#(type=Integer)]
+Number of exchange connections within the phase [:#(type=Integer)]
+Number of exchange connections with other phases [:#(type=Integer)]
+Initial amount of material [N]
+Initial density [N/L3]
+Initial volume [L3]
+Initial pressure [M/(L.T2)]
+Initial temperature [L2.M/(N.T2)|degC]
+Initial specific enthalpy [L2.M/(N.T2)|kJ/mol]
+Initial Gibbs potential [L2.M/(N.T2)|kJ/mol]
+For translational exchange among species within the phase [1]
+For translational exchange among species within the phase [1]
+For translational exchange among species within the phase [1]
+For thermal exchange among species within the phase [1]
+For thermal exchange among species within the phase [1]
+For thermal exchange among species within the phase [1]
+Amount of material [N]
+Temperature [L2.M/(N.T2)|degC]
+der(Temperature) [(L2.M/(N.T2))/s]
+Velocity [L/T]
+der(Velocity) [(L/T)/s]
+Pressure [M/(L.T2)]
+der(Pressure) [(M/(L.T2))/s]
+Specific Gibbs energy [L2.M/(N.T2)]
+Mass [M]
+Specific volume [L3/N]
+Specific enthalpy [L2.M/(N.T2)]
+Specific entropy [1]
+Density [N/L3]
+Volumic mass [M/L3]
+Entropy [N]
+Isobaric specific heat capacity [1|J/(mol.K)]
+Isochoric specific heat capacity [1|J/(mol.K)]
+Isothermal compressibility [L.T2/M]
+Time constants for translational intra-phase exchange [T]
+Time constants for translational intra-phase exchange [T]
+Time constants for translational intra-phase exchange [T]
+Time constants for translational inter-phase exchange [T]
+Time constants for translational inter-phase exchange [T]
+Time constants for thermal intra-phase exchange [T]
+Time constants for thermal intra-phase exchange [T]
+Time constants for thermal intra-phase exchange [T]
+Time constants for thermal inter-phase exchange [T]
+Time constants for thermal inter-phase exchange [T]
+Friction from other configurations (diffusive exchange) [L.M/T2]
+Rate of diffusion of energy from other configurations [L2.M/T3]
+Number of components of translational momentum [:#(type=Integer)]
+Force [L.M/T2]
+Rate of thermal conduction [L2.M/T3]
+Number of components of translational momentum [:#(type=Integer)]
+Force [L.M/T2]
+Rate of thermal conduction [L2.M/T3]
+Number of components of translational momentum [:#(type=Integer)]
+Force [L.M/T2]
+Rate of thermal conduction [L2.M/T3]
+Number of components of translational momentum [:#(type=Integer)]
+Number of components of translational momentum [:#(type=Integer)]
+Pressure [M/(L.T2)]
+Number of reaction and phase change processes [:#(type=Integer)]
+[L.M/(N.T)]
+[L.T/M]
+[L.T/N|m.K/W]
+Material [:#(type=FCSys.Species.Enumerations.ConsThermo)]
+Conserve rotational momentum [:#(type=Boolean)]
+X-axis translational momentum [:#(type=FCSys.Species.Enumerations.ConsTrans)]
+Y-axis translational momentum [:#(type=FCSys.Species.Enumerations.ConsTrans)]
+Z-axis translational momentum [:#(type=FCSys.Species.Enumerations.ConsTrans)]
+Energy [:#(type=FCSys.Species.Enumerations.ConsThermo)]
+X [:#(type=Boolean)]
+Y [:#(type=Boolean)]
+Z [:#(type=Boolean)]
+Calculate normal boundary velocities assuming uniform density [:#(type=Boolean)]
+Translational Nusselt numbers [1]
+Translational Nusselt numbers [1]
+Translational Nusselt numbers [1]
+Thermal Nusselt number [1]
+Nominal amount of material to prevent depletion [N]
+Current [N/T]
+Normal velocities at the boundaries [L/T]
+Normal velocities at the boundaries [L/T]
+Total normal translational force on pairs of boundaries [L.M/T2]
+Dynamic and nonequilibrium compression forces [L.M/T2]
+Densities at the boundaries [N/L3]
+Densities at the boundaries [N/L3]
+Volume flow rates into the boundaries [L3/T]
+Volume flow rates into the boundaries [L3/T]
+Dynamic pressure [M/(L.T2)]
+Differences in temperatures across the boundaries [L2.M/(N.T2)|K]
+Differences in pressures across the boundaries [M/(L.T2)]
+Flow rates of enthalpy + kinetic energy into the boundaries [L2.M/T3]
+Flow rates of enthalpy + kinetic energy into the boundaries [L2.M/T3]
+Time constants for material transport [T]
+Time constants for transverse translational transport [T]
+Time constants for thermal transport [T]
+Material Peclet numbers [1]
+Translational Peclet numbers [1]
+Thermal Peclet numbers [1]
+Bulk rate of translational advection (1st index: transport axis, 2nd index: translational component) [L.M/T2]
+Bulk volumetric flow rate [L3/T]
+Bulk enthalpy flow rate [L2.M/T3]
+Acceleration force (including acceleration due to body forces) [L.M/T2]
+Thermodynamic force [L.M/T2]
+Acceleration force due to advective exchange [L.M/T2]
+Acceleration force due to advective transport [L.M/T2]
+Shear force from other subregions (diffusive transport) [L.M/T2]
+Rate of energy storage (internal and kinetic) and boundary work at constant mass [L2.M/T3]
+Relative rate of energy (internal, flow, and kinetic) due to reactions and phase change [L2.M/T3]
+Relative rate of energy (internal, flow, and kinetic) due to advective transport [L2.M/T3]
+Rate of diffusion of energy from other subregions [L2.M/T3]
+Formulation of the translational conservation equations for the transport axes [:#(type=FCSys.Species.Enumerations.ConsTrans)]
+true, if each transport axis uses upstream discretization [:#(type=Boolean)]
+Directly-calculated shear forces [L.M/T2]
+Directly-calculated shear forces [L.M/T2]
+Directly-calculated shear forces [L.M/T2]
+Directly-calculated shear forces [L.M/T2]
+Include O2 [:#(type=Boolean)]
+Translational [1]
+Translational [1]
+Translational [1]
+Thermal [1]
+Translational [1]
+Translational [1]
+Translational [1]
+Thermal [1]
+Translational [1]
+Translational [1]
+Translational [1]
+Thermal [1]
+Volume [L3]
+Pressure [M/(L.T2)]
+Number of components of translational momentum [:#(type=Integer)]
+Force [L.M/T2]
+Rate of thermal conduction [L2.M/T3]
+Number of components of translational momentum [:#(type=Integer)]
+Force [L.M/T2]
+Rate of thermal conduction [L2.M/T3]
+Total thermodynamic pressure [M/(L.T2)]
+Number of species [:#(type=Integer)]
+Number of exchange connections with other phases [:#(type=Integer)]
+Number of transport axes [:#(type=Integer)]
+Include C+ [:#(type=Boolean)]
+Include e- [:#(type=Boolean)]
+Include electron transfer [:#(type=Boolean)]
+Include the double-layer capacitance [:#(type=Boolean)]
+Number of species [:#(type=Integer)]
+Number of exchange connections with other phases [:#(type=Integer)]
+Number of transport axes [:#(type=Integer)]
+Include C19HF37O5S- (abbreviated as SO3-) [:#(type=Boolean)]
+Volumetric fill fraction [1]
+[N.T/M]
+[T]
+Number of transport axes [:#(type=Integer)]
+Number of exchange connections within the phase [:#(type=Integer)]
+Number of exchange connections with other phases [:#(type=Integer)]
+Initial amount of material [N]
+Initial density [N/L3]
+Initial volume [L3]
+Initial pressure [M/(L.T2)]
+Initial temperature [L2.M/(N.T2)|degC]
+Initial specific enthalpy [L2.M/(N.T2)|kJ/mol]
+Initial Gibbs potential [L2.M/(N.T2)|kJ/mol]
+For translational exchange among species within the phase [1]
+For translational exchange among species within the phase [1]
+For translational exchange among species within the phase [1]
+For thermal exchange among species within the phase [1]
+For thermal exchange among species within the phase [1]
+For thermal exchange among species within the phase [1]
+Amount of material [N]
+Temperature [L2.M/(N.T2)|degC]
+Velocity [L/T]
+Pressure [M/(L.T2)]
+Specific Gibbs energy [L2.M/(N.T2)]
+Mass [M]
+Specific volume [L3/N]
+Specific enthalpy [L2.M/(N.T2)]
+Specific entropy [1]
+Density [N/L3]
+Volumic mass [M/L3]
+Entropy [N]
+Isobaric specific heat capacity [1|J/(mol.K)]
+Isochoric specific heat capacity [1|J/(mol.K)]
+Isothermal compressibility [L.T2/M]
+Time constants for translational intra-phase exchange [T]
+Time constants for translational intra-phase exchange [T]
+Time constants for translational intra-phase exchange [T]
+Time constants for translational inter-phase exchange [T]
+Time constants for thermal intra-phase exchange [T]
+Time constants for thermal intra-phase exchange [T]
+Time constants for thermal intra-phase exchange [T]
+Time constants for thermal inter-phase exchange [T]
+Friction from other configurations (diffusive exchange) [L.M/T2]
+Rate of diffusion of energy from other configurations [L2.M/T3]
+Number of components of translational momentum [:#(type=Integer)]
+Force [L.M/T2]
+Rate of thermal conduction [L2.M/T3]
+Number of components of translational momentum [:#(type=Integer)]
+Force [L.M/T2]
+Rate of thermal conduction [L2.M/T3]
+Number of components of translational momentum [:#(type=Integer)]
+Force [L.M/T2]
+Rate of thermal conduction [L2.M/T3]
+Number of components of translational momentum [:#(type=Integer)]
+Effective transport length [L]
+[L.T/N|m.K/W]
+Energy [:#(type=FCSys.Species.Enumerations.ConsThermo)]
+Time constants for thermal transport (through the whole subregion) [T]
+Differences in temperatures across the boundaries [L2.M/(N.T2)|K]
+Include H+ [:#(type=Boolean)]
+Include H2O [:#(type=Boolean)]
+Method of initializing the material state [:#(type=FCSys.Species.Enumerations.Init)]
+Method of initializing the thermal state [:#(type=FCSys.Species.Enumerations.Init)]
+[N.T/M]
+[T]
+Number of transport axes [:#(type=Integer)]
+Number of exchange connections within the phase [:#(type=Integer)]
+Number of exchange connections with other phases [:#(type=Integer)]
+Initial amount of material [N]
+Initial density [N/L3]
+Initial volume [L3]
+Initial pressure [M/(L.T2)]
+Initial temperature [L2.M/(N.T2)|degC]
+Initial specific enthalpy [L2.M/(N.T2)|kJ/mol]
+Initial Gibbs potential [L2.M/(N.T2)|kJ/mol]
+For translational exchange among species within the phase [1]
+For translational exchange among species within the phase [1]
+For translational exchange among species within the phase [1]
+For thermal exchange among species within the phase [1]
+For thermal exchange among species within the phase [1]
+For thermal exchange among species within the phase [1]
+Amount of material [N]
+der(Amount of material) [N/s]
+Temperature [L2.M/(N.T2)|degC]
+der(Temperature) [(L2.M/(N.T2))/s]
+Velocity [L/T]
+der(Velocity) [(L/T)/s]
+Pressure [M/(L.T2)]
+der(Pressure) [(M/(L.T2))/s]
+Mass [M]
+der(Mass) [(M)/s]
+Specific volume [L3/N]
+der(Specific volume) [(L3/N)/s]
+Specific enthalpy [L2.M/(N.T2)]
+Specific entropy [1]
+der(Specific entropy) [s-1]
+Density [N/L3]
+Volumic mass [M/L3]
+Entropy [N]
+Isobaric specific heat capacity [1|J/(mol.K)]
+Isochoric specific heat capacity [1|J/(mol.K)]
+Isothermal compressibility [L.T2/M]
+Time constants for translational intra-phase exchange [T]
+Time constants for translational intra-phase exchange [T]
+Time constants for translational intra-phase exchange [T]
+Time constants for thermal intra-phase exchange [T]
+Time constants for thermal intra-phase exchange [T]
+Time constants for thermal intra-phase exchange [T]
+Friction from other configurations (diffusive exchange) [L.M/T2]
+Rate of diffusion of energy from other configurations [L2.M/T3]
+Number of components of translational momentum [:#(type=Integer)]
+Number of components of translational momentum [:#(type=Integer)]
+Force [L.M/T2]
+Rate of thermal conduction [L2.M/T3]
+Number of components of translational momentum [:#(type=Integer)]
+Number of reaction and phase change processes [:#(type=Integer)]
+Continuity [L.M/(N.T)]
+[L.T/M]
+[L.T/N|m.K/W]
+Specific exchange currents [T]
+Material [:#(type=FCSys.Species.Enumerations.ConsThermo)]
+Conserve rotational momentum [:#(type=Boolean)]
+X-axis translational momentum [:#(type=FCSys.Species.Enumerations.ConsTrans)]
+Y-axis translational momentum [:#(type=FCSys.Species.Enumerations.ConsTrans)]
+Z-axis translational momentum [:#(type=FCSys.Species.Enumerations.ConsTrans)]
+Energy [:#(type=FCSys.Species.Enumerations.ConsThermo)]
+X [:#(type=Boolean)]
+Y [:#(type=Boolean)]
+Z [:#(type=Boolean)]
+Calculate normal boundary velocities assuming uniform density [:#(type=Boolean)]
+Translational Nusselt numbers [1]
+Translational Nusselt numbers [1]
+Translational Nusselt numbers [1]
+Thermal Nusselt number [1]
+Nominal amount of material to prevent depletion [N]
+Current [N/T]
+Normal velocities at the boundaries [L/T]
+Normal velocities at the boundaries [L/T]
+Total normal translational force on pairs of boundaries [L.M/T2]
+Dynamic and nonequilibrium compression forces [L.M/T2]
+Densities at the boundaries [N/L3]
+Densities at the boundaries [N/L3]
+Volume flow rates into the boundaries [L3/T]
+Volume flow rates into the boundaries [L3/T]
+Dynamic pressure [M/(L.T2)]
+Velocity of the chemical streams [L/T]
+Specific entropy-temperature product of the chemical streams [L2.M/(N.T2)]
+Differences in temperatures across the boundaries [L2.M/(N.T2)|K]
+Differences in pressures across the boundaries [M/(L.T2)]
+Flow rates of enthalpy + kinetic energy into the boundaries [L2.M/T3]
+Flow rates of enthalpy + kinetic energy into the boundaries [L2.M/T3]
+Time constants for material transport [T]
+Time constants for transverse translational transport [T]
+Time constants for thermal transport [T]
+Material Peclet numbers [1]
+Translational Peclet numbers [1]
+Thermal Peclet numbers [1]
+Bulk rate of translational advection (1st index: transport axis, 2nd index: translational component) [L.M/T2]
+Bulk volumetric flow rate [L3/T]
+Bulk enthalpy flow rate [L2.M/T3]
+Acceleration force (including acceleration due to body forces) [L.M/T2]
+Thermodynamic force [L.M/T2]
+Acceleration force due to advective exchange [L.M/T2]
+Acceleration force due to advective transport [L.M/T2]
+Shear force from other subregions (diffusive transport) [L.M/T2]
+Rate of energy storage (internal and kinetic) and boundary work at constant mass [L2.M/T3]
+Relative rate of energy (internal, flow, and kinetic) due to reactions and phase change [L2.M/T3]
+Relative rate of energy (internal, flow, and kinetic) due to advective transport [L2.M/T3]
+Rate of diffusion of energy from other subregions [L2.M/T3]
+Number of components of translational momentum [:#(type=Integer)]
+Formulation of the translational conservation equations for the transport axes [:#(type=FCSys.Species.Enumerations.ConsTrans)]
+true, if each transport axis uses upstream discretization [:#(type=Boolean)]
+Directly-calculated shear forces [L.M/T2]
+Directly-calculated shear forces [L.M/T2]
+Directly-calculated shear forces [L.M/T2]
+Directly-calculated shear forces [L.M/T2]
+<html>Initial ratio of H<sub>2</sub>O molecules to SO<sub>3</sub><sup>-</sup> end-groups</html> [1]
+Ratio of H2O molecules to SO3- end-groups [1]
+<html>Coefficients for specific volume as a polynomial in <i>p</i>/<i>T</i> and <i>T</i> (<i>b</i><sub><i>v</i></sub>)</html>
+Pressure [M/(L.T2)]
+Volume [L3]
+Number of components of translational momentum [:#(type=Integer)]
+Force [L.M/T2]
+Rate of thermal conduction [L2.M/T3]
+Number of components of translational momentum [:#(type=Integer)]
+Chemical potential [L2.M/(N.T2)]
+Current [N/T]
+Specific entropy-temperature product upon outflow [L2.M/(N.T2)]
+Translational [1]
+Translational [1]
+Translational [1]
+Thermal [1]
+Translational [1]
+Translational [1]
+Translational [1]
+Thermal [1]
+Translational [1]
+Translational [1]
+Translational [1]
+Thermal [1]
+Translational [1]
+Translational [1]
+Translational [1]
+Thermal [1]
+Pressure [M/(L.T2)]
+Pressure [M/(L.T2)]
+Number of species [:#(type=Integer)]
+Number of exchange connections with other phases [:#(type=Integer)]
+Number of transport axes [:#(type=Integer)]
+Include H2O [:#(type=Boolean)]
+Total thermodynamic pressure [M/(L.T2)]
+Initial volumetric fill fraction [1]
+Method of initializing the material state [:#(type=FCSys.Species.Enumerations.Init)]
+Method of initializing the thermal state [:#(type=FCSys.Species.Enumerations.Init)]
+[N.T/M]
+[T]
+Number of transport axes [:#(type=Integer)]
+Number of exchange connections within the phase [:#(type=Integer)]
+Number of exchange connections with other phases [:#(type=Integer)]
+Initial amount of material [N]
+Initial density [N/L3]
+Initial volume [L3]
+Initial pressure [M/(L.T2)]
+Initial temperature [L2.M/(N.T2)|degC]
+Initial specific enthalpy [L2.M/(N.T2)|kJ/mol]
+Initial Gibbs potential [L2.M/(N.T2)|kJ/mol]
+Amount of material [N]
+der(Amount of material) [N/s]
+Temperature [L2.M/(N.T2)|degC]
+der(Temperature) [(L2.M/(N.T2))/s]
+Velocity [L/T]
+der(Velocity) [(L/T)/s]
+Pressure [M/(L.T2)]
+Specific Gibbs energy [L2.M/(N.T2)]
+Mass [M]
+Specific volume [L3/N]
+Specific enthalpy [L2.M/(N.T2)]
+Specific entropy [1]
+Density [N/L3]
+Volumic mass [M/L3]
+Entropy [N]
+Isobaric specific heat capacity [1|J/(mol.K)]
+Isochoric specific heat capacity [1|J/(mol.K)]
+Isothermal compressibility [L.T2/M]
+Time constants for translational inter-phase exchange [T]
+Time constants for translational inter-phase exchange [T]
+Time constants for thermal inter-phase exchange [T]
+Time constants for thermal inter-phase exchange [T]
+Friction from other configurations (diffusive exchange) [L.M/T2]
+Rate of diffusion of energy from other configurations [L2.M/T3]
+Number of components of translational momentum [:#(type=Integer)]
+Number of components of translational momentum [:#(type=Integer)]
+Pressure [M/(L.T2)]
+Number of reaction and phase change processes [:#(type=Integer)]
+Continuity [L.M/(N.T)]
+[L.T/M]
+[L.T/N|m.K/W]
+[T]
+[T]
+[T]
+Material [:#(type=FCSys.Species.Enumerations.ConsThermo)]
+Conserve rotational momentum [:#(type=Boolean)]
+X-axis translational momentum [:#(type=FCSys.Species.Enumerations.ConsTrans)]
+Y-axis translational momentum [:#(type=FCSys.Species.Enumerations.ConsTrans)]
+Z-axis translational momentum [:#(type=FCSys.Species.Enumerations.ConsTrans)]
+Energy [:#(type=FCSys.Species.Enumerations.ConsThermo)]
+X [:#(type=Boolean)]
+Y [:#(type=Boolean)]
+Z [:#(type=Boolean)]
+Calculate normal boundary velocities assuming uniform density [:#(type=Boolean)]
+Translational Nusselt numbers [1]
+Translational Nusselt numbers [1]
+Translational Nusselt numbers [1]
+Thermal Nusselt number [1]
+Nominal amount of material to prevent depletion [N]
+Current [N/T]
+Normal velocities at the boundaries [L/T]
+Normal velocities at the boundaries [L/T]
+Total normal translational force on pairs of boundaries [L.M/T2]
+Dynamic and nonequilibrium compression forces [L.M/T2]
+Densities at the boundaries [N/L3]
+Densities at the boundaries [N/L3]
+Volume flow rates into the boundaries [L3/T]
+Volume flow rates into the boundaries [L3/T]
+Dynamic pressure [M/(L.T2)]
+Velocity of the chemical streams [L/T]
+Specific entropy-temperature product of the chemical streams [L2.M/(N.T2)]
+Specific entropy-temperature product of the chemical streams [L2.M/(N.T2)]
+Specific entropy-temperature product of the chemical streams [L2.M/(N.T2)]
+Differences in temperatures across the boundaries [L2.M/(N.T2)|K]
+Differences in pressures across the boundaries [M/(L.T2)]
+Flow rates of enthalpy + kinetic energy into the boundaries [L2.M/T3]
+Flow rates of enthalpy + kinetic energy into the boundaries [L2.M/T3]
+Gibbs potentials at the boundaries [L2.M/(N.T2)]
+Gibbs potentials at the boundaries [L2.M/(N.T2)]
+Differences in Gibbs potentials across the boundaries [L2.M/(N.T2)]
+Time constants for material transport [T]
+Time constants for transverse translational transport [T]
+Time constants for thermal transport [T]
+Material Peclet numbers [1]
+Translational Peclet numbers [1]
+Thermal Peclet numbers [1]
+Bulk rate of translational advection (1st index: transport axis, 2nd index: translational component) [L.M/T2]
+Bulk volumetric flow rate [L3/T]
+Bulk enthalpy flow rate [L2.M/T3]
+Acceleration force (including acceleration due to body forces) [L.M/T2]
+Thermodynamic force [L.M/T2]
+Acceleration force due to advective exchange [L.M/T2]
+Acceleration force due to advective transport [L.M/T2]
+Shear force from other subregions (diffusive transport) [L.M/T2]
+Rate of energy storage (internal and kinetic) and boundary work at constant mass [L2.M/T3]
+Relative rate of energy (internal, flow, and kinetic) due to reactions and phase change [L2.M/T3]
+Relative rate of energy (internal, flow, and kinetic) due to advective transport [L2.M/T3]
+Rate of diffusion of energy from other subregions [L2.M/T3]
+Number of components of translational momentum [:#(type=Integer)]
+Chemical potential [L2.M/(N.T2)]
+Current [N/T]
+Specific entropy-temperature product upon outflow [L2.M/(N.T2)]
+Number of components of translational momentum [:#(type=Integer)]
+Current [N/T]
+Specific entropy-temperature product upon outflow [L2.M/(N.T2)]
+Number of components of translational momentum [:#(type=Integer)]
+Specific entropy-temperature product upon outflow [L2.M/(N.T2)]
+Formulation of the translational conservation equations for the transport axes [:#(type=FCSys.Species.Enumerations.ConsTrans)]
+true, if each transport axis uses upstream discretization [:#(type=Boolean)]
+Directly-calculated shear forces [L.M/T2]
+Directly-calculated shear forces [L.M/T2]
+Directly-calculated shear forces [L.M/T2]
+Directly-calculated shear forces [L.M/T2]
+Number of components of translational momentum [:#(type=Integer)]
+Force [L.M/T2]
+Rate of thermal conduction [L2.M/T3]
+Number of components of translational momentum [:#(type=Integer)]
+Pressure [M/(L.T2)]
+Number of components of translational momentum [:#(type=Integer)]
+Chemical potential [L2.M/(N.T2)]
+Current [N/T]
+Specific entropy-temperature product upon outflow [L2.M/(N.T2)]
+Number of components of translational momentum [:#(type=Integer)]
+Chemical potential [L2.M/(N.T2)]
+Current [N/T]
+Specific entropy-temperature product upon outflow [L2.M/(N.T2)]
+Number of components of translational momentum [:#(type=Integer)]
+Specific entropy-temperature product upon outflow [L2.M/(N.T2)]
+Pressure [M/(L.T2)]
+Pressure [M/(L.T2)]
+Translational [1]
+Translational [1]
+Translational [1]
+Thermal [1]
+Translational [1]
+Translational [1]
+Translational [1]
+Thermal [1]
+Volume [L3]
+Include capillary pressure [:#(type=Boolean)]
+Surface tension [M/T2]
+Permeability [L2]
+Contact angle [A]
+Gas [:#(type=Boolean)]
+Liquid [:#(type=Boolean)]
+Solid [:#(type=Boolean)]
+Pore volume [L3]
+Liquid saturation [1]
+Pressure [M/(L.T2)]
+Pressure [M/(L.T2)]
+Pressure [M/(L.T2)]
+Volume [L3]
+Pressure [M/(L.T2)]
+Pressure [M/(L.T2)]
+Pressure [M/(L.T2)]
+Include the hydrogen oxidation reaction [:#(type=Boolean)]
+Include the oxygen reduction reaction [:#(type=Boolean)]
+For translational exchange with other phases [1]
+For translational exchange with other phases [1]
+For thermal exchange with other phases [1]
+For thermal exchange with other phases [1]
+Effective cross-sectional areas [L2]
+Length factors for transport [1]
+Length factors for transport [1]
+Length factors for transport [1]
+Volumetric fill fraction [1]
+Effective transport lengths [L]
+Current [N/T]
+der(Current) [C.m.s-2]
+Force [L.M/T2]
+Force [L.M/T2]
+Rate of thermal conduction [L2.M/T3]
+Current [N/T]
+der(Current) [C.m.s-2]
+Force [L.M/T2]
+Force [L.M/T2]
+Rate of thermal conduction [L2.M/T3]
+For translational exchange with other phases [1]
+For thermal exchange with other phases [1]
+Effective cross-sectional areas [L2]
+Length factors for transport [1]
+Length factors for transport [1]
+Length factors for transport [1]
+Volumetric fill fraction [1]
+Effective transport lengths [L]
+Rate of thermal conduction [L2.M/T3]
+Rate of thermal conduction [L2.M/T3]
+Current [N/T]
+der(Current) [C.m.s-2]
+Force [L.M/T2]
+Force [L.M/T2]
+Rate of thermal conduction [L2.M/T3]
+Current [N/T]
+der(Current) [C.m.s-2]
+Force [L.M/T2]
+Force [L.M/T2]
+Rate of thermal conduction [L2.M/T3]
+For translational exchange with other phases [1]
+For translational exchange with other phases [1]
+For thermal exchange with other phases [1]
+For thermal exchange with other phases [1]
+Effective cross-sectional areas [L2]
+Length factors for transport [1]
+Length factors for transport [1]
+Length factors for transport [1]
+Volumetric fill fraction [1]
+Effective transport lengths [L]
+Current [N/T]
+der(Current) [C.m.s-2]
+Force [L.M/T2]
+Force [L.M/T2]
+Rate of thermal conduction [L2.M/T3]
+Current [N/T]
+der(Current) [C.m.s-2]
+Force [L.M/T2]
+Force [L.M/T2]
+Rate of thermal conduction [L2.M/T3]
+Rate of thermal conduction [L2.M/T3]
+Temperature [L2.M/(N.T2)|degC]
+Force [L.M/T2]
+Number of components of translational momentum [:#(type=Integer)]
+Velocity [L/T]
+Rate of thermal conduction [L2.M/T3]
+Temperature [L2.M/(N.T2)|degC]
+Force [L.M/T2]
+Number of components of translational momentum [:#(type=Integer)]
+Velocity [L/T]
+Rate of thermal conduction [L2.M/T3]
+Temperature [L2.M/(N.T2)|degC]
+Force [L.M/T2]
+Number of components of translational momentum [:#(type=Integer)]
+Velocity [L/T]
+Current [N/T]
+Rate of thermal conduction [L2.M/T3]
+Force [L.M/T2]
+Force [L.M/T2]
+Current [N/T]
+Rate of thermal conduction [L2.M/T3]
+Force [L.M/T2]
+Force [L.M/T2]
+Rate of thermal conduction [L2.M/T3]
+Temperature [L2.M/(N.T2)|degC]
+Force [L.M/T2]
+Number of components of translational momentum [:#(type=Integer)]
+Velocity [L/T]
+Rate of thermal conduction [L2.M/T3]
+Temperature [L2.M/(N.T2)|degC]
+Force [L.M/T2]
+Number of components of translational momentum [:#(type=Integer)]
+Velocity [L/T]
+Rate of thermal conduction [L2.M/T3]
+Temperature [L2.M/(N.T2)|degC]
+Force [L.M/T2]
+Number of components of translational momentum [:#(type=Integer)]
+Velocity [L/T]
+Rate of thermal conduction [L2.M/T3]
+Temperature [L2.M/(N.T2)|degC]
+Force [L.M/T2]
+Number of components of translational momentum [:#(type=Integer)]
+Velocity [L/T]
+Rate of thermal conduction [L2.M/T3]
+Rate of thermal conduction [L2.M/T3]
+Current [N/T]
+Rate of thermal conduction [L2.M/T3]
+Force [L.M/T2]
+Force [L.M/T2]
+Current [N/T]
+Rate of thermal conduction [L2.M/T3]
+Force [L.M/T2]
+Force [L.M/T2]
+Current [N/T]
+Rate of thermal conduction [L2.M/T3]
+Force [L.M/T2]
+Force [L.M/T2]
+Current [N/T]
+Rate of thermal conduction [L2.M/T3]
+Force [L.M/T2]
+Force [L.M/T2]
+Current [N/T]
+Rate of thermal conduction [L2.M/T3]
+Temperature [L2.M/(N.T2)|degC]
+Force [L.M/T2]
+Force [L.M/T2]
+Pressure [M/(L.T2)]
+Velocity [L/T]
+Velocity [L/T]
+Current [N/T]
+Rate of thermal conduction [L2.M/T3]
+Temperature [L2.M/(N.T2)|degC]
+Force [L.M/T2]
+Force [L.M/T2]
+Pressure [M/(L.T2)]
+Velocity [L/T]
+Velocity [L/T]
+Rate of thermal conduction [L2.M/T3]
+Temperature [L2.M/(N.T2)|degC]
+Current [N/T]
+Rate of thermal conduction [L2.M/T3]
+Temperature [L2.M/(N.T2)|degC]
+Force [L.M/T2]
+Force [L.M/T2]
+Pressure [M/(L.T2)]
+Velocity [L/T]
+Velocity [L/T]
+Rate of thermal conduction [L2.M/T3]
+Temperature [L2.M/(N.T2)|degC]
+Current [N/T]
+Rate of thermal conduction [L2.M/T3]
+Temperature [L2.M/(N.T2)|degC]
+Force [L.M/T2]
+Force [L.M/T2]
+Pressure [M/(L.T2)]
+Velocity [L/T]
+Velocity [L/T]
+Current [N/T]
+Rate of thermal conduction [L2.M/T3]
+Temperature [L2.M/(N.T2)|degC]
+Force [L.M/T2]
+Force [L.M/T2]
+Pressure [M/(L.T2)]
+Velocity [L/T]
+Velocity [L/T]
+Current [N/T]
+Rate of thermal conduction [L2.M/T3]
+Temperature [L2.M/(N.T2)|degC]
+Force [L.M/T2]
+Force [L.M/T2]
+Pressure [M/(L.T2)]
+Velocity [L/T]
+Velocity [L/T]
+Rate of thermal conduction [L2.M/T3]
+Temperature [L2.M/(N.T2)|degC]
+Force [L.M/T2]
+Number of components of translational momentum [:#(type=Integer)]
+Velocity [L/T]
+Rate of thermal conduction [L2.M/T3]
+Temperature [L2.M/(N.T2)|degC]
+Force [L.M/T2]
+Number of components of translational momentum [:#(type=Integer)]
+Velocity [L/T]
+

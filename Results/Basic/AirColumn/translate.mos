@@ -1,0 +1,20 @@
+// Modelica experiment script written by modelicares 2013-07-24
+cd("D:/Documents/Modelica");
+Advanced.TranslationInCommandLog = true "Also include translation log in command log";
+destination = "D:/Documents/LaTeX/Dissertation/Results/Basic/AirColumn/";
+import Modelica.Utilities.Files.copy;
+import Modelica.Utilities.Files.createDirectory;
+
+// Experiment 1
+clearlog();
+ok = FCSys.Utilities.Time.timeTranslation(problem="FCSys.Subregions.Examples.AirColumn");
+if ok then
+    savelog();
+    createDirectory(destination + "1");
+    copy("translg.txt", destination + "1/translg.txt", true);
+	createDirectory(destination + "2");
+    copy("translg.txt", destination + "2/translg.txt", true);
+end if;
+
+
+

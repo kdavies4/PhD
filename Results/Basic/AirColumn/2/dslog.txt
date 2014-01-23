@@ -1,0 +1,9 @@
+  Limit stepsize, Dominate error, Exceeds 10% of error Component (#number)
+   CPU-time for integration      : 0.016 seconds
+   Number of (model) time events : 0
+   Number of (U) time events     : 0
+   Number of state    events     : 0
+   Number of step     events     : 0
+   Maximum integration order     : 1
+Calling terminal section
+... "dsfinal.txt" creating (final states)

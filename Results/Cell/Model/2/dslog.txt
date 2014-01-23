@@ -1,0 +1,47 @@
+Log-file of program ./dymosim
+(generated: Wed Dec 18 23:37:05 2013)
+
+dymosim started
+... "dsin.txt" loading (dymosim input file)
+... "dsres.mat" creating (simulation result file)
+
+Integration started at T = 0 using integration method DASSL
+(DAE multi-step solver (dassl/dasslrt of Petzold modified by Dynasim))
+The following error was detected at time: 24323.86717577614
+
+Model error - Modelica.Math.log (cell.caCL.subregions[1, 1, 1].gas.O2.p) = Modelica.Math.log (-0.000175787)
+
+Solver will attempt to handle this problem.
+
+The following error was detected at time: 24324.35871850755
+
+Model error - Modelica.Math.log (cell.caCL.subregions[1, 1, 1].gas.O2.p) = Modelica.Math.log (-0.00227951)
+
+Solver will attempt to handle this problem.
+
+The following error was detected at time: 24324.11294714185
+
+Model error - Modelica.Math.log (cell.caCL.subregions[1, 1, 1].gas.O2.p) = Modelica.Math.log (-0.00135036)
+
+Solver will attempt to handle this problem.
+
+Simulation successfully terminated
+There is no more O2.
+Integration terminated successfully at T = 24323.71752
+   CPU-time for integration      : 1.41 seconds
+   CPU-time for one GRID interval: 4.17 milli-seconds
+   Number of result points       : 346
+   Number of GRID   points       : 338
+   Number of (successful) steps  : 382
+   Number of F-evaluations       : 5846
+   Number of H-evaluations       : 775
+   Number of Jacobian-evaluations: 135
+   Number of (model) time events : 1
+   Number of (U) time events     : 0
+   Number of state    events     : 4
+   Number of step     events     : 0
+   Minimum integration stepsize  : 3.13e-009
+   Maximum integration stepsize  : 1.66e+003
+   Maximum integration order     : 5
+Calling terminal section
+... "dsfinal.txt" creating (final states)

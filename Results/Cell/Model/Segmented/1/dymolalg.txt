@@ -1,0 +1,352 @@
+ = true
+ = true
+Translation of FCSys.Assemblies.Cells.Examples.TestStandSegmented:
+Warning: Replaceable must be a subtype of constraining class.
+ But different specialized classes model cell and class cell.
+  In declaration of component cell:
+  File: D:/Documents/Modelica/FCSys/FCSys/Assemblies.mo, line 197
+Original declaration of cell:
+  File: D:/Documents/Modelica/FCSys/FCSys/Assemblies.mo, line 197
+  Context: FCSys.Assemblies.Cells.Examples.TestStand.cell
+The DAE has 38329 scalar unknowns and 38329 scalar equations.
+Warning: The value=-2873.21 not in range [0,1e+100] for variable cell.anCL.subregions[1, 1, 1].ionomer.'SO3-'.s.
+Ignoring range
+Warning: The value=-2873.21 not in range [0,1e+100] for variable cell.anCL.subregions[1, 2, 1].ionomer.'SO3-'.s.
+Ignoring range
+Warning: The value=-2873.21 not in range [0,1e+100] for variable cell.anCL.subregions[1, 3, 1].ionomer.'SO3-'.s.
+Ignoring range
+Warning: The value=-2873.21 not in range [0,1e+100] for variable cell.anCL.subregions[1, 4, 1].ionomer.'SO3-'.s.
+Ignoring range
+Warning: The value=-2873.21 not in range [0,1e+100] for variable cell.anCL.subregions[1, 5, 1].ionomer.'SO3-'.s.
+Ignoring range
+Warning: The value=-2873.21 not in range [0,1e+100] for variable cell.anCL.subregions[1, 6, 1].ionomer.'SO3-'.s.
+Ignoring range
+Warning: The value=-2873.21 not in range [0,1e+100] for variable cell.PEM.subregions[1, 1, 1].ionomer.'SO3-'.s.
+Ignoring range
+Warning: The value=-2873.21 not in range [0,1e+100] for variable cell.PEM.subregions[1, 2, 1].ionomer.'SO3-'.s.
+Ignoring range
+Warning: The value=-2873.21 not in range [0,1e+100] for variable cell.PEM.subregions[1, 3, 1].ionomer.'SO3-'.s.
+Ignoring range
+Warning: The value=-2873.21 not in range [0,1e+100] for variable cell.PEM.subregions[1, 4, 1].ionomer.'SO3-'.s.
+Ignoring range
+Warning: The value=-2873.21 not in range [0,1e+100] for variable cell.PEM.subregions[1, 5, 1].ionomer.'SO3-'.s.
+Ignoring range
+Warning: The value=-2873.21 not in range [0,1e+100] for variable cell.PEM.subregions[1, 6, 1].ionomer.'SO3-'.s.
+Ignoring range
+Warning: The value=-2873.21 not in range [0,1e+100] for variable cell.caCL.subregions[1, 1, 1].ionomer.'SO3-'.s.
+Ignoring range
+Warning: The value=-2873.21 not in range [0,1e+100] for variable cell.caCL.subregions[1, 2, 1].ionomer.'SO3-'.s.
+Ignoring range
+Warning: The value=-2873.21 not in range [0,1e+100] for variable cell.caCL.subregions[1, 3, 1].ionomer.'SO3-'.s.
+Ignoring range
+Warning: The value=-2873.21 not in range [0,1e+100] for variable cell.caCL.subregions[1, 4, 1].ionomer.'SO3-'.s.
+Ignoring range
+Warning: The value=-2873.21 not in range [0,1e+100] for variable cell.caCL.subregions[1, 5, 1].ionomer.'SO3-'.s.
+Ignoring range
+Warning: The value=-2873.21 not in range [0,1e+100] for variable cell.caCL.subregions[1, 6, 1].ionomer.'SO3-'.s.
+Ignoring range
+ 
+Statistics
+ 
+Original Model
+  Number of components: 1153
+  Variables: 31980
+  Constants: 167 (167 scalars)
+  Parameters: 11148 (13686 scalars)
+  Unknowns: 20665 (38761 scalars)
+  Differentiated variables: 1350 scalars
+  Equations: 19030
+    Nontrivial : 18165
+Translated Model
+  Constants: 17738 scalars
+  Free parameters: 1531 scalars
+  Parameter depending: 3845 scalars
+  Outputs: 15 scalars
+  Continuous time states: 266 scalars
+  Time-varying variables: 12711 scalars
+  Alias variables: 16789 scalars
+  Number of mixed real/discrete systems of equations: 0
+  Sizes of linear systems of equations: {2, 4, 4, 2, 2, 2, 5, 4, 2, 2, 2, 2, 2, 2, 4, 2, 2, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2,   2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 12, 2, 2, 4, 2, 2, 2,   2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 21, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 8, 4, 2,   2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2, 2, 2, 2,   2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 21, 5, 4, 2, 2, 4, 4, 2, 2, 4, 2, 2, 2, 2, 4,   2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 5, 2, 4, 2, 2, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,   2, 2, 2, 2, 2, 2, 2, 25, 2, 2, 2, 2, 8, 5, 4, 2, 2, 4, 4, 2, 2, 4, 2, 4, 2, 2,   4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 4, 2, 2, 2, 2,   2, 2, 2, 2, 2, 16, 2, 4, 2, 2, 2, 5, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,   2, 4, 25, 4, 2, 2, 4, 2, 2, 2, 2, 2, 4, 2, 2, 4, 2, 2, 2, 2, 2, 16, 5, 4, 2, 2,   4, 4, 2, 2, 4, 2, 4, 2, 2, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2,   2, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 16, 4, 2, 2, 4, 4, 2, 2, 4, 2, 4, 2, 2, 4, 2,   2, 2, 2, 2, 2, 2, 2, 5, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 13, 2,   2, 2, 2, 4, 2, 2, 4, 4, 2, 2, 4, 2, 2, 4, 2, 2, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2,   5, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 13, 4, 2, 2, 4, 4, 2, 2, 4, 2, 4,   2, 2, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 4, 2, 2, 2, 2, 2, 2,   2, 2, 2, 16, 5, 4, 2, 2, 4, 2, 2, 2, 2, 25, 4, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2,   2, 2, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 21, 2, 2, 2,   2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 12, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2,   2, 2, 2, 2, 2, 2, 2, 8, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2,   2, 2, 2, 2, 2, 2, 8, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 12, 2, 2,   2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 12, 2, 2, 2, 2, 2, 2, 2,   4, 2, 2, 4, 2, 2, 2, 2, 2, 8, 4, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 2, 4, 2, 2,   2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 21, 2, 2, 2, 2, 8, 2, 2, 2,   2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 12, 4, 2, 2, 8, 4, 2, 2, 2, 2, 4, 2, 2, 2, 2,   2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 21, 5, 4, 2, 2, 4, 2, 2, 2, 4, 2, 2, 2, 2, 5, 2,   4, 2, 2, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 25, 2, 2, 2, 2,   8, 2, 2, 2, 2, 5, 4, 2, 2, 2, 2, 2, 2, 2, 2, 13, 2, 2, 2, 2, 4, 2, 2, 4, 2, 2,   6, 2, 2, 2, 5, 4, 2, 2, 2, 2, 2, 2, 2, 2, 13, 2, 2, 5, 4, 2, 13, 4, 2, 2, 2, 2,   5, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 25, 2, 2, 2, 4, 2, 2, 2, 2,   4, 2, 2, 2, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 21, 2,   2, 2, 2, 8, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2, 2, 2, 8, 2, 2, 2, 2, 2,   12, 2, 2, 4, 2, 2, 4, 4, 2, 2, 4, 2, 2, 2, 2, 2, 2, 5, 4, 2, 2, 2, 2, 2, 13, 5,   4, 2, 2, 4, 2, 2, 2, 2, 2, 2, 4, 2, 2, 4, 2, 2, 2, 2, 2, 2, 16, 2, 2, 4, 2, 2,   2, 5, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 25, 2, 2, 2, 2, 8, 4, 2,   2, 4, 2, 16, 2, 4, 2, 2, 2, 8, 2, 2}
+  Sizes after manipulation of the linear systems: {2, 0, 3, 2, 2, 2, 0, 3, 2, 2, 2, 2, 2, 2, 3, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2,   2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 0, 2, 2, 2,   0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 7, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 2,   2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2,   0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 7, 0, 3, 2, 2, 3, 3, 2, 2, 3, 2, 2, 2, 2, 3,   2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 3, 2, 2, 3, 2, 2, 2, 2, 2, 2, 0, 0, 2, 2,   2, 2, 2, 2, 2, 2, 2, 8, 0, 0, 2, 2, 3, 0, 3, 2, 2, 3, 3, 2, 2, 3, 2, 3, 2, 2,   3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 3, 2, 2, 2, 2,   2, 2, 2, 2, 2, 5, 2, 3, 2, 2, 2, 0, 3, 2, 2, 2, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2,   2, 3, 8, 3, 2, 2, 3, 2, 2, 2, 2, 2, 3, 2, 2, 3, 2, 2, 2, 2, 2, 5, 0, 3, 2, 2,   3, 3, 2, 2, 3, 2, 3, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2,   2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 5, 3, 2, 2, 3, 3, 2, 2, 3, 0, 3, 2, 2, 3, 0,   2, 2, 0, 2, 0, 2, 2, 4, 3, 2, 2, 2, 2, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2,   2, 2, 2, 3, 2, 2, 3, 3, 2, 2, 3, 2, 2, 3, 2, 2, 3, 0, 2, 2, 2, 2, 2, 0, 2, 2,   4, 3, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 4, 3, 2, 2, 3, 3, 2, 2, 3, 2, 3,   2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 3, 2, 2, 2, 2, 2, 2,   2, 2, 2, 5, 0, 3, 2, 2, 3, 2, 0, 0, 2, 8, 0, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2,   2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 7, 2, 2, 2,   2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 0, 2, 2, 2, 0, 0, 0, 2, 3, 2, 2,   2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2, 0, 2, 3, 2,   2, 2, 2, 2, 2, 2, 3, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2,   2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2, 2, 0,   0, 0, 2, 3, 2, 2, 2, 2, 2, 3, 0, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 0, 2, 2,   2, 2, 2, 2, 2, 2, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 7, 0, 0, 2, 2, 3, 2, 2, 2,   2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 3, 2, 2, 3, 3, 2, 2, 2, 2, 0, 2, 2, 2, 2,   0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 7, 0, 3, 2, 2, 3, 2, 2, 2, 3, 2, 2, 2, 2, 0, 2,   3, 2, 2, 3, 2, 2, 2, 2, 2, 2, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 8, 0, 0, 2, 2,   3, 0, 0, 2, 2, 4, 3, 2, 2, 0, 2, 2, 2, 2, 2, 4, 2, 2, 2, 2, 3, 2, 2, 3, 0, 2,   2, 0, 2, 2, 4, 3, 2, 2, 0, 2, 2, 2, 2, 2, 4, 2, 2, 4, 3, 2, 4, 3, 2, 2, 2, 2,   0, 3, 2, 2, 2, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 8, 2, 2, 2, 0, 2, 2, 2, 2,   3, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 7, 0,   0, 2, 2, 3, 2, 2, 2, 2, 0, 2, 0, 2, 3, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2,   4, 2, 2, 3, 2, 2, 3, 3, 2, 2, 3, 2, 2, 2, 2, 2, 2, 4, 3, 2, 2, 2, 2, 2, 4, 0,   3, 2, 2, 3, 2, 2, 2, 2, 2, 2, 3, 2, 2, 3, 2, 2, 2, 2, 2, 2, 5, 2, 2, 3, 2, 2,   2, 0, 3, 2, 2, 2, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 8, 0, 0, 2, 2, 3, 3, 2,   2, 3, 2, 5, 2, 3, 2, 2, 2, 3, 2, 2}
+  Sizes of nonlinear systems of equations: { }
+  Sizes after manipulation of the nonlinear systems: { }
+  Number of numerical Jacobians: 0
+  Initialization problem
+    Sizes of linear systems of equations: {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,   2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
+    Sizes after manipulation of the linear systems: {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,   2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
+    Sizes of nonlinear systems of equations: {3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 1, 3, 3,   3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 1, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 1, 3,   3, 3, 3, 3, 3, 1, 3, 3, 1, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 1, 3, 3,   3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3}
+    Sizes after manipulation of the nonlinear systems: {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2, 0, 2, 2,   2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 0, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 0, 2,   2, 2, 2, 2, 2, 0, 2, 2, 0, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 0, 2, 2,   2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2}
+    Number of numerical Jacobians: 0
+ 
+SELECTED CONTINUOUS TIME STATES
+  cell.anCL.subregions[1, 1, 1].gas.H2.N
+  cell.anCL.subregions[1, 1, 1].gas.H2.phi[1]
+  cell.anCL.subregions[1, 1, 1].gas.H2O.N
+  cell.anCL.subregions[1, 1, 1].graphite.'C+'.T
+  cell.anCL.subregions[1, 1, 1].ionomer.H2O.N
+  cell.anCL.subregions[1, 1, 1].ionomer.H2O.phi[1]
+  cell.anCL.subregions[1, 2, 1].gas.H2.N
+  cell.anCL.subregions[1, 2, 1].gas.H2.phi[1]
+  cell.anCL.subregions[1, 2, 1].gas.H2O.N
+  cell.anCL.subregions[1, 2, 1].graphite.'C+'.T
+  cell.anCL.subregions[1, 2, 1].ionomer.H2O.N
+  cell.anCL.subregions[1, 2, 1].ionomer.H2O.phi[1]
+  cell.anCL.subregions[1, 3, 1].gas.H2.N
+  cell.anCL.subregions[1, 3, 1].gas.H2.phi[1]
+  cell.anCL.subregions[1, 3, 1].gas.H2O.N
+  cell.anCL.subregions[1, 3, 1].graphite.'C+'.T
+  cell.anCL.subregions[1, 3, 1].ionomer.H2O.N
+  cell.anCL.subregions[1, 3, 1].ionomer.H2O.phi[1]
+  cell.anCL.subregions[1, 4, 1].gas.H2.N
+  cell.anCL.subregions[1, 4, 1].gas.H2.phi[1]
+  cell.anCL.subregions[1, 4, 1].gas.H2O.N
+  cell.anCL.subregions[1, 4, 1].graphite.'C+'.T
+  cell.anCL.subregions[1, 4, 1].ionomer.H2O.N
+  cell.anCL.subregions[1, 4, 1].ionomer.H2O.phi[1]
+  cell.anCL.subregions[1, 5, 1].gas.H2.N
+  cell.anCL.subregions[1, 5, 1].gas.H2.phi[1]
+  cell.anCL.subregions[1, 5, 1].gas.H2O.N
+  cell.anCL.subregions[1, 5, 1].graphite.'C+'.T
+  cell.anCL.subregions[1, 5, 1].ionomer.H2O.N
+  cell.anCL.subregions[1, 5, 1].ionomer.H2O.phi[1]
+  cell.anCL.subregions[1, 6, 1].gas.H2.N
+  cell.anCL.subregions[1, 6, 1].gas.H2.phi[1]
+  cell.anCL.subregions[1, 6, 1].gas.H2O.N
+  cell.anCL.subregions[1, 6, 1].graphite.'C+'.T
+  cell.anCL.subregions[1, 6, 1].ionomer.H2O.N
+  cell.anCL.subregions[1, 6, 1].ionomer.H2O.phi[1]
+  cell.anFP.phi_states_H2[1, 1, 1]
+  cell.anFP.phi_states_H2[1, 2, 1]
+  cell.anFP.phi_states_H2[1, 3, 1]
+  cell.anFP.phi_states_H2[1, 4, 1]
+  cell.anFP.phi_states_H2[1, 5, 1]
+  cell.anFP.subregions[1, 1, 1].gas.H2.N
+  cell.anFP.subregions[1, 1, 1].gas.H2.T
+  cell.anFP.subregions[1, 1, 1].gas.H2O.I[1]
+  cell.anFP.subregions[1, 1, 1].gas.H2O.I[2]
+  cell.anFP.subregions[1, 1, 1].gas.H2O.N
+  cell.anFP.subregions[1, 1, 1].graphite.'C+'.T
+  cell.anFP.subregions[1, 2, 1].gas.H2.N
+  cell.anFP.subregions[1, 2, 1].gas.H2.T
+  cell.anFP.subregions[1, 2, 1].gas.H2O.I[1]
+  cell.anFP.subregions[1, 2, 1].gas.H2O.I[2]
+  cell.anFP.subregions[1, 2, 1].gas.H2O.N
+  cell.anFP.subregions[1, 2, 1].graphite.'C+'.T
+  cell.anFP.subregions[1, 3, 1].gas.H2.N
+  cell.anFP.subregions[1, 3, 1].gas.H2.T
+  cell.anFP.subregions[1, 3, 1].gas.H2O.I[1]
+  cell.anFP.subregions[1, 3, 1].gas.H2O.I[2]
+  cell.anFP.subregions[1, 3, 1].gas.H2O.N
+  cell.anFP.subregions[1, 3, 1].graphite.'C+'.T
+  cell.anFP.subregions[1, 4, 1].gas.H2.N
+  cell.anFP.subregions[1, 4, 1].gas.H2.T
+  cell.anFP.subregions[1, 4, 1].gas.H2O.I[1]
+  cell.anFP.subregions[1, 4, 1].gas.H2O.I[2]
+  cell.anFP.subregions[1, 4, 1].gas.H2O.N
+  cell.anFP.subregions[1, 4, 1].graphite.'C+'.T
+  cell.anFP.subregions[1, 5, 1].gas.H2.N
+  cell.anFP.subregions[1, 5, 1].gas.H2.T
+  cell.anFP.subregions[1, 5, 1].gas.H2O.I[1]
+  cell.anFP.subregions[1, 5, 1].gas.H2O.I[2]
+  cell.anFP.subregions[1, 5, 1].gas.H2O.N
+  cell.anFP.subregions[1, 5, 1].graphite.'C+'.T
+  cell.anFP.subregions[1, 6, 1].gas.H2.N
+  cell.anFP.subregions[1, 6, 1].gas.H2.T
+  cell.anFP.subregions[1, 6, 1].gas.H2O.I[1]
+  cell.anFP.subregions[1, 6, 1].gas.H2O.I[2]
+  cell.anFP.subregions[1, 6, 1].gas.H2O.N
+  cell.anFP.subregions[1, 6, 1].graphite.'C+'.T
+  cell.anGDL.subregions[1, 1, 1].gas.H2.N
+  cell.anGDL.subregions[1, 1, 1].gas.H2.phi[1]
+  cell.anGDL.subregions[1, 1, 1].gas.H2O.N
+  cell.anGDL.subregions[1, 1, 1].gas.H2O.phi[1]
+  cell.anGDL.subregions[1, 1, 1].graphite.'C+'.T
+  cell.anGDL.subregions[1, 2, 1].gas.H2.N
+  cell.anGDL.subregions[1, 2, 1].gas.H2.phi[1]
+  cell.anGDL.subregions[1, 2, 1].gas.H2O.N
+  cell.anGDL.subregions[1, 2, 1].gas.H2O.phi[1]
+  cell.anGDL.subregions[1, 2, 1].graphite.'C+'.T
+  cell.anGDL.subregions[1, 3, 1].gas.H2.N
+  cell.anGDL.subregions[1, 3, 1].gas.H2.phi[1]
+  cell.anGDL.subregions[1, 3, 1].gas.H2O.N
+  cell.anGDL.subregions[1, 3, 1].gas.H2O.phi[1]
+  cell.anGDL.subregions[1, 3, 1].graphite.'C+'.T
+  cell.anGDL.subregions[1, 4, 1].gas.H2.N
+  cell.anGDL.subregions[1, 4, 1].gas.H2.phi[1]
+  cell.anGDL.subregions[1, 4, 1].gas.H2O.N
+  cell.anGDL.subregions[1, 4, 1].gas.H2O.phi[1]
+  cell.anGDL.subregions[1, 4, 1].graphite.'C+'.T
+  cell.anGDL.subregions[1, 5, 1].gas.H2.N
+  cell.anGDL.subregions[1, 5, 1].gas.H2.phi[1]
+  cell.anGDL.subregions[1, 5, 1].gas.H2O.N
+  cell.anGDL.subregions[1, 5, 1].gas.H2O.phi[1]
+  cell.anGDL.subregions[1, 5, 1].graphite.'C+'.T
+  cell.anGDL.subregions[1, 6, 1].gas.H2.N
+  cell.anGDL.subregions[1, 6, 1].gas.H2.phi[1]
+  cell.anGDL.subregions[1, 6, 1].gas.H2O.N
+  cell.anGDL.subregions[1, 6, 1].gas.H2O.phi[1]
+  cell.anGDL.subregions[1, 6, 1].graphite.'C+'.T
+  cell.caCL.subregions[1, 1, 1].gas.H2O.N
+  cell.caCL.subregions[1, 1, 1].gas.H2O.phi[1]
+  cell.caCL.subregions[1, 1, 1].gas.N2.N
+  cell.caCL.subregions[1, 1, 1].gas.O2.I[1]
+  cell.caCL.subregions[1, 1, 1].gas.O2.N
+  cell.caCL.subregions[1, 1, 1].graphite.'C+'.T
+  cell.caCL.subregions[1, 1, 1].ionomer.H2O.N
+  cell.caCL.subregions[1, 1, 1].ionomer.H2O.phi[1]
+  cell.caCL.subregions[1, 2, 1].gas.H2O.N
+  cell.caCL.subregions[1, 2, 1].gas.H2O.phi[1]
+  cell.caCL.subregions[1, 2, 1].gas.N2.N
+  cell.caCL.subregions[1, 2, 1].gas.O2.I[1]
+  cell.caCL.subregions[1, 2, 1].gas.O2.N
+  cell.caCL.subregions[1, 2, 1].graphite.'C+'.T
+  cell.caCL.subregions[1, 2, 1].ionomer.H2O.N
+  cell.caCL.subregions[1, 2, 1].ionomer.H2O.phi[1]
+  cell.caCL.subregions[1, 3, 1].gas.H2O.N
+  cell.caCL.subregions[1, 3, 1].gas.H2O.phi[1]
+  cell.caCL.subregions[1, 3, 1].gas.N2.N
+  cell.caCL.subregions[1, 3, 1].gas.O2.I[1]
+  cell.caCL.subregions[1, 3, 1].gas.O2.N
+  cell.caCL.subregions[1, 3, 1].graphite.'C+'.T
+  cell.caCL.subregions[1, 3, 1].ionomer.H2O.N
+  cell.caCL.subregions[1, 3, 1].ionomer.H2O.phi[1]
+  cell.caCL.subregions[1, 4, 1].gas.H2O.N
+  cell.caCL.subregions[1, 4, 1].gas.H2O.phi[1]
+  cell.caCL.subregions[1, 4, 1].gas.N2.N
+  cell.caCL.subregions[1, 4, 1].gas.O2.I[1]
+  cell.caCL.subregions[1, 4, 1].gas.O2.N
+  cell.caCL.subregions[1, 4, 1].graphite.'C+'.T
+  cell.caCL.subregions[1, 4, 1].ionomer.H2O.N
+  cell.caCL.subregions[1, 4, 1].ionomer.H2O.phi[1]
+  cell.caCL.subregions[1, 5, 1].gas.H2O.N
+  cell.caCL.subregions[1, 5, 1].gas.H2O.phi[1]
+  cell.caCL.subregions[1, 5, 1].gas.N2.N
+  cell.caCL.subregions[1, 5, 1].gas.O2.I[1]
+  cell.caCL.subregions[1, 5, 1].gas.O2.N
+  cell.caCL.subregions[1, 5, 1].graphite.'C+'.T
+  cell.caCL.subregions[1, 5, 1].ionomer.H2O.N
+  cell.caCL.subregions[1, 5, 1].ionomer.H2O.phi[1]
+  cell.caCL.subregions[1, 6, 1].gas.H2O.N
+  cell.caCL.subregions[1, 6, 1].gas.H2O.phi[1]
+  cell.caCL.subregions[1, 6, 1].gas.N2.N
+  cell.caCL.subregions[1, 6, 1].gas.O2.I[1]
+  cell.caCL.subregions[1, 6, 1].gas.O2.N
+  cell.caCL.subregions[1, 6, 1].graphite.'C+'.T
+  cell.caCL.subregions[1, 6, 1].ionomer.H2O.N
+  cell.caCL.subregions[1, 6, 1].ionomer.H2O.phi[1]
+  cell.caFP.phi_states_H2O[1, 1, 1]
+  cell.caFP.phi_states_H2O[1, 2, 1]
+  cell.caFP.phi_states_H2O[1, 3, 1]
+  cell.caFP.phi_states_H2O[1, 4, 1]
+  cell.caFP.phi_states_H2O[1, 5, 1]
+  cell.caFP.phi_states_O2[1, 1, 1]
+  cell.caFP.phi_states_O2[1, 2, 1]
+  cell.caFP.phi_states_O2[1, 3, 1]
+  cell.caFP.phi_states_O2[1, 4, 1]
+  cell.caFP.phi_states_O2[1, 5, 1]
+  cell.caFP.subregions[1, 1, 1].gas.H2O.N
+  cell.caFP.subregions[1, 1, 1].gas.H2O.T
+  cell.caFP.subregions[1, 1, 1].gas.N2.I[1]
+  cell.caFP.subregions[1, 1, 1].gas.N2.I[2]
+  cell.caFP.subregions[1, 1, 1].gas.N2.N
+  cell.caFP.subregions[1, 1, 1].gas.O2.N
+  cell.caFP.subregions[1, 1, 1].graphite.'C+'.T
+  cell.caFP.subregions[1, 2, 1].gas.H2O.N
+  cell.caFP.subregions[1, 2, 1].gas.H2O.T
+  cell.caFP.subregions[1, 2, 1].gas.N2.I[1]
+  cell.caFP.subregions[1, 2, 1].gas.N2.I[2]
+  cell.caFP.subregions[1, 2, 1].gas.N2.N
+  cell.caFP.subregions[1, 2, 1].gas.O2.N
+  cell.caFP.subregions[1, 2, 1].graphite.'C+'.T
+  cell.caFP.subregions[1, 3, 1].gas.H2O.N
+  cell.caFP.subregions[1, 3, 1].gas.H2O.T
+  cell.caFP.subregions[1, 3, 1].gas.N2.I[1]
+  cell.caFP.subregions[1, 3, 1].gas.N2.I[2]
+  cell.caFP.subregions[1, 3, 1].gas.N2.N
+  cell.caFP.subregions[1, 3, 1].gas.O2.N
+  cell.caFP.subregions[1, 3, 1].graphite.'C+'.T
+  cell.caFP.subregions[1, 4, 1].gas.H2O.N
+  cell.caFP.subregions[1, 4, 1].gas.H2O.T
+  cell.caFP.subregions[1, 4, 1].gas.N2.I[1]
+  cell.caFP.subregions[1, 4, 1].gas.N2.I[2]
+  cell.caFP.subregions[1, 4, 1].gas.N2.N
+  cell.caFP.subregions[1, 4, 1].gas.O2.N
+  cell.caFP.subregions[1, 4, 1].graphite.'C+'.T
+  cell.caFP.subregions[1, 5, 1].gas.H2O.N
+  cell.caFP.subregions[1, 5, 1].gas.H2O.T
+  cell.caFP.subregions[1, 5, 1].gas.N2.I[1]
+  cell.caFP.subregions[1, 5, 1].gas.N2.I[2]
+  cell.caFP.subregions[1, 5, 1].gas.N2.N
+  cell.caFP.subregions[1, 5, 1].gas.O2.N
+  cell.caFP.subregions[1, 5, 1].graphite.'C+'.T
+  cell.caFP.subregions[1, 6, 1].gas.H2O.N
+  cell.caFP.subregions[1, 6, 1].gas.H2O.T
+  cell.caFP.subregions[1, 6, 1].gas.N2.I[1]
+  cell.caFP.subregions[1, 6, 1].gas.N2.I[2]
+  cell.caFP.subregions[1, 6, 1].gas.N2.N
+  cell.caFP.subregions[1, 6, 1].gas.O2.N
+  cell.caFP.subregions[1, 6, 1].graphite.'C+'.T
+  cell.caGDL.subregions[1, 1, 1].gas.H2O.N
+  cell.caGDL.subregions[1, 1, 1].gas.H2O.phi[1]
+  cell.caGDL.subregions[1, 1, 1].gas.N2.N
+  cell.caGDL.subregions[1, 1, 1].gas.N2.phi[1]
+  cell.caGDL.subregions[1, 1, 1].gas.O2.I[1]
+  cell.caGDL.subregions[1, 1, 1].gas.O2.N
+  cell.caGDL.subregions[1, 1, 1].graphite.'C+'.T
+  cell.caGDL.subregions[1, 2, 1].gas.H2O.N
+  cell.caGDL.subregions[1, 2, 1].gas.H2O.phi[1]
+  cell.caGDL.subregions[1, 2, 1].gas.N2.N
+  cell.caGDL.subregions[1, 2, 1].gas.N2.phi[1]
+  cell.caGDL.subregions[1, 2, 1].gas.O2.I[1]
+  cell.caGDL.subregions[1, 2, 1].gas.O2.N
+  cell.caGDL.subregions[1, 2, 1].graphite.'C+'.T
+  cell.caGDL.subregions[1, 3, 1].gas.H2O.N
+  cell.caGDL.subregions[1, 3, 1].gas.H2O.phi[1]
+  cell.caGDL.subregions[1, 3, 1].gas.N2.N
+  cell.caGDL.subregions[1, 3, 1].gas.N2.phi[1]
+  cell.caGDL.subregions[1, 3, 1].gas.O2.I[1]
+  cell.caGDL.subregions[1, 3, 1].gas.O2.N
+  cell.caGDL.subregions[1, 3, 1].graphite.'C+'.T
+  cell.caGDL.subregions[1, 4, 1].gas.H2O.N
+  cell.caGDL.subregions[1, 4, 1].gas.H2O.phi[1]
+  cell.caGDL.subregions[1, 4, 1].gas.N2.N
+  cell.caGDL.subregions[1, 4, 1].gas.N2.phi[1]
+  cell.caGDL.subregions[1, 4, 1].gas.O2.I[1]
+  cell.caGDL.subregions[1, 4, 1].gas.O2.N
+  cell.caGDL.subregions[1, 4, 1].graphite.'C+'.T
+  cell.caGDL.subregions[1, 5, 1].gas.H2O.N
+  cell.caGDL.subregions[1, 5, 1].gas.H2O.phi[1]
+  cell.caGDL.subregions[1, 5, 1].gas.N2.N
+  cell.caGDL.subregions[1, 5, 1].gas.N2.phi[1]
+  cell.caGDL.subregions[1, 5, 1].gas.O2.I[1]
+  cell.caGDL.subregions[1, 5, 1].gas.O2.N
+  cell.caGDL.subregions[1, 5, 1].graphite.'C+'.T
+  cell.caGDL.subregions[1, 6, 1].gas.H2O.N
+  cell.caGDL.subregions[1, 6, 1].gas.H2O.phi[1]
+  cell.caGDL.subregions[1, 6, 1].gas.N2.N
+  cell.caGDL.subregions[1, 6, 1].gas.N2.phi[1]
+  cell.caGDL.subregions[1, 6, 1].gas.O2.I[1]
+  cell.caGDL.subregions[1, 6, 1].gas.O2.N
+  cell.caGDL.subregions[1, 6, 1].graphite.'C+'.T
+  cell.PEM.I_states_1[1]
+  cell.PEM.I_states_1[2]
+  cell.PEM.I_states_1[3]
+  cell.PEM.I_states_1[4]
+  cell.PEM.I_states_1[5]
+  cell.PEM.subregions[1, 1, 1].ionomer.'SO3-'.T
+  cell.PEM.subregions[1, 1, 1].ionomer.H2O.N
+  cell.PEM.subregions[1, 2, 1].ionomer.'SO3-'.T
+  cell.PEM.subregions[1, 2, 1].ionomer.H2O.N
+  cell.PEM.subregions[1, 3, 1].ionomer.'SO3-'.T
+  cell.PEM.subregions[1, 3, 1].ionomer.H2O.N
+  cell.PEM.subregions[1, 4, 1].ionomer.'SO3-'.T
+  cell.PEM.subregions[1, 4, 1].ionomer.H2O.N
+  cell.PEM.subregions[1, 5, 1].ionomer.'SO3-'.T
+  cell.PEM.subregions[1, 5, 1].ionomer.H2O.N
+  cell.PEM.subregions[1, 6, 1].ionomer.'SO3-'.T
+  cell.PEM.subregions[1, 6, 1].ionomer.H2O.N
+ 
+Finished
+// experiment StopTime=36180 Tolerance=1e-005 __Dymola_Algorithm=Dassl
+WARNING: 19 warnings were issued
+Finished

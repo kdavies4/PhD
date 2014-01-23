@@ -1,0 +1,126 @@
+ = true
+simulateModel("TestStand(testConditions.anRH=1)", stopTime=36180, resultFile="dsres");
+Translation of TestStand:
+Warning: Replaceable must be a subtype of constraining class.
+ But different specialized classes model cell and class cell.
+  In declaration of component cell:
+  File: D:/Documents/Modelica/FCSys/FCSys/Assemblies.mo, line 197
+Original declaration of cell:
+  File: D:/Documents/Modelica/FCSys/FCSys/Assemblies.mo, line 197
+  Context: FCSys.Assemblies.Cells.Examples.TestStand.cell
+The DAE has 8772 scalar unknowns and 8772 scalar equations.
+Warning: The initial conditions for variables of type Real are not fully specified.
+Assuming fixed start value for the continuous states:
+    cell.anFP.subregions[1, 1, 1].liquid.H2O.phi[2](start = 0)
+    cell.caFP.subregions[1, 1, 1].liquid.H2O.phi[2](start = 0)
+ 
+Warning: The value=-2873.21 not in range [0,1e+100] for variable cell.anCL.subregions[1, 1, 1].ionomer.'SO3-'.s.
+Ignoring range
+Warning: The value=-2873.21 not in range [0,1e+100] for variable cell.PEM.subregions[1, 1, 1].ionomer.'SO3-'.s.
+Ignoring range
+Warning: The value=-2873.21 not in range [0,1e+100] for variable cell.caCL.subregions[1, 1, 1].ionomer.'SO3-'.s.
+Ignoring range
+ 
+Statistics
+ 
+Original Model
+  Number of components: 342
+  Variables: 6887
+  Constants: 42 (42 scalars)
+  Parameters: 2369 (2858 scalars)
+  Unknowns: 4476 (8886 scalars)
+  Differentiated variables: 268 scalars
+  Equations: 4186
+    Nontrivial : 3960
+Translated Model
+  Constants: 4067 scalars
+  Free parameters: 342 scalars
+  Parameter depending: 702 scalars
+  Outputs: 15 scalars
+  Continuous time states: 55 scalars
+  Time-varying variables: 2749 scalars
+  Alias variables: 3926 scalars
+  Assumed default initial conditions: 2
+  Number of mixed real/discrete systems of equations: 0
+  Sizes of linear systems of equations: {4, 4, 2, 2, 2, 5, 4, 2, 2, 2, 2, 4, 4, 2, 2, 5, 2, 4, 2, 2, 5, 4, 2, 2, 5, 2, 2,   2, 2, 2, 2, 2, 4, 2, 2, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 5, 2, 2, 2, 2,   2, 2, 28, 4, 2, 2, 5, 2, 2, 2, 2, 2, 4, 2, 2, 2, 2, 5, 2, 2, 2, 2, 2, 19, 6, 2,   2, 6, 5, 2, 13, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 8, 2, 2, 4, 2, 2, 4, 2, 2,   4, 2, 2, 2, 4, 2, 2, 2, 2, 2, 2, 2, 2, 24, 2, 2, 4, 2, 2, 2, 2, 2, 2, 2, 4, 2,   2, 2, 15, 4, 2, 5, 4, 8}
+  Sizes after manipulation of the linear systems: {0, 3, 2, 2, 2, 0, 3, 2, 2, 2, 2, 3, 3, 2, 2, 4, 2, 3, 2, 2, 4, 3, 2, 2, 4, 2, 2,   2, 2, 2, 2, 2, 3, 2, 2, 0, 2, 2, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 2,   2, 2, 9, 3, 2, 2, 4, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2, 6, 3, 2,   2, 5, 4, 2, 4, 2, 2, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 3, 2, 2, 3, 2, 2,   0, 2, 2, 2, 3, 2, 2, 2, 0, 0, 2, 2, 2, 8, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 3, 2,   2, 2, 5, 2, 2, 4, 3, 3}
+  Sizes of nonlinear systems of equations: {1, 1, 1, 1}
+  Sizes after manipulation of the nonlinear systems: {0, 0, 0, 0}
+  Number of numerical Jacobians: 0
+  Initialization problem
+    Sizes of linear systems of equations: {2, 2, 2, 2, 2, 2, 2, 2}
+    Sizes after manipulation of the linear systems: {2, 2, 2, 2, 2, 2, 2, 2}
+    Sizes of nonlinear systems of equations: {1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3}
+    Sizes after manipulation of the nonlinear systems: {0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2}
+    Number of numerical Jacobians: 0
+ 
+SELECTED CONTINUOUS TIME STATES
+  cell.anCL.subregions[1, 1, 1].gas.H2.N
+  cell.anCL.subregions[1, 1, 1].gas.H2.phi[1]
+  cell.anCL.subregions[1, 1, 1].gas.H2O.N
+  cell.anCL.subregions[1, 1, 1].graphite.'C+'.T
+  cell.anCL.subregions[1, 1, 1].ionomer.H2O.N
+  cell.anCL.subregions[1, 1, 1].ionomer.H2O.phi[1]
+  cell.anCL.subregions[1, 1, 1].liquid.H2O.N
+  cell.anCL.subregions[1, 1, 1].liquid.H2O.phi[1]
+  cell.anFP.subregions[1, 1, 1].gas.H2.N
+  cell.anFP.subregions[1, 1, 1].gas.H2.T
+  cell.anFP.subregions[1, 1, 1].gas.H2O.I[1]
+  cell.anFP.subregions[1, 1, 1].gas.H2O.I[2]
+  cell.anFP.subregions[1, 1, 1].gas.H2O.N
+  cell.anFP.subregions[1, 1, 1].graphite.'C+'.T
+  cell.anFP.subregions[1, 1, 1].liquid.H2O.N
+  cell.anFP.subregions[1, 1, 1].liquid.H2O.phi[2]
+  cell.anFP.subregions[1, 1, 1].liquid.H2O.T
+  cell.anGDL.subregions[1, 1, 1].gas.H2.N
+  cell.anGDL.subregions[1, 1, 1].gas.H2.phi[1]
+  cell.anGDL.subregions[1, 1, 1].gas.H2O.N
+  cell.anGDL.subregions[1, 1, 1].gas.H2O.phi[1]
+  cell.anGDL.subregions[1, 1, 1].graphite.'C+'.T
+  cell.anGDL.subregions[1, 1, 1].liquid.H2O.N
+  cell.anGDL.subregions[1, 1, 1].liquid.H2O.phi[1]
+  cell.caCL.subregions[1, 1, 1].gas.H2O.N
+  cell.caCL.subregions[1, 1, 1].gas.H2O.phi[1]
+  cell.caCL.subregions[1, 1, 1].gas.N2.N
+  cell.caCL.subregions[1, 1, 1].gas.O2.I[1]
+  cell.caCL.subregions[1, 1, 1].gas.O2.N
+  cell.caCL.subregions[1, 1, 1].graphite.'C+'.T
+  cell.caCL.subregions[1, 1, 1].ionomer.H2O.N
+  cell.caCL.subregions[1, 1, 1].ionomer.H2O.phi[1]
+  cell.caCL.subregions[1, 1, 1].liquid.H2O.N
+  cell.caCL.subregions[1, 1, 1].liquid.H2O.phi[1]
+  cell.caFP.subregions[1, 1, 1].gas.H2O.N
+  cell.caFP.subregions[1, 1, 1].gas.H2O.T
+  cell.caFP.subregions[1, 1, 1].gas.N2.I[1]
+  cell.caFP.subregions[1, 1, 1].gas.N2.I[2]
+  cell.caFP.subregions[1, 1, 1].gas.N2.N
+  cell.caFP.subregions[1, 1, 1].gas.O2.N
+  cell.caFP.subregions[1, 1, 1].graphite.'C+'.T
+  cell.caFP.subregions[1, 1, 1].liquid.H2O.N
+  cell.caFP.subregions[1, 1, 1].liquid.H2O.phi[2]
+  cell.caFP.subregions[1, 1, 1].liquid.H2O.T
+  cell.caGDL.subregions[1, 1, 1].gas.H2O.N
+  cell.caGDL.subregions[1, 1, 1].gas.H2O.phi[1]
+  cell.caGDL.subregions[1, 1, 1].gas.N2.N
+  cell.caGDL.subregions[1, 1, 1].gas.N2.phi[1]
+  cell.caGDL.subregions[1, 1, 1].gas.O2.I[1]
+  cell.caGDL.subregions[1, 1, 1].gas.O2.N
+  cell.caGDL.subregions[1, 1, 1].graphite.'C+'.T
+  cell.caGDL.subregions[1, 1, 1].liquid.H2O.N
+  cell.caGDL.subregions[1, 1, 1].liquid.H2O.phi[1]
+  cell.PEM.subregions[1, 1, 1].ionomer.'SO3-'.T
+  cell.PEM.subregions[1, 1, 1].ionomer.H2O.N
+ 
+Finished
+WARNING: 5 warnings were issued
+Finished
+ = true
+if exist("dsres.mat") then
+    savelog();
+    createDirectory(destination + "7");
+    copy("dsin.txt", destination + "7/dsin.txt", true);
+    copy("dslog.txt", destination + "7/dslog.txt", true);
+    move("dsres.mat", destination + "7/dsres.mat", true);
+    copy("dymosim.exe", destination + "7/dymosim", true);
+    copy("dymolalg.txt", destination + "7/dymolalg.txt", true);
+end if;

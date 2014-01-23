@@ -1,0 +1,56 @@
+ = true
+ok = simulateModel(problem="FCSys.Subregions.Examples.EchoCentral", stopTime=2.5, tolerance=1e-6);
+Translation of FCSys.Subregions.Examples.EchoCentral:
+The DAE has 360 scalar unknowns and 360 scalar equations.
+ 
+Statistics
+ 
+Original Model
+  Number of components: 30
+  Variables: 488
+  Constants: 16 (16 scalars)
+  Parameters: 238 (292 scalars)
+  Unknowns: 234 (364 scalars)
+  Differentiated variables: 16 scalars
+  Equations: 470
+    Nontrivial : 460
+Translated Model
+  Constants: 322 scalars
+  Free parameters: 51 scalars
+  Parameter depending: 49 scalars
+  Outputs: 1 scalars
+  Continuous time states: 5 scalars
+  Time-varying variables: 118 scalars
+  Alias variables: 132 scalars
+  Number of mixed real/discrete systems of equations: 0
+  Sizes of linear systems of equations: {2, 2, 2, 2}
+  Sizes after manipulation of the linear systems: {2, 2, 0, 0}
+  Sizes of nonlinear systems of equations: { }
+  Sizes after manipulation of the nonlinear systems: { }
+  Number of numerical Jacobians: 0
+  Initialization problem
+    Sizes of linear systems of equations: {2, 2}
+    Sizes after manipulation of the linear systems: {2, 2}
+    Sizes of nonlinear systems of equations: {1, 1}
+    Sizes after manipulation of the nonlinear systems: {0, 0}
+    Number of numerical Jacobians: 0
+ 
+SELECTED CONTINUOUS TIME STATES
+  subregion1.gas.H2.N
+  subregion1.gas.H2.phi[1]
+  subregion1.gas.H2.T
+  subregion2.gas.H2.N
+  subregion2.gas.H2.T
+ 
+Finished
+// experiment StopTime=5e-005
+Finished
+if ok then
+    savelog();
+    createDirectory(destination + "4");
+    copy("dsin.txt", destination + "4/dsin.txt", true);
+    copy("dslog.txt", destination + "4/dslog.txt", true);
+    copy("dsres.mat", destination + "4/dsres.mat", true);
+    copy("dymosim.exe", destination + "4/dymosim.exe", true);
+    copy("dymolalg.txt", destination + "4/dymolalg.txt", true);
+end if;

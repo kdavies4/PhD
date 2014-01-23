@@ -1,0 +1,1795 @@
+#1
+char Aclass(3,24)
+Adymosim
+1.4
+Modelica experiment file
+
+
+#    Experiment parameters
+double experiment(7,1)
+       0                   # StartTime    Time at which integration starts
+                           #              (and linearization and trimming time)
+     100                   # StopTime     Time at which integration stops
+       0                   # Increment    Communication step size, if > 0
+     500                   # nInterval    Number of communication intervals, if > 0
+ 1.0000000000000000E-004   # Tolerance    Relative precision of signals for
+                           #              simulation, linearization and trimming
+       0                   # MaxFixedStep Maximum step size of fixed step size
+                           #              integrators, if > 0.0
+       8                   # Algorithm    Integration algorithm as integer (1...28)
+                           #
+                           #             | model|       |        | dense | state |
+                           # Algorithm   | typ  | stiff | order  | output| event |
+                           # ------------+------+-------+--------+-------+-------+
+                           #  1 | deabm  |  ode |   no  |  1-12  |  yes  |   no  |
+                           #  2 | lsode1 |  ode |   no  |  1-12  |  yes  |   no  |
+                           #  3 | lsode2 |  ode |  yes  |  1-5   |  yes  |   no  |
+                           #  4 | lsodar |  ode |  both |1-12,1-5|  yes  |  yes  |
+                           #  5 | dopri5 |  ode |   no  |   5    |   no  |   no  |
+                           #  6 | dopri8 |  ode |   no  |   8    |   no  |   no  |
+                           #  7 | grk4t  |  ode |  yes  |   4    |   no  |   no  |
+                           #  8 | dassl  |  dae |  yes  |  1-5   |  yes  |  yes  |
+                           #  9 | odassl | hdae |  yes  |  1-5   |  yes  |  yes  |
+                           # 10 | mexx   | hdae |   no  |  2-24  |   no  |   no  |
+                           # 11 | euler  |  ode |   no  |   1    |   no  |  yes  |
+                           # 12 | rkfix2 |  ode |   no  |   2    |   no  |  yes  |
+                           # 13 | rkfix3 |  ode |   no  |   3    |   no  |  yes  |
+                           # 14 | rkfix4 |  ode |   no  |   4    |   no  |  yes  |
+                           #>=14| others |  ode |yes/no |  2-5   |   yes |  yes  |
+                           # ---+--------+------+-------+--------+-------+-------+
+                           # euler and rkfix have fixed stepsize.
+
+
+#    Method tuning parameters
+double method(27,1)
+       1                   # grid     type of communication time grid, defined by
+                           #          = 1: equidistant points ("Increment/nInterval")
+                           #          = 2: vector of grid points ("tgrid")
+                           #          = 3: variable step integrator (automatically)
+                           #          = 4: model (call of "increment" in Dymola, e.g.
+                           #                      incr=Time > 2 then 0 else 0.1
+                           #                      dummy=increment(incr))
+                           #          grid = 1,3 is stopped by "StopTime"
+                           #          grid = 2   is stopped by "tgrid(last)"
+                           #          grid = 4   runs forever (stopped by model)
+       1                   # nt       Use every NT time instant, if grid = 3
+       3                   # dense    1/2/3 restart/step/interpolate GRID points
+       1                   # evgrid   0/1 do not/save event points in comm. time grid
+       1                   # evu      0/1 U-discontinuity does not/trigger events
+       0                   # evuord       U-discontinuity order to consider (0,1,...)
+       0                   # error    0/1/2 One message/warning/error messages
+       0                   # jac      0/1 Compute jacobian numerically/by BLOCKJ
+       0                   # xd0c     0/1 Compute/set XD0
+       0                   # f3       0/1 Ignore/use F3 of HDAE (= index 1)
+       0                   # f4       0/1 Ignore/use F4 of HDAE (= index 2)
+       0                   # f5       0/1 Ignore/use F5 of HDAE (= invar.)
+       0                   # debug    flags for debug information (1<<0 uses pdebug) 
+     100                   # pdebug       priority of debug information (1...100)
+       0                   # fmax     Maximum number of evaluations of BLOCKF, if > 0
+       0                   # ordmax   Maximum allowed integration order, if > 0
+       0                   # hmax     Maximum absolute stepsize, if > 0
+       0                   # hmin     Minimum absolute stepsize, if > 0 (use with care!)
+       0                   # h0       Stepsize to be attempted on first step, if > 0
+ 2.0000000000000000E-014   # teps     Bound to check, if 2 equal time instants
+ 1.0000000000000000E-010   # eveps    Hysteresis epsilon at event points
+      20                   # eviter   Maximum number of event iterations
+ 9.9999999999999995E-007   # delaym   Minimum time increment in delay buffers
+       1                   # fexcep   0/1 floating exception crashes/stops dymosim
+       1                   # tscale   clock-time = tscale*simulation-time, if grid = 5
+                           #          > 1: simulation too slow
+                           #          = 1: simulation-time = real-time
+                           #          < 1: simulation too fast
+       1                   # shared   (not used)
+    2473                   # memkey   (not used)
+
+
+#    Output parameters
+int settings(13,1)
+ 0                         # lprec    0/1 do not/store result data in double
+ 1                         # lx       0/1 do not/store x  (state variables)
+ 1                         # lxd      0/1 do not/store xd (derivative of states)
+ 1                         # lu       0/1 do not/store u  (input     signals)
+ 1                         # ly       0/1 do not/store y  (output    signals)
+ 0                         # lz       0/1 do not/store z  (indicator signals)
+ 1                         # lw       0/1 do not/store w  (auxiliary signals)
+ 1                         # la       0/1 do not/store a  (alias     signals)
+ 1                         # lperf    0/1 do not/store performance indicators
+ 0                         # levent   0/1 do not/store event point
+ 1                         # lres     0/1 do not/store results on result file
+ 0                         # lshare   0/1 do not/store info data for shared memory on dsshare.txt
+ 1                         # lform    0/1 ASCII/Matlab-binary storage format of results
+                           #              (for simulation/linearization; not for trimming)
+
+
+#    Names of initial variables
+char initialName(409,51)
+environment.baseUnits.rad
+environment.baseUnits.R_inf
+environment.baseUnits.c
+environment.baseUnits.k_J
+environment.baseUnits.R_K
+environment.baseUnits.'cd'
+environment.baseUnits.k_F
+environment.baseUnits.R
+_GlobalScope.FCSys.Units.base.rad
+_GlobalScope.FCSys.Units.base.R_inf
+_GlobalScope.FCSys.Units.base.c
+_GlobalScope.FCSys.Units.base.k_J
+_GlobalScope.FCSys.Units.base.R_K
+_GlobalScope.FCSys.Units.base.'cd'
+_GlobalScope.FCSys.Units.base.k_F
+_GlobalScope.FCSys.Units.base.R
+environment.analysis
+environment.T
+environment.p
+environment.RH
+environment.psi_O2_dry
+environment.p_sat
+environment.p_H2O
+environment.p_dry
+environment.p_O2
+environment.psi_H2O
+environment.psi_dry
+environment.a[1]
+environment.a[2]
+environment.a[3]
+environment.E[1]
+environment.E[2]
+environment.E[3]
+w
+zI
+R
+R_ex
+P
+P_ex
+T
+T_ex
+'inclC+'
+'inclSO3-'
+'incle-'
+'inclH+'
+inclH2
+inclH2O
+inclN2
+inclO2
+subregion.L[1]
+subregion.L[2]
+subregion.L[3]
+subregion.V
+subregion.inclTrans[1]
+subregion.inclTrans[2]
+subregion.inclTrans[3]
+subregion.inclRot[1]
+subregion.inclRot[2]
+subregion.inclRot[3]
+subregion.cartTrans[1]
+subregion.transCart[1]
+subregion.transCart[2]
+subregion.transCart[3]
+subregion.inclTransX
+subregion.inclTransY
+subregion.inclTransZ
+subregion.A[1]
+subregion.A[2]
+subregion.A[3]
+subregion.n_spec
+subregion.n_trans
+subregion.gas.n_spec
+subregion.gas.n_inter
+subregion.gas.n_trans
+subregion.gas.inclH2
+subregion.gas.inclH2O
+subregion.gas.inclN2
+subregion.gas.inclO2
+subregion.graphite.n_spec
+subregion.graphite.n_inter
+subregion.graphite.n_trans
+subregion.graphite.'inclC+'
+subregion.graphite.'C+'.epsilon
+subregion.graphite.'C+'.mu
+subregion.graphite.'C+'.nu
+subregion.graphite.'C+'.n_trans
+subregion.graphite.'C+'.n_intra
+subregion.graphite.'C+'.n_inter
+subregion.graphite.'C+'.N_IC
+subregion.graphite.'C+'.rho_IC
+subregion.graphite.'C+'.V_IC
+subregion.graphite.'C+'.p_IC
+subregion.graphite.'C+'.T_IC
+subregion.graphite.'C+'.h_IC
+subregion.graphite.'C+'.g_IC
+subregion.graphite.'C+'.k_intra_Phi[1, 1]
+subregion.graphite.'C+'.k_intra_Q[1]
+subregion.graphite.'C+'.N
+subregion.graphite.'C+'.T
+subregion.graphite.'C+'.der(T)
+subregion.graphite.'C+'.phi[1]
+subregion.graphite.'C+'.p
+subregion.graphite.'C+'.g
+subregion.graphite.'C+'.M
+subregion.graphite.'C+'.v
+subregion.graphite.'C+'.h
+subregion.graphite.'C+'.s
+subregion.graphite.'C+'.der(s)
+subregion.graphite.'C+'.rho
+subregion.graphite.'C+'.mrho
+subregion.graphite.'C+'.S
+subregion.graphite.'C+'.c_p
+subregion.graphite.'C+'.c_v
+subregion.graphite.'C+'.beta
+subregion.graphite.'C+'.tau_PhiE_intra[1, 1]
+subregion.graphite.'C+'.tau_PhiE_inter[1, 1]
+subregion.graphite.'C+'.tau_QE_intra[1]
+subregion.graphite.'C+'.tau_QE_inter[1]
+subregion.graphite.'C+'.f_DE[1]
+subregion.graphite.'C+'.Edot_DE
+subregion.graphite.'C+'.intra[1].n_trans
+subregion.graphite.'C+'.intra[1].Qdot
+subregion.graphite.'C+'.inter[1].n_trans
+subregion.graphite.'C+'.inter[1].mPhidot[1]
+subregion.graphite.'C+'.inter[1].Qdot
+subregion.graphite.'C+'.kL[1]
+subregion.graphite.'C+'.theta
+subregion.graphite.'C+'.consEnergy
+subregion.graphite.'C+'.tau_QT[1]
+subregion.graphite.'C+'.DeltaT[1]
+subregion.graphite.'incle-'
+subregion.graphite.'e-'.initMaterial
+subregion.graphite.'e-'.initEnergy
+subregion.graphite.'e-'.mu
+subregion.graphite.'e-'.nu
+subregion.graphite.'e-'.n_trans
+subregion.graphite.'e-'.n_intra
+subregion.graphite.'e-'.n_inter
+subregion.graphite.'e-'.N_IC
+subregion.graphite.'e-'.rho_IC
+subregion.graphite.'e-'.V_IC
+subregion.graphite.'e-'.p_IC
+subregion.graphite.'e-'.T_IC
+subregion.graphite.'e-'.h_IC
+subregion.graphite.'e-'.g_IC
+subregion.graphite.'e-'.k_intra_Phi[1, 1]
+subregion.graphite.'e-'.k_intra_Q[1]
+subregion.graphite.'e-'.N
+subregion.graphite.'e-'.der(N)
+subregion.graphite.'e-'.T
+subregion.graphite.'e-'.der(T)
+subregion.graphite.'e-'.phi[1]
+subregion.graphite.'e-'.der(phi[1])
+subregion.graphite.'e-'.g
+subregion.graphite.'e-'.M
+subregion.graphite.'e-'.der(M)
+subregion.graphite.'e-'.v
+subregion.graphite.'e-'.h
+subregion.graphite.'e-'.s
+subregion.graphite.'e-'.rho
+subregion.graphite.'e-'.mrho
+subregion.graphite.'e-'.S
+subregion.graphite.'e-'.c_p
+subregion.graphite.'e-'.c_v
+subregion.graphite.'e-'.beta
+subregion.graphite.'e-'.tau_PhiE_intra[1, 1]
+subregion.graphite.'e-'.tau_QE_intra[1]
+subregion.graphite.'e-'.Edot_DE
+subregion.graphite.'e-'.intra[1].n_trans
+subregion.graphite.'e-'.n_chem
+subregion.graphite.'e-'.zeta
+subregion.graphite.'e-'.eta
+subregion.graphite.'e-'.theta
+subregion.graphite.'e-'.tauprime[1]
+subregion.graphite.'e-'.kL[1]
+subregion.graphite.'e-'.consMaterial
+subregion.graphite.'e-'.consRot
+subregion.graphite.'e-'.consTransX
+subregion.graphite.'e-'.consTransY
+subregion.graphite.'e-'.consTransZ
+subregion.graphite.'e-'.consEnergy
+subregion.graphite.'e-'.upstreamX
+subregion.graphite.'e-'.upstreamY
+subregion.graphite.'e-'.upstreamZ
+subregion.graphite.'e-'.approxVelocity
+subregion.graphite.'e-'.Nu_Phi[1]
+subregion.graphite.'e-'.Nu_Phi[2]
+subregion.graphite.'e-'.Nu_Phi[3]
+subregion.graphite.'e-'.Nu_Q
+subregion.graphite.'e-'.N0
+subregion.graphite.'e-'.I[1]
+subregion.graphite.'e-'.phi_boundaries[1, 1]
+subregion.graphite.'e-'.phi_boundaries[1, 2]
+subregion.graphite.'e-'.f[1]
+subregion.graphite.'e-'.minusDeltaf[1]
+subregion.graphite.'e-'.rho_boundaries[1, 1]
+subregion.graphite.'e-'.rho_boundaries[1, 2]
+subregion.graphite.'e-'.Vdot_boundaries[1, 1]
+subregion.graphite.'e-'.Vdot_boundaries[1, 2]
+subregion.graphite.'e-'.q[1]
+subregion.graphite.'e-'.sT_chemical[1]
+subregion.graphite.'e-'.DeltaT[1]
+subregion.graphite.'e-'.Deltap[1]
+subregion.graphite.'e-'.g_boundaries[1, 1]
+subregion.graphite.'e-'.g_boundaries[1, 2]
+subregion.graphite.'e-'.tau_NT[1]
+subregion.graphite.'e-'.tau_PhiT[1]
+subregion.graphite.'e-'.tau_QT[1]
+subregion.graphite.'e-'.Pe_N[1]
+subregion.graphite.'e-'.Pe_Phi[1]
+subregion.graphite.'e-'.Pe_Q[1]
+subregion.graphite.'e-'.mphiI[1, 1]
+subregion.graphite.'e-'.Vdot[1]
+subregion.graphite.'e-'.hI[1]
+subregion.graphite.'e-'.Ma[1]
+subregion.graphite.'e-'.f_thermo[1]
+subregion.graphite.'e-'.f_AE[1]
+subregion.graphite.'e-'.f_AT[1]
+subregion.graphite.'e-'.f_DT[1]
+subregion.graphite.'e-'.Ndere
+subregion.graphite.'e-'.Edot_AE
+subregion.graphite.'e-'.Edot_DT
+subregion.graphite.'e-'.chemical[1].n_trans
+subregion.graphite.'e-'.chemical[1].Ndot
+subregion.graphite.'e-'.consTrans[1]
+subregion.graphite.'e-'.upstream[1]
+subregion.graphite.'e-'.mPhidot_boundaries[1, 2, 1]
+subregion.graphite.'e-'.mPhidot_boundaries[1, 2, 2]
+subregion.graphite.'e-'.sigma
+subregion.graphite.'e-'.mustar
+subregion.graphite.'incle-Transfer'
+subregion.graphite.inclDL
+subregion.graphite.inter[1].n_trans
+subregion.graphite.inter[1].mPhidot[1]
+subregion.graphite.inter[1].Qdot
+subregion.graphite.amagat.p
+subregion.graphite.amagat.V
+subregion.graphite.amagatDalton.amagat.p
+subregion.graphite.amagatDalton.dalton.p
+subregion.ionomer.n_spec
+subregion.ionomer.n_inter
+subregion.ionomer.n_trans
+subregion.ionomer.'inclSO3-'
+subregion.ionomer.'inclH+'
+subregion.ionomer.inclH2O
+subregion.liquid.n_spec
+subregion.liquid.n_inter
+subregion.liquid.n_trans
+subregion.liquid.inclH2O
+subregion.common.k_Phi[1]
+subregion.common.k_Phi[2]
+subregion.common.k_Phi[3]
+subregion.common.k_Q
+subregion.gasLiq.k_Phi[1]
+subregion.gasLiq.k_Phi[2]
+subregion.gasLiq.k_Phi[3]
+subregion.gasLiq.k_Q
+subregion.volume.V
+subregion.volume.inclCapillary
+subregion.volume.gamma
+subregion.volume.kappa
+subregion.volume.theta
+subregion.volume.inclGas
+subregion.volume.inclLiquid
+subregion.volume.inclSolid
+subregion.volume.V_pore
+subregion.volume.solid.p
+subregion.volume.amagatDalton.amagat.p
+subregion.volume.amagatDalton.dalton.p
+subregion.inclHOR
+subregion.inclORR
+BC1.gas.inclH2
+BC1.gas.inclH2O
+BC1.gas.inclN2
+BC1.gas.inclO2
+BC1.graphite.'inclC+'
+BC1.graphite.'C+'.internal
+BC1.graphite.'incle-'
+BC1.graphite.'e-'.internalMaterial
+BC1.graphite.'e-'.materialSet.y
+BC1.graphite.'e-'.internalAfter
+BC1.graphite.'e-'.afterSet.y
+BC1.graphite.'e-'.internalBefore
+BC1.graphite.'e-'.beforeSet.y
+BC1.graphite.'e-'.internalThermal
+BC1.graphite.'e-'.thermalSet.y
+BC1.graphite.'e-'.boundary.Ndot
+BC1.graphite.'e-'.boundary.phi[1]
+BC1.graphite.'e-'.boundary.phi[2]
+BC1.graphite.'e-'.boundary.Qdot
+BC1.graphite.'e-'._u_material
+BC1.graphite.'e-'._u_after
+BC1.graphite.'e-'._u_before
+BC1.graphite.'e-'._u_thermal
+BC1.graphite.'e-'.thermalOut.y
+BC1.ionomer.'inclSO3-'
+BC1.ionomer.'inclH+'
+BC1.ionomer.inclH2O
+BC1.liquid.inclH2O
+BC2.gas.inclH2
+BC2.gas.inclH2O
+BC2.gas.inclN2
+BC2.gas.inclO2
+BC2.graphite.'inclC+'
+BC2.graphite.'C+'.internal
+BC2.graphite.'incle-'
+BC2.graphite.'e-'.internalMaterial
+BC2.graphite.'e-'.materialSet.y
+BC2.graphite.'e-'.internalAfter
+BC2.graphite.'e-'.afterSet.y
+BC2.graphite.'e-'.internalBefore
+BC2.graphite.'e-'.beforeSet.y
+BC2.graphite.'e-'.internalThermal
+BC2.graphite.'e-'.thermalSet.y
+BC2.graphite.'e-'.p
+BC2.graphite.'e-'.boundary.p
+BC2.graphite.'e-'.boundary.Ndot
+BC2.graphite.'e-'.boundary.mPhidot[1]
+BC2.graphite.'e-'.boundary.mPhidot[2]
+BC2.graphite.'e-'.boundary.Qdot
+BC2.graphite.'e-'._u_material
+BC2.graphite.'e-'._u_after
+BC2.graphite.'e-'._u_before
+BC2.graphite.'e-'._u_thermal
+BC2.graphite.'e-'.materialOut.y
+BC2.ionomer.'inclSO3-'
+BC2.ionomer.'inclH+'
+BC2.ionomer.inclH2O
+BC2.liquid.inclH2O
+subregion.graphite.k_inter_Phi[1, 1]
+subregion.graphite.k_inter_Q[1]
+subregion.graphite.Aprime[1]
+subregion.graphite.k[1]
+subregion.graphite.k[2]
+subregion.graphite.k[3]
+subregion.graphite.epsilon
+subregion.graphite.kL[1]
+subregion.graphite.'e-'.boundaries[1, 1].Ndot
+subregion.graphite.'e-'.boundaries[1, 1].phi[1]
+subregion.graphite.'e-'.boundaries[1, 1].phi[2]
+subregion.graphite.'e-'.boundaries[1, 1].Qdot
+subregion.graphite.'e-'.boundaries[1, 2].p
+subregion.graphite.'e-'.boundaries[1, 2].Ndot
+subregion.graphite.'e-'.boundaries[1, 2].mPhidot[1]
+subregion.graphite.'e-'.boundaries[1, 2].mPhidot[2]
+subregion.graphite.'e-'.boundaries[1, 2].Qdot
+subregion.graphite.exchCommon.node.Qdot
+subregion.graphite.exchCommon.node.T
+subregion.graphite.exchCommon.node.der(T)
+subregion.graphite.exchCommon.node.mPhidot[1]
+subregion.graphite.exchCommon.node.n_trans
+subregion.graphite.exchCommon.node.phi[1]
+subregion.graphite.xNegative.'e-'.Ndot
+subregion.graphite.xNegative.'e-'.Qdot
+subregion.graphite.xNegative.'e-'.phi[1]
+subregion.graphite.xNegative.'e-'.phi[2]
+subregion.graphite.xPositive.'e-'.Ndot
+subregion.graphite.xPositive.'e-'.Qdot
+subregion.graphite.xPositive.'e-'.mPhidot[1]
+subregion.graphite.xPositive.'e-'.mPhidot[2]
+subregion.graphite.xPositive.'e-'.p
+subregion.xNegative.graphite.'C+'.Qdot
+subregion.xNegative.graphite.'e-'.Ndot
+subregion.xNegative.graphite.'e-'.Qdot
+subregion.xNegative.graphite.'e-'.T
+subregion.xNegative.graphite.'e-'.mPhidot[1]
+subregion.xNegative.graphite.'e-'.mPhidot[2]
+subregion.xNegative.graphite.'e-'.p
+subregion.xNegative.graphite.'e-'.phi[1]
+subregion.xNegative.graphite.'e-'.phi[2]
+subregion.xPositive.graphite.'C+'.Qdot
+subregion.xPositive.graphite.'e-'.Ndot
+subregion.xPositive.graphite.'e-'.Qdot
+subregion.xPositive.graphite.'e-'.T
+subregion.xPositive.graphite.'e-'.mPhidot[1]
+subregion.xPositive.graphite.'e-'.mPhidot[2]
+subregion.xPositive.graphite.'e-'.p
+subregion.xPositive.graphite.'e-'.phi[1]
+subregion.xPositive.graphite.'e-'.phi[2]
+subregion.exchCommon.node.Qdot
+subregion.exchCommon.node.T
+subregion.exchCommon.node.mPhidot[1]
+subregion.exchCommon.node.n_trans
+subregion.exchCommon.node.phi[1]
+BC1.graphite.'e-'.y.thermal
+BC1.graphite.boundary.'e-'.Ndot
+BC1.graphite.boundary.'e-'.Qdot
+BC1.graphite.boundary.'e-'.phi[1]
+BC1.graphite.boundary.'e-'.phi[2]
+BC1.graphite.y.'e-'.thermal
+BC1.boundary.graphite.'e-'.Ndot
+BC1.boundary.graphite.'e-'.Qdot
+BC1.boundary.graphite.'e-'.phi[1]
+BC1.boundary.graphite.'e-'.phi[2]
+BC1.y.graphite.'e-'.thermal
+BC2.graphite.'e-'.y.material
+BC2.graphite.boundary.'e-'.Ndot
+BC2.graphite.boundary.'e-'.Qdot
+BC2.graphite.boundary.'e-'.mPhidot[1]
+BC2.graphite.boundary.'e-'.mPhidot[2]
+BC2.graphite.boundary.'e-'.p
+BC2.graphite.y.'e-'.material
+BC2.boundary.graphite.'e-'.Ndot
+BC2.boundary.graphite.'e-'.Qdot
+BC2.boundary.graphite.'e-'.mPhidot[1]
+BC2.boundary.graphite.'e-'.mPhidot[2]
+BC2.boundary.graphite.'e-'.p
+BC2.y.graphite.'e-'.material
+CPUtime
+
+double initialValue(409,6)
+  0       1                       0                       0                
+  6   256   # environment.baseUnits.rad
+  0       1                       0                       0                
+  6   256   # environment.baseUnits.R_inf
+  0       1                       0                       0                
+  6   256   # environment.baseUnits.c
+  0       1                       0                       0                
+  6   256   # environment.baseUnits.k_J
+  0 6.8517999537139460E+001       0                 1.0000000000000000E+100
+  6   256   # environment.baseUnits.R_K
+  0       1                       0                       0                
+  6   256   # environment.baseUnits.'cd'
+  0       1                       0                       0                
+  6   256   # environment.baseUnits.k_F
+  0       1                       0                       0                
+  6   256   # environment.baseUnits.R
+  0       1                       0                       0                
+  6  1280   # _GlobalScope.FCSys.Units.base.rad
+  0       1                       0                       0                
+  6  1280   # _GlobalScope.FCSys.Units.base.R_inf
+  0       1                       0                       0                
+  6  1280   # _GlobalScope.FCSys.Units.base.c
+  0       1                       0                       0                
+  6  1280   # _GlobalScope.FCSys.Units.base.k_J
+  0 6.8517999537139460E+001       0                 1.0000000000000000E+100
+  6  1280   # _GlobalScope.FCSys.Units.base.R_K
+  0       1                       0                       0                
+  6  1280   # _GlobalScope.FCSys.Units.base.'cd'
+  0       1                       0                       0                
+  6  1280   # _GlobalScope.FCSys.Units.base.k_F
+  0       1                       0                       0                
+  6  1280   # _GlobalScope.FCSys.Units.base.R
+  0       1                       0                       0                
+  6   257   # environment.analysis
+ -1 3.7767392323209180E-003       0                 1.0000000000000000E+100
+  1   280   # environment.T
+ -1 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  1   280   # environment.p
+ -1       0                       0                       1                
+  1   280   # environment.RH
+ -1 2.0946000000000001E-001       0                       1                
+  1   280   # environment.psi_O2_dry
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # environment.p_sat
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # environment.p_H2O
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # environment.p_dry
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # environment.p_O2
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # environment.psi_H2O
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # environment.psi_dry
+ -1       0                       0                       0                
+  1   280   # environment.a[1]
+ -1 9.9431716586547722E-024       0                       0                
+  1   280   # environment.a[2]
+ -1       0                       0                       0                
+  1   280   # environment.a[3]
+ -1       0                       0                       0                
+  1   280   # environment.E[1]
+ -1       0                       0                       0                
+  1   280   # environment.E[2]
+ -1       0                       0                       0                
+  1   280   # environment.E[3]
+  0       0                       0                       0                
+  4   256   # w
+  0 -2.7689168560297510E+000       0                       0                
+  4   256   # zI
+  0       0                       0                 1.0000000000000000E+100
+  4   256   # R
+  0       0                       0                 1.0000000000000000E+100
+  4   256   # R_ex
+  0       0                       0                       0                
+  4   256   # P
+  0       0                       0                       0                
+  4   256   # P_ex
+  0       0                       0                 1.0000000000000000E+100
+  4   256   # T
+  0       0                       0                 1.0000000000000000E+100
+  4   256   # T_ex
+  0       1                       0                       0                
+  6   257   # 'inclC+'
+  0       0                       0                       0                
+  6   257   # 'inclSO3-'
+  0       1                       0                       0                
+  6   257   # 'incle-'
+  0       0                       0                       0                
+  6   257   # 'inclH+'
+  0       0                       0                       0                
+  6   257   # inclH2
+  0       0                       0                       0                
+  6   257   # inclH2O
+  0       0                       0                       0                
+  6   257   # inclN2
+  0       0                       0                       0                
+  6   257   # inclO2
+ -1 1.0973731568539000E+005 9.9999999999999997E-061 1.0000000000000000E+100
+  1   280   # subregion.L[1]
+ -1 1.0973731568538999E+004 9.9999999999999997E-061 1.0000000000000000E+100
+  1   280   # subregion.L[2]
+ -1 1.0973731568538999E+004 9.9999999999999997E-061 1.0000000000000000E+100
+  1   280   # subregion.L[3]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.V
+  0       1                       0                       0                
+  6  1281   # subregion.inclTrans[1]
+  0       0                       0                       0                
+  6  1281   # subregion.inclTrans[2]
+  0       0                       0                       0                
+  6  1281   # subregion.inclTrans[3]
+  0       0                       0                       0                
+  6  1281   # subregion.inclRot[1]
+  0       0                       0                       0                
+  6  1281   # subregion.inclRot[2]
+  0       0                       0                       0                
+  6  1281   # subregion.inclRot[3]
+  0       1                       0                       0                
+  6  1282   # subregion.cartTrans[1]
+  0       1                       0                       0                
+  6  1282   # subregion.transCart[1]
+  0       0                       0                       0                
+  6  1282   # subregion.transCart[2]
+  0       0                       0                       0                
+  6  1282   # subregion.transCart[3]
+  0       1                       0                       0                
+  6   769   # subregion.inclTransX
+  0       0                       0                       0                
+  6   769   # subregion.inclTransY
+  0       0                       0                       0                
+  6   769   # subregion.inclTransZ
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.A[1]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.A[2]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.A[3]
+  0       2                       0                       0                
+  6   770   # subregion.n_spec
+  0       1                       0                       0                
+  6  1282   # subregion.n_trans
+  0       0                       0                       0                
+  6   770   # subregion.gas.n_spec
+ -1       2                       0                       0                
+  1   794   # subregion.gas.n_inter
+  0       1                       0                       0                
+  6   770   # subregion.gas.n_trans
+  0       0                       0                       0                
+  6   769   # subregion.gas.inclH2
+  0       0                       0                       0                
+  6   769   # subregion.gas.inclH2O
+  0       0                       0                       0                
+  6   769   # subregion.gas.inclN2
+  0       0                       0                       0                
+  6   769   # subregion.gas.inclO2
+  0       2                       0                       0                
+  6   770   # subregion.graphite.n_spec
+  0       1                       0                       0                
+  6   770   # subregion.graphite.n_inter
+  0       1                       0                       0                
+  6   770   # subregion.graphite.n_trans
+  0       1                       0                       0                
+  6   769   # subregion.graphite.'inclC+'
+ -1       1                       0                 1.0000000000000000E+100
+  1   280   # subregion.graphite.'C+'.epsilon
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'C+'.mu
+ -1 2.2558819599584737E+005       0                 1.0000000000000000E+100
+  1   280   # subregion.graphite.'C+'.nu
+  0       1                       0                       0                
+  6   770   # subregion.graphite.'C+'.n_trans
+  0       1                       0                       0                
+  6   770   # subregion.graphite.'C+'.n_intra
+  0       1                       0                       0                
+  6   770   # subregion.graphite.'C+'.n_inter
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'C+'.N_IC
+  0 2.4598767064285064E+006       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'C+'.rho_IC
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'C+'.V_IC
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'C+'.p_IC
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'C+'.T_IC
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'C+'.h_IC
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'C+'.g_IC
+  0       1                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'C+'.k_intra_Phi[1, 1]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'C+'.k_intra_Q[1]
+  0 7.2874390861817843E+017 9.9999999999999997E-061 1.0000000000000000E+100
+  6   256   # subregion.graphite.'C+'.N
+ -1       0                       0                 1.0000000000000000E+100
+  2   272   # subregion.graphite.'C+'.T
+  0       0                       0                       0                
+  3   256   # subregion.graphite.'C+'.der(T)
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'C+'.phi[1]
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'C+'.p
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'C+'.g
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'C+'.M
+  0 4.0652443977645506E-007       0                       0                
+  6   256   # subregion.graphite.'C+'.v
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'C+'.h
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'C+'.s
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'C+'.der(s)
+  0 2.4598767064285064E+006       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'C+'.rho
+  0 4.0453048647652480E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'C+'.mrho
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'C+'.S
+  0 1.3505974821619184E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'C+'.c_p
+  0 1.3505974821619184E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'C+'.c_v
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'C+'.beta
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'C+'.tau_PhiE_intra[1, 1]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'C+'.tau_PhiE_inter[1, 1]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'C+'.tau_QE_intra[1]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'C+'.tau_QE_inter[1]
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'C+'.f_DE[1]
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'C+'.Edot_DE
+  0       1                       1                       3                
+  6   774   # subregion.graphite.'C+'.intra[1].n_trans
+  0       0                       0                       0                
+  6   388   # subregion.graphite.'C+'.intra[1].Qdot
+  0       1                       1                       3                
+  6   774   # subregion.graphite.'C+'.inter[1].n_trans
+  0       0                       0                       0                
+  6   388   # subregion.graphite.'C+'.inter[1].mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.graphite.'C+'.inter[1].Qdot
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'C+'.kL[1]
+ -1 1.5383823381266566E+000       0                 1.0000000000000000E+100
+  1   280   # subregion.graphite.'C+'.theta
+  0       3                       1                       3                
+  6   258   # subregion.graphite.'C+'.consEnergy
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'C+'.tau_QT[1]
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'C+'.DeltaT[1]
+  0       1                       0                       0                
+  6   769   # subregion.graphite.'incle-'
+  0       1                       1                      15                
+  6   258   # subregion.graphite.'e-'.initMaterial
+  0       1                       1                      15                
+  6   258   # subregion.graphite.'e-'.initEnergy
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.mu
+  0       1                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.nu
+  0       1                       0                       0                
+  6   770   # subregion.graphite.'e-'.n_trans
+  0       1                       0                       0                
+  6   770   # subregion.graphite.'e-'.n_intra
+  0       0                       0                       0                
+  6   770   # subregion.graphite.'e-'.n_inter
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.N_IC
+  0 2.4598767064285064E+006       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.rho_IC
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.V_IC
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.p_IC
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.T_IC
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.h_IC
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.g_IC
+  0       1                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.k_intra_Phi[1, 1]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.k_intra_Q[1]
+  0 7.2874390861817843E+017 9.9999999999999997E-061 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.N
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.der(N)
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.T
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.der(T)
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.phi[1]
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.der(phi[1])
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.g
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.M
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.der(M)
+  0 4.0652443977645506E-007       0                       0                
+  6   256   # subregion.graphite.'e-'.v
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.h
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.s
+  0 2.4598767064285064E+006       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.rho
+  0 1.8477476866818924E+011       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.mrho
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.S
+  0 2.5000000000000000E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.c_p
+  0 2.5000000000000000E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.c_v
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.beta
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.tau_PhiE_intra[1, 1]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.tau_QE_intra[1]
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.Edot_DE
+  0       1                       1                       3                
+  6   774   # subregion.graphite.'e-'.intra[1].n_trans
+  0       1                       0                       0                
+  6   770   # subregion.graphite.'e-'.n_chem
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.zeta
+  0 9.9999999999999995E+059       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.eta
+  0 9.9999999999999995E+059       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.theta
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.tauprime[1]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.kL[1]
+  0       3                       1                       3                
+  6   258   # subregion.graphite.'e-'.consMaterial
+  0       0                       0                       0                
+  6   257   # subregion.graphite.'e-'.consRot
+  0       1                       1                       2                
+  6   258   # subregion.graphite.'e-'.consTransX
+  0       1                       1                       2                
+  6   258   # subregion.graphite.'e-'.consTransY
+  0       1                       1                       2                
+  6   258   # subregion.graphite.'e-'.consTransZ
+  0       2                       1                       3                
+  6   258   # subregion.graphite.'e-'.consEnergy
+  0       0                       0                       0                
+  6   257   # subregion.graphite.'e-'.upstreamX
+  0       0                       0                       0                
+  6   257   # subregion.graphite.'e-'.upstreamY
+  0       0                       0                       0                
+  6   257   # subregion.graphite.'e-'.upstreamZ
+  0       1                       0                       0                
+  6   257   # subregion.graphite.'e-'.approxVelocity
+ -1       4                       0                 1.0000000000000000E+100
+  1   280   # subregion.graphite.'e-'.Nu_Phi[1]
+ -1       4                       0                 1.0000000000000000E+100
+  1   280   # subregion.graphite.'e-'.Nu_Phi[2]
+ -1       4                       0                 1.0000000000000000E+100
+  1   280   # subregion.graphite.'e-'.Nu_Phi[3]
+ -1       1                       0                 1.0000000000000000E+100
+  1   280   # subregion.graphite.'e-'.Nu_Q
+ -1       0                       0                 1.0000000000000000E+100
+  1   280   # subregion.graphite.'e-'.N0
+  0 2.7689168560297510E+000       0                       0                
+  6   256   # subregion.graphite.'e-'.I[1]
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.phi_boundaries[1, 1]
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.phi_boundaries[1, 2]
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.f[1]
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.minusDeltaf[1]
+  0 2.4598767064285064E+006       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.rho_boundaries[1, 1]
+  0 2.4598767064285064E+006       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.rho_boundaries[1, 2]
+  0 1.1256323736850778E-006       0                       0                
+  6   256   # subregion.graphite.'e-'.Vdot_boundaries[1, 1]
+  0 -1.1256323736850778E-006       0                       0                
+  6   256   # subregion.graphite.'e-'.Vdot_boundaries[1, 2]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.q[1]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.sT_chemical[1]
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.DeltaT[1]
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.Deltap[1]
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.g_boundaries[1, 1]
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.g_boundaries[1, 2]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.tau_NT[1]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.tau_PhiT[1]
+  0 3.2898419603645020E+015       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.'e-'.tau_QT[1]
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.Pe_N[1]
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.Pe_Phi[1]
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.Pe_Q[1]
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.mphiI[1, 1]
+  0 1.1256323736850778E-006       0                       0                
+  6   256   # subregion.graphite.'e-'.Vdot[1]
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.hI[1]
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.Ma[1]
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.f_thermo[1]
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.f_AE[1]
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.f_AT[1]
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.f_DT[1]
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.Ndere
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.Edot_AE
+  0       0                       0                       0                
+  6   256   # subregion.graphite.'e-'.Edot_DT
+  0       1                       1                       3                
+  6   262   # subregion.graphite.'e-'.chemical[1].n_trans
+  0       0                       0                       0                
+  6   388   # subregion.graphite.'e-'.chemical[1].Ndot
+  0       1                       1                       2                
+  6   770   # subregion.graphite.'e-'.consTrans[1]
+  0       0                       0                       0                
+  6   769   # subregion.graphite.'e-'.upstream[1]
+  0       0                       0                       0                
+  6  1280   # subregion.graphite.'e-'.mPhidot_boundaries[1, 2, 1]
+  0       0                       0                       0                
+  6  1280   # subregion.graphite.'e-'.mPhidot_boundaries[1, 2, 2]
+ -1 3.4330192160142940E-003       0                 1.0000000000000000E+100
+  1   280   # subregion.graphite.'e-'.sigma
+ -1       1                       0                 1.0000000000000000E+100
+  1   280   # subregion.graphite.'e-'.mustar
+  0       0                       0                       0                
+  6   769   # subregion.graphite.'incle-Transfer'
+  0       0                       0                       0                
+  6   769   # subregion.graphite.inclDL
+  0       1                       1                       3                
+  6   774   # subregion.graphite.inter[1].n_trans
+  0       0                       0                       0                
+  6   388   # subregion.graphite.inter[1].mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.graphite.inter[1].Qdot
+  0       0                       0                 1.0000000000000000E+100
+  6   260   # subregion.graphite.amagat.p
+  0       0                       0                       0                
+  6   388   # subregion.graphite.amagat.V
+  0       0                       0                 1.0000000000000000E+100
+  6  1284   # subregion.graphite.amagatDalton.amagat.p
+  0       0                       0                       0                
+  6  1412   # subregion.graphite.amagatDalton.dalton.p
+  0       0                       0                       0                
+  6   770   # subregion.ionomer.n_spec
+ -1       1                       0                       0                
+  1   794   # subregion.ionomer.n_inter
+  0       1                       0                       0                
+  6   770   # subregion.ionomer.n_trans
+  0       0                       0                       0                
+  6   769   # subregion.ionomer.'inclSO3-'
+  0       0                       0                       0                
+  6   769   # subregion.ionomer.'inclH+'
+  0       0                       0                       0                
+  6   769   # subregion.ionomer.inclH2O
+  0       0                       0                       0                
+  6   770   # subregion.liquid.n_spec
+ -1       2                       0                       0                
+  1   794   # subregion.liquid.n_inter
+  0       1                       0                       0                
+  6   770   # subregion.liquid.n_trans
+  0       0                       0                       0                
+  6   769   # subregion.liquid.inclH2O
+  0 1.8000000000000000E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.common.k_Phi[1]
+  0 1.8000000000000000E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.common.k_Phi[2]
+  0 1.8000000000000000E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.common.k_Phi[3]
+  0       1                       0                 1.0000000000000000E+100
+  6   256   # subregion.common.k_Q
+  0       2                       0                 1.0000000000000000E+100
+  6   256   # subregion.gasLiq.k_Phi[1]
+  0       2                       0                 1.0000000000000000E+100
+  6   256   # subregion.gasLiq.k_Phi[2]
+  0       2                       0                 1.0000000000000000E+100
+  6   256   # subregion.gasLiq.k_Phi[3]
+  0       1                       0                 1.0000000000000000E+100
+  6   256   # subregion.gasLiq.k_Q
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.volume.V
+  0       1                       0                       0                
+  6   769   # subregion.volume.inclCapillary
+ -1 1.4744469564984424E+001       0                       0                
+  1   280   # subregion.volume.gamma
+ -1 7.7793118811773702E+003       0                 1.0000000000000000E+100
+  1   280   # subregion.volume.kappa
+ -1 2.4434609527920612E+000       0                       0                
+  1   280   # subregion.volume.theta
+  0       0                       0                       0                
+  6   769   # subregion.volume.inclGas
+  0       0                       0                       0                
+  6   769   # subregion.volume.inclLiquid
+  0       1                       0                       0                
+  6   769   # subregion.volume.inclSolid
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.volume.V_pore
+  0       0                       0                 1.0000000000000000E+100
+  6   260   # subregion.volume.solid.p
+  0       0                       0                 1.0000000000000000E+100
+  6  1284   # subregion.volume.amagatDalton.amagat.p
+  0       0                       0                       0                
+  6  1412   # subregion.volume.amagatDalton.dalton.p
+  0       0                       0                       0                
+  6  1281   # subregion.inclHOR
+  0       0                       0                       0                
+  6  1281   # subregion.inclORR
+  0       0                       0                       0                
+  6   769   # BC1.gas.inclH2
+  0       0                       0                       0                
+  6   769   # BC1.gas.inclH2O
+  0       0                       0                       0                
+  6   769   # BC1.gas.inclN2
+  0       0                       0                       0                
+  6   769   # BC1.gas.inclO2
+  0       1                       0                       0                
+  6   769   # BC1.graphite.'inclC+'
+  0       1                       0                       0                
+  6   769   # BC1.graphite.'C+'.internal
+  0       1                       0                       0                
+  6   769   # BC1.graphite.'incle-'
+  0       1                       0                       0                
+  6   769   # BC1.graphite.'e-'.internalMaterial
+  0 -2.7689168560297510E+000       0                       0                
+  6   256   # BC1.graphite.'e-'.materialSet.y
+  0       1                       0                       0                
+  6   769   # BC1.graphite.'e-'.internalAfter
+  0       0                       0                       0                
+  6   256   # BC1.graphite.'e-'.afterSet.y
+  0       1                       0                       0                
+  6   769   # BC1.graphite.'e-'.internalBefore
+  0       0                       0                       0                
+  6   256   # BC1.graphite.'e-'.beforeSet.y
+  0       1                       0                       0                
+  6   769   # BC1.graphite.'e-'.internalThermal
+  0       0                       0                       0                
+  6   256   # BC1.graphite.'e-'.thermalSet.y
+  0 -2.7689168560297510E+000       0                       0                
+  6   388   # BC1.graphite.'e-'.boundary.Ndot
+  0       0                       0                       0                
+  6   260   # BC1.graphite.'e-'.boundary.phi[1]
+  0       0                       0                       0                
+  6   260   # BC1.graphite.'e-'.boundary.phi[2]
+  0       0                       0                       0                
+  6   388   # BC1.graphite.'e-'.boundary.Qdot
+  0 -2.7689168560297510E+000       0                       0                
+  6  1280   # BC1.graphite.'e-'._u_material
+  0       0                       0                       0                
+  6  1280   # BC1.graphite.'e-'._u_after
+  0       0                       0                       0                
+  6  1280   # BC1.graphite.'e-'._u_before
+  0       0                       0                       0                
+  6  1280   # BC1.graphite.'e-'._u_thermal
+  0       0                       0                       0                
+  6   256   # BC1.graphite.'e-'.thermalOut.y
+  0       0                       0                       0                
+  6   769   # BC1.ionomer.'inclSO3-'
+  0       0                       0                       0                
+  6   769   # BC1.ionomer.'inclH+'
+  0       0                       0                       0                
+  6   769   # BC1.ionomer.inclH2O
+  0       0                       0                       0                
+  6   769   # BC1.liquid.inclH2O
+  0       0                       0                       0                
+  6   769   # BC2.gas.inclH2
+  0       0                       0                       0                
+  6   769   # BC2.gas.inclH2O
+  0       0                       0                       0                
+  6   769   # BC2.gas.inclN2
+  0       0                       0                       0                
+  6   769   # BC2.gas.inclO2
+  0       1                       0                       0                
+  6   769   # BC2.graphite.'inclC+'
+  0       1                       0                       0                
+  6   769   # BC2.graphite.'C+'.internal
+  0       1                       0                       0                
+  6   769   # BC2.graphite.'incle-'
+  0       1                       0                       0                
+  6   769   # BC2.graphite.'e-'.internalMaterial
+  0 2.0534205536267978E+000       0                       0                
+  6   256   # BC2.graphite.'e-'.materialSet.y
+  0       1                       0                       0                
+  6   769   # BC2.graphite.'e-'.internalAfter
+  0       0                       0                       0                
+  6   256   # BC2.graphite.'e-'.afterSet.y
+  0       1                       0                       0                
+  6   769   # BC2.graphite.'e-'.internalBefore
+  0       0                       0                       0                
+  6   256   # BC2.graphite.'e-'.beforeSet.y
+  0       1                       0                       0                
+  6   769   # BC2.graphite.'e-'.internalThermal
+  0       0                       0                       0                
+  6   256   # BC2.graphite.'e-'.thermalSet.y
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   256   # BC2.graphite.'e-'.p
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   260   # BC2.graphite.'e-'.boundary.p
+  0 2.7689168560297510E+000       0                       0                
+  6   388   # BC2.graphite.'e-'.boundary.Ndot
+  0       0                       0                       0                
+  6   388   # BC2.graphite.'e-'.boundary.mPhidot[1]
+  0       0                       0                       0                
+  6   388   # BC2.graphite.'e-'.boundary.mPhidot[2]
+  0       0                       0                       0                
+  6   388   # BC2.graphite.'e-'.boundary.Qdot
+  0 2.0534205536267978E+000       0                       0                
+  6  1280   # BC2.graphite.'e-'._u_material
+  0       0                       0                       0                
+  6  1280   # BC2.graphite.'e-'._u_after
+  0       0                       0                       0                
+  6  1280   # BC2.graphite.'e-'._u_before
+  0       0                       0                       0                
+  6  1280   # BC2.graphite.'e-'._u_thermal
+  0 2.7689168560297510E+000       0                       0                
+  6   256   # BC2.graphite.'e-'.materialOut.y
+  0       0                       0                       0                
+  6   769   # BC2.ionomer.'inclSO3-'
+  0       0                       0                       0                
+  6   769   # BC2.ionomer.'inclH+'
+  0       0                       0                       0                
+  6   769   # BC2.ionomer.inclH2O
+  0       0                       0                       0                
+  6   769   # BC2.liquid.inclH2O
+  0 1.8000000000000000E+000       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.k_inter_Phi[1, 1]
+  0       1                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.k_inter_Q[1]
+  0       0                       0                 1.0000000000000000E+100
+  6  1280   # subregion.graphite.Aprime[1]
+ -1       1                 9.9999999999999997E-061 1.0000000000000000E+100
+  1   280   # subregion.graphite.k[1]
+ -1       1                 9.9999999999999997E-061 1.0000000000000000E+100
+  1   280   # subregion.graphite.k[2]
+ -1       1                 9.9999999999999997E-061 1.0000000000000000E+100
+  1   280   # subregion.graphite.k[3]
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # subregion.graphite.epsilon
+  0       0                       0                 1.0000000000000000E+100
+  6  1280   # subregion.graphite.kL[1]
+  0 2.7689168560297510E+000       0                       0                
+  6   388   # subregion.graphite.'e-'.boundaries[1, 1].Ndot
+  0       0                       0                       0                
+  6   260   # subregion.graphite.'e-'.boundaries[1, 1].phi[1]
+  0       0                       0                       0                
+  6   260   # subregion.graphite.'e-'.boundaries[1, 1].phi[2]
+  0       0                       0                       0                
+  6   388   # subregion.graphite.'e-'.boundaries[1, 1].Qdot
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   260   # subregion.graphite.'e-'.boundaries[1, 2].p
+  0 -2.7689168560297510E+000       0                       0                
+  6   388   # subregion.graphite.'e-'.boundaries[1, 2].Ndot
+  0       0                       0                       0                
+  6   388   # subregion.graphite.'e-'.boundaries[1, 2].mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.graphite.'e-'.boundaries[1, 2].mPhidot[2]
+  0       0                       0                       0                
+  6   388   # subregion.graphite.'e-'.boundaries[1, 2].Qdot
+  0       0                       0                       0                
+  6   388   # subregion.graphite.exchCommon.node.Qdot
+  0       0                       0                 1.0000000000000000E+100
+  6   260   # subregion.graphite.exchCommon.node.T
+  0       0                       0                       0                
+  6   260   # subregion.graphite.exchCommon.node.der(T)
+  0       0                       0                       0                
+  6   388   # subregion.graphite.exchCommon.node.mPhidot[1]
+  0       1                       1                       3                
+  6   262   # subregion.graphite.exchCommon.node.n_trans
+  0       0                       0                       0                
+  6   260   # subregion.graphite.exchCommon.node.phi[1]
+  0 2.7689168560297510E+000       0                       0                
+  6   388   # subregion.graphite.xNegative.'e-'.Ndot
+  0       0                       0                       0                
+  6   388   # subregion.graphite.xNegative.'e-'.Qdot
+  0       0                       0                       0                
+  6   260   # subregion.graphite.xNegative.'e-'.phi[1]
+  0       0                       0                       0                
+  6   260   # subregion.graphite.xNegative.'e-'.phi[2]
+  0 -2.7689168560297510E+000       0                       0                
+  6   388   # subregion.graphite.xPositive.'e-'.Ndot
+  0       0                       0                       0                
+  6   388   # subregion.graphite.xPositive.'e-'.Qdot
+  0       0                       0                       0                
+  6   388   # subregion.graphite.xPositive.'e-'.mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.graphite.xPositive.'e-'.mPhidot[2]
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   260   # subregion.graphite.xPositive.'e-'.p
+  0       0                       0                       0                
+  6   388   # subregion.xNegative.graphite.'C+'.Qdot
+  0 2.7689168560297510E+000       0                       0                
+  6   388   # subregion.xNegative.graphite.'e-'.Ndot
+  0       0                       0                       0                
+  6   388   # subregion.xNegative.graphite.'e-'.Qdot
+  0       0                       0                 1.0000000000000000E+100
+  6   260   # subregion.xNegative.graphite.'e-'.T
+  0       0                       0                       0                
+  6   388   # subregion.xNegative.graphite.'e-'.mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.xNegative.graphite.'e-'.mPhidot[2]
+  0       0                       0                 1.0000000000000000E+100
+  6   260   # subregion.xNegative.graphite.'e-'.p
+  0       0                       0                       0                
+  6   260   # subregion.xNegative.graphite.'e-'.phi[1]
+  0       0                       0                       0                
+  6   260   # subregion.xNegative.graphite.'e-'.phi[2]
+  0       0                       0                       0                
+  6   388   # subregion.xPositive.graphite.'C+'.Qdot
+  0 -2.7689168560297510E+000       0                       0                
+  6   388   # subregion.xPositive.graphite.'e-'.Ndot
+  0       0                       0                       0                
+  6   388   # subregion.xPositive.graphite.'e-'.Qdot
+  0       0                       0                 1.0000000000000000E+100
+  6   260   # subregion.xPositive.graphite.'e-'.T
+  0       0                       0                       0                
+  6   388   # subregion.xPositive.graphite.'e-'.mPhidot[1]
+  0       0                       0                       0                
+  6   388   # subregion.xPositive.graphite.'e-'.mPhidot[2]
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   260   # subregion.xPositive.graphite.'e-'.p
+  0       0                       0                       0                
+  6   260   # subregion.xPositive.graphite.'e-'.phi[1]
+  0       0                       0                       0                
+  6   260   # subregion.xPositive.graphite.'e-'.phi[2]
+  0       0                       0                       0                
+  6   388   # subregion.exchCommon.node.Qdot
+  0       0                       0                 1.0000000000000000E+100
+  6   260   # subregion.exchCommon.node.T
+  0       0                       0                       0                
+  6   388   # subregion.exchCommon.node.mPhidot[1]
+  0       1                       1                       3                
+  6   262   # subregion.exchCommon.node.n_trans
+  0       0                       0                       0                
+  6   260   # subregion.exchCommon.node.phi[1]
+  0       0                       0                       0                
+  6   260   # BC1.graphite.'e-'.y.thermal
+  0 -2.7689168560297510E+000       0                       0                
+  6   388   # BC1.graphite.boundary.'e-'.Ndot
+  0       0                       0                       0                
+  6   388   # BC1.graphite.boundary.'e-'.Qdot
+  0       0                       0                       0                
+  6   260   # BC1.graphite.boundary.'e-'.phi[1]
+  0       0                       0                       0                
+  6   260   # BC1.graphite.boundary.'e-'.phi[2]
+  0       0                       0                       0                
+  6   260   # BC1.graphite.y.'e-'.thermal
+  0 -2.7689168560297510E+000       0                       0                
+  6   388   # BC1.boundary.graphite.'e-'.Ndot
+  0       0                       0                       0                
+  6   388   # BC1.boundary.graphite.'e-'.Qdot
+  0       0                       0                       0                
+  6   260   # BC1.boundary.graphite.'e-'.phi[1]
+  0       0                       0                       0                
+  6   260   # BC1.boundary.graphite.'e-'.phi[2]
+  0       0                       0                       0                
+  6   260   # BC1.y.graphite.'e-'.thermal
+  0 2.7689168560297510E+000       0                       0                
+  6   260   # BC2.graphite.'e-'.y.material
+  0 2.7689168560297510E+000       0                       0                
+  6   388   # BC2.graphite.boundary.'e-'.Ndot
+  0       0                       0                       0                
+  6   388   # BC2.graphite.boundary.'e-'.Qdot
+  0       0                       0                       0                
+  6   388   # BC2.graphite.boundary.'e-'.mPhidot[1]
+  0       0                       0                       0                
+  6   388   # BC2.graphite.boundary.'e-'.mPhidot[2]
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   260   # BC2.graphite.boundary.'e-'.p
+  0 2.7689168560297510E+000       0                       0                
+  6   260   # BC2.graphite.y.'e-'.material
+  0 2.7689168560297510E+000       0                       0                
+  6   388   # BC2.boundary.graphite.'e-'.Ndot
+  0       0                       0                       0                
+  6   388   # BC2.boundary.graphite.'e-'.Qdot
+  0       0                       0                       0                
+  6   388   # BC2.boundary.graphite.'e-'.mPhidot[1]
+  0       0                       0                       0                
+  6   388   # BC2.boundary.graphite.'e-'.mPhidot[2]
+  0 2.0534205536267978E+000       0                 1.0000000000000000E+100
+  6   260   # BC2.boundary.graphite.'e-'.p
+  0 2.7689168560297510E+000       0                       0                
+  6   260   # BC2.y.graphite.'e-'.material
+  0       0                       0                       0                
+  4   256   # CPUtime
+
+
+# Matrix with 6 columns defining the initial value calculation
+# (columns 5 and 6 are not utilized for the calculation but are
+#  reported by dymosim via dymosim -i for user convenience):
+#
+# column 1: Type of initial value
+#           = -2: special case: for continuing simulation (column 2 = value)
+#           = -1: fixed value (column 2 = fixed value)
+#           =  0: free value, i.e., no restriction (column 2 = initial value)
+#           >  0: desired value (column 1 = weight for optimization
+#                                column 2 = desired value)
+#                 use weight=1, since automatic scaling usually
+#                 leads to equally weighted terms
+# column 2: fixed, free or desired value according to column 1.
+# column 3: Minimum value (ignored, if Minimum >= Maximum).
+# column 4: Maximum value (ignored, if Minimum >= Maximum).
+#           Minimum and maximum restrict the search range in initial
+#           value calculation. They might also be used for scaling.
+# column 5: Category of variable.
+#           = 1: parameter.
+#           = 2: state.
+#           = 3: state derivative.
+#           = 4: output.
+#           = 5: input.
+#           = 6: auxiliary variable.
+# column 6: Data type of variable.
+#           = 0: real.
+#           = 1: boolean.
+#           = 2: integer.
+#
+# Initial values are calculated according to the following procedure:
+#
+# - If parameters, states and inputs are FIXED, and other variables
+#   are FREE, no special action takes place (default setting).
+#
+# - If there are only FIXED and FREE variables and the number of
+#   FREE parameters, states and inputs is IDENTICAL to the number of
+#   FIXED state derivatives, outputs and auxiliary variables, a non-linear
+#   equation is solved to determine a consistent set of initial conditions.
+#
+# - In all other cases the following optimization problem is solved:
+#      min( sum( weight(i)*( (value(i) - DESIRED(i))/scale(i) )^2 ) )
+#   under the constraint that the differential equation is fulfilled
+#   at the initial time. In most cases weight(i)=1 is sufficient, due
+#   to the automatic scaling (if DESIRED(i) is not close to zero,
+#   scale(i) = DESIRED(i). Otherwise, the scaling is based on the
+#   nominal value (and maybe minimum and maximum values given in 
+#   column 3 and 4). If these values are zero, scale(i)=1 is used).
+#
+char initialDescription(409,149)
+radian [A]
+<html>Rydberg constant (R<sub>&infin;</sub>)</html> [A/L]
+<html>speed of light in vacuum (c)</html> [L/T]
+<html>Josephson constant (k<sub>J</sub>)</html> [A.N.T/(L2.M)]
+<html>von Klitzing constant (R<sub>K</sub>)</html> [L2.M/(N2.T)]
+candela [L2.M/(A2.T3)]
+<html>Faraday constant (k<sub>F</sub>)</html> [1]
+gas constant [1]
+radian [A]
+<html>Rydberg constant (R<sub>&infin;</sub>)</html> [A/L]
+<html>speed of light in vacuum (c)</html> [L/T]
+<html>Josephson constant (k<sub>J</sub>)</html> [A.N.T/(L2.M)]
+<html>von Klitzing constant (R<sub>K</sub>)</html> [L2.M/(N2.T)]
+candela [L2.M/(A2.T3)]
+<html>Faraday constant (k<sub>F</sub>)</html> [1]
+gas constant [1]
+Include optional variables for analysis [:#(type=Boolean)]
+Temperature [L2.M/(N.T2)|degC]
+Pressure [M/(L.T2)]
+Relative humidity [1|%]
+<html>Mole fraction of O<sub>2</sub> in the dry gas</html> [1|%]
+Saturation pressure of H2O vapor [M/(L.T2)]
+Pressure of H2O vapor [M/(L.T2)]
+Pressure of dry gases [M/(L.T2)]
+Pressure of O2 [M/(L.T2)]
+Mole fraction of H2O [1]
+Mole fraction of dry gases [1]
+Acceleration due to body forces [L/T2]
+Acceleration due to body forces [L/T2]
+Acceleration due to body forces [L/T2]
+Electric field [L.M/(N.T2)]
+Electric field [L.M/(N.T2)]
+Electric field [L.M/(N.T2)]
+Electrical potential [L2.M/(N.T2)]
+Electrical current [N/T]
+Measured electrical resistance [L2.M/(N2.T)]
+Expected electrical resistance [L2.M/(N2.T)]
+Measured rate of heat generation [L2.M/T3]
+Expected rate of heat generation [L2.M/T3]
+Measured temperature [L2.M/(N.T2)|degC]
+Expected temperature [L2.M/(N.T2)|degC]
+<html>Carbon plus (C<sup>+</sup>)</html> [:#(type=Boolean)]
+<html>Nafion sulfonate (C<sub>19</sub>HF<sub>37</sub>O<sub>5</sub>S<sup>-</sup>, abbreviated as SO<sub>3</sub><sup>-</sup>)</html> [:#(type=Boolean)]
+<html>Electrons (e<sup>-</sup>)</html> [:#(type=Boolean)]
+<html>Protons (H<sup>+</sup>)</html> [:#(type=Boolean)]
+<html>Hydrogen (H<sub>2</sub>)</html> [:#(type=Boolean)]
+<html>Water vapor (H<sub>2</sub>O)</html> [:#(type=Boolean)]
+<html>Nitrogen (N<sub>2</sub>)</html> [:#(type=Boolean)]
+<html>Oxygen (O<sub>2</sub>)</html> [:#(type=Boolean)]
+Lengths [L]
+Lengths [L]
+Lengths [L]
+Volume [L3]
+true, if each pair of boundaries is included [:#(type=Boolean)]
+true, if each pair of boundaries is included [:#(type=Boolean)]
+true, if each pair of boundaries is included [:#(type=Boolean)]
+true, if each axis of rotation has all its tangential boundaries included [:#(type=Boolean)]
+true, if each axis of rotation has all its tangential boundaries included [:#(type=Boolean)]
+true, if each axis of rotation has all its tangential boundaries included [:#(type=Boolean)]
+Cartesian-axis indices of the transport axes [:#(type=Integer)]
+Transport-axis indices of the Cartesian axes [:#(type=Integer)]
+Transport-axis indices of the Cartesian axes [:#(type=Integer)]
+Transport-axis indices of the Cartesian axes [:#(type=Integer)]
+X [:#(type=Boolean)]
+Y [:#(type=Boolean)]
+Z [:#(type=Boolean)]
+Cross-sectional areas [L2]
+Cross-sectional areas [L2]
+Cross-sectional areas [L2]
+Number of species [:#(type=Integer)]
+Number of transport axes [:#(type=Integer)]
+Number of species [:#(type=Integer)]
+Number of exchange connections with other phases [:#(type=Integer)]
+Number of transport axes [:#(type=Integer)]
+Include H2 [:#(type=Boolean)]
+Include H2O [:#(type=Boolean)]
+Include N2 [:#(type=Boolean)]
+Include O2 [:#(type=Boolean)]
+Number of species [:#(type=Integer)]
+Number of exchange connections with other phases [:#(type=Integer)]
+Number of transport axes [:#(type=Integer)]
+Include C+ [:#(type=Boolean)]
+Volumetric fill fraction [1]
+Mobility [N.T/M]
+[T]
+Number of transport axes [:#(type=Integer)]
+Number of exchange connections within the phase [:#(type=Integer)]
+Number of exchange connections with other phases [:#(type=Integer)]
+Initial amount of material [N]
+Initial density [N/L3]
+Initial volume [L3]
+Initial pressure [M/(L.T2)]
+Initial temperature [L2.M/(N.T2)|degC]
+Initial specific enthalpy [L2.M/(N.T2)|kJ/mol]
+Initial Gibbs potential [L2.M/(N.T2)|kJ/mol]
+For translational exchange among species within the phase [1]
+For thermal exchange among species within the phase [1]
+Amount of material [N]
+Temperature [L2.M/(N.T2)|degC]
+der(Temperature) [(L2.M/(N.T2))/s]
+Velocity [L/T]
+Pressure [M/(L.T2)]
+Specific Gibbs energy [L2.M/(N.T2)]
+Mass [M]
+Specific volume [L3/N]
+Specific enthalpy [L2.M/(N.T2)]
+Specific entropy [1]
+der(Specific entropy) [s-1]
+Density [N/L3]
+Volumic mass [M/L3]
+Entropy [N]
+Isobaric specific heat capacity [1|J/(mol.K)]
+Isochoric specific heat capacity [1|J/(mol.K)]
+Isothermal compressibility [L.T2/M]
+Time constants for translational intra-phase exchange [T]
+Time constants for translational inter-phase exchange [T]
+Time constants for thermal intra-phase exchange [T]
+Time constants for thermal inter-phase exchange [T]
+Friction from other configurations (diffusive exchange) [L.M/T2]
+Rate of diffusion of energy from other configurations [L2.M/T3]
+Number of components of translational momentum [:#(type=Integer)]
+Rate of thermal conduction [L2.M/T3]
+Number of components of translational momentum [:#(type=Integer)]
+Force [L.M/T2]
+Rate of thermal conduction [L2.M/T3]
+Effective transport length [L]
+[L.T/N|m.K/W]
+Energy [:#(type=FCSys.Species.Enumerations.ConsThermo)]
+Time constants for thermal transport (through the whole subregion) [T]
+Differences in temperatures across the boundaries [L2.M/(N.T2)|K]
+Include e- [:#(type=Boolean)]
+Method of initializing the material state [:#(type=FCSys.Species.Enumerations.Init)]
+Method of initializing the thermal state [:#(type=FCSys.Species.Enumerations.Init)]
+Mobility [N.T/M]
+Thermal independity [T]
+Number of transport axes [:#(type=Integer)]
+Number of exchange connections within the phase [:#(type=Integer)]
+Number of exchange connections with other phases [:#(type=Integer)]
+Initial amount of material [N]
+Initial density [N/L3]
+Initial volume [L3]
+Initial pressure [M/(L.T2)]
+Initial temperature [L2.M/(N.T2)|degC]
+Initial specific enthalpy [L2.M/(N.T2)|kJ/mol]
+Initial Gibbs potential [L2.M/(N.T2)|kJ/mol]
+For translational exchange among species within the phase [1]
+For thermal exchange among species within the phase [1]
+Amount of material [N]
+der(Amount of material) [N/s]
+Temperature [L2.M/(N.T2)|degC]
+der(Temperature) [(L2.M/(N.T2))/s]
+Velocity [L/T]
+der(Velocity) [(L/T)/s]
+Specific Gibbs energy [L2.M/(N.T2)]
+Mass [M]
+der(Mass) [(M)/s]
+Specific volume [L3/N]
+Specific enthalpy [L2.M/(N.T2)]
+Specific entropy [1]
+Density [N/L3]
+Volumic mass [M/L3]
+Entropy [N]
+Isobaric specific heat capacity [1|J/(mol.K)]
+Isochoric specific heat capacity [1|J/(mol.K)]
+Isothermal compressibility [L.T2/M]
+Time constants for translational intra-phase exchange [T]
+Time constants for thermal intra-phase exchange [T]
+Rate of diffusion of energy from other configurations [L2.M/T3]
+Number of components of translational momentum [:#(type=Integer)]
+Number of reaction and phase change processes [:#(type=Integer)]
+Continuity [L.M/(N.T)]
+Fluidity [L.T/M]
+Thermal resistivity [L.T/N|m.K/W]
+Specific exchange currents [T]
+Effective transport length [L]
+Material [:#(type=FCSys.Species.Enumerations.ConsThermo)]
+Conserve rotational momentum [:#(type=Boolean)]
+X-axis translational momentum [:#(type=FCSys.Species.Enumerations.ConsTrans)]
+Y-axis translational momentum [:#(type=FCSys.Species.Enumerations.ConsTrans)]
+Z-axis translational momentum [:#(type=FCSys.Species.Enumerations.ConsTrans)]
+Energy [:#(type=FCSys.Species.Enumerations.ConsThermo)]
+X [:#(type=Boolean)]
+Y [:#(type=Boolean)]
+Z [:#(type=Boolean)]
+Calculate normal boundary velocities assuming uniform density [:#(type=Boolean)]
+Translational Nusselt numbers [1]
+Translational Nusselt numbers [1]
+Translational Nusselt numbers [1]
+Thermal Nusselt number [1]
+Nominal amount of material to prevent depletion [N]
+Current [N/T]
+Normal velocities at the boundaries [L/T]
+Normal velocities at the boundaries [L/T]
+Total normal translational force on pairs of boundaries [L.M/T2]
+Dynamic and nonequilibrium compression forces [L.M/T2]
+Densities at the boundaries [N/L3]
+Densities at the boundaries [N/L3]
+Volume flow rates into the boundaries [L3/T]
+Volume flow rates into the boundaries [L3/T]
+Dynamic pressure [M/(L.T2)]
+Specific entropy-temperature product of the chemical streams [L2.M/(N.T2)]
+Differences in temperatures across the boundaries [L2.M/(N.T2)|K]
+Differences in pressures across the boundaries [M/(L.T2)]
+Gibbs potentials at the boundaries [L2.M/(N.T2)]
+Gibbs potentials at the boundaries [L2.M/(N.T2)]
+Time constants for material transport [T]
+Time constants for transverse translational transport [T]
+Time constants for thermal transport [T]
+Material Peclet numbers [1]
+Translational Peclet numbers [1]
+Thermal Peclet numbers [1]
+Bulk rate of translational advection (1st index: transport axis, 2nd index: translational component) [L.M/T2]
+Bulk volumetric flow rate [L3/T]
+Bulk enthalpy flow rate [L2.M/T3]
+Acceleration force (including acceleration due to body forces) [L.M/T2]
+Thermodynamic force [L.M/T2]
+Acceleration force due to advective exchange [L.M/T2]
+Acceleration force due to advective transport [L.M/T2]
+Shear force from other subregions (diffusive transport) [L.M/T2]
+Rate of energy storage (internal and kinetic) and boundary work at constant mass [L2.M/T3]
+Relative rate of energy (internal, flow, and kinetic) due to reactions and phase change [L2.M/T3]
+Rate of diffusion of energy from other subregions [L2.M/T3]
+Number of components of translational momentum [:#(type=Integer)]
+Current [N/T]
+Formulation of the translational conservation equations for the transport axes [:#(type=FCSys.Species.Enumerations.ConsTrans)]
+true, if each transport axis uses upstream discretization [:#(type=Boolean)]
+Directly-calculated shear forces [L.M/T2]
+Directly-calculated shear forces [L.M/T2]
+Electrical conductivity [N2.T/(L3.M)]
+Relative permeability [1]
+Include electron transfer [:#(type=Boolean)]
+Include the double-layer capacitance [:#(type=Boolean)]
+Number of components of translational momentum [:#(type=Integer)]
+Force [L.M/T2]
+Rate of thermal conduction [L2.M/T3]
+Pressure [M/(L.T2)]
+Volume [L3]
+Pressure [M/(L.T2)]
+Pressure [M/(L.T2)]
+Number of species [:#(type=Integer)]
+Number of exchange connections with other phases [:#(type=Integer)]
+Number of transport axes [:#(type=Integer)]
+Include C19HF37O5S- (abbreviated as SO3-) [:#(type=Boolean)]
+Include H+ [:#(type=Boolean)]
+Include H2O [:#(type=Boolean)]
+Number of species [:#(type=Integer)]
+Number of exchange connections with other phases [:#(type=Integer)]
+Number of transport axes [:#(type=Integer)]
+Include H2O [:#(type=Boolean)]
+Translational [1]
+Translational [1]
+Translational [1]
+Thermal [1]
+Translational [1]
+Translational [1]
+Translational [1]
+Thermal [1]
+Volume [L3]
+Include capillary pressure [:#(type=Boolean)]
+Surface tension [M/T2]
+Permeability [L2]
+Contact angle [A]
+Gas [:#(type=Boolean)]
+Liquid [:#(type=Boolean)]
+Solid [:#(type=Boolean)]
+Pore volume [L3]
+Pressure [M/(L.T2)]
+Pressure [M/(L.T2)]
+Pressure [M/(L.T2)]
+Include the hydrogen oxidation reaction [:#(type=Boolean)]
+Include the oxygen reduction reaction [:#(type=Boolean)]
+Include H2 [:#(type=Boolean)]
+Include H2O [:#(type=Boolean)]
+Include N2 [:#(type=Boolean)]
+Include O2 [:#(type=Boolean)]
+Include C+ [:#(type=Boolean)]
+Use internal specification [:#(type=Boolean)]
+Include e- [:#(type=Boolean)]
+Use internal specification [:#(type=Boolean)]
+Value of Real output
+Use internal specification [:#(type=Boolean)]
+Value of Real output
+Use internal specification [:#(type=Boolean)]
+Value of Real output
+Use internal specification [:#(type=Boolean)]
+Value of Real output
+Current [N/T]
+Velocity [L/T]
+Velocity [L/T]
+Rate of thermal conduction [L2.M/T3]
+Internal, working value of material specification
+Internal, working value of first transverse specification
+Internal, working value of second transverse specification
+Internal, working value of thermal specification
+Value of Real output
+Include C19HF37O5S- (abbreviated as SO3-) [:#(type=Boolean)]
+Include H+ [:#(type=Boolean)]
+Include H2O [:#(type=Boolean)]
+Include H2O [:#(type=Boolean)]
+Include H2 [:#(type=Boolean)]
+Include H2O [:#(type=Boolean)]
+Include N2 [:#(type=Boolean)]
+Include O2 [:#(type=Boolean)]
+Include C+ [:#(type=Boolean)]
+Use internal specification [:#(type=Boolean)]
+Include e- [:#(type=Boolean)]
+Use internal specification [:#(type=Boolean)]
+Value of Real output
+Use internal specification [:#(type=Boolean)]
+Value of Real output
+Use internal specification [:#(type=Boolean)]
+Value of Real output
+Use internal specification [:#(type=Boolean)]
+Value of Real output
+Pressure [M/(L.T2)]
+Pressure [M/(L.T2)]
+Current [N/T]
+Force [L.M/T2]
+Force [L.M/T2]
+Rate of thermal conduction [L2.M/T3]
+Internal, working value of material specification
+Internal, working value of first transverse specification
+Internal, working value of second transverse specification
+Internal, working value of thermal specification
+Value of Real output
+Include C19HF37O5S- (abbreviated as SO3-) [:#(type=Boolean)]
+Include H+ [:#(type=Boolean)]
+Include H2O [:#(type=Boolean)]
+Include H2O [:#(type=Boolean)]
+For translational exchange with other phases [1]
+For thermal exchange with other phases [1]
+Effective cross-sectional areas [L2]
+Length factors for transport [1]
+Length factors for transport [1]
+Length factors for transport [1]
+Volumetric fill fraction [1]
+Effective transport lengths [L]
+Current [N/T]
+Velocity [L/T]
+Velocity [L/T]
+Rate of thermal conduction [L2.M/T3]
+Pressure [M/(L.T2)]
+Current [N/T]
+Force [L.M/T2]
+Force [L.M/T2]
+Rate of thermal conduction [L2.M/T3]
+Rate of thermal conduction [L2.M/T3]
+Temperature [L2.M/(N.T2)|degC]
+der(Temperature) [(L2.M/(N.T2))/s]
+Force [L.M/T2]
+Number of components of translational momentum [:#(type=Integer)]
+Velocity [L/T]
+Current [N/T]
+Rate of thermal conduction [L2.M/T3]
+Velocity [L/T]
+Velocity [L/T]
+Current [N/T]
+Rate of thermal conduction [L2.M/T3]
+Force [L.M/T2]
+Force [L.M/T2]
+Pressure [M/(L.T2)]
+Rate of thermal conduction [L2.M/T3]
+Current [N/T]
+Rate of thermal conduction [L2.M/T3]
+Temperature [L2.M/(N.T2)|degC]
+Force [L.M/T2]
+Force [L.M/T2]
+Pressure [M/(L.T2)]
+Velocity [L/T]
+Velocity [L/T]
+Rate of thermal conduction [L2.M/T3]
+Current [N/T]
+Rate of thermal conduction [L2.M/T3]
+Temperature [L2.M/(N.T2)|degC]
+Force [L.M/T2]
+Force [L.M/T2]
+Pressure [M/(L.T2)]
+Velocity [L/T]
+Velocity [L/T]
+Rate of thermal conduction [L2.M/T3]
+Temperature [L2.M/(N.T2)|degC]
+Force [L.M/T2]
+Number of components of translational momentum [:#(type=Integer)]
+Velocity [L/T]
+Value of Real output
+Current [N/T]
+Rate of thermal conduction [L2.M/T3]
+Velocity [L/T]
+Velocity [L/T]
+Value of Real output
+Current [N/T]
+Rate of thermal conduction [L2.M/T3]
+Velocity [L/T]
+Velocity [L/T]
+Value of Real output
+Value of Real output
+Current [N/T]
+Rate of thermal conduction [L2.M/T3]
+Force [L.M/T2]
+Force [L.M/T2]
+Pressure [M/(L.T2)]
+Value of Real output
+Current [N/T]
+Rate of thermal conduction [L2.M/T3]
+Force [L.M/T2]
+Force [L.M/T2]
+Pressure [M/(L.T2)]
+Value of Real output
+
+
